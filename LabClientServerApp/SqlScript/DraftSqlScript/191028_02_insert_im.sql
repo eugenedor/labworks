@@ -93,27 +93,14 @@ FROM dbo.IM_Animals a
 --
 --drop columns
 --
-IF (EXISTS (SELECT * --o.object_id, o.name object_name, c.name column_name, c.max_length, c.precision, c.scale, c.is_nullable
-			FROM sys.objects AS o  
-				 JOIN sys.columns AS c 
-				   ON o.object_id = c.object_id    
-			WHERE o.type = 'U'
-				  AND o.object_id = object_id('IM_Animals')
-				  AND lower(c.name) = 'SquadName'))
-BEGIN
-	ALTER TABLE IM_Animals DROP COLUMN SquadName;
-END
+ALTER TABLE IM_Animals DROP COLUMN SquadName;
+ALTER TABLE IM_Animals DROP COLUMN TypeName;
 
-IF (EXISTS (SELECT * --o.object_id, o.name object_name, c.name column_name, c.max_length, c.precision, c.scale, c.is_nullable
-			FROM sys.objects AS o  
-				 JOIN sys.columns AS c 
-				   ON o.object_id = c.object_id    
-			WHERE o.type = 'U'
-				  AND o.object_id = object_id('IM_Animals')
-				  AND lower(c.name) = 'TypeName'))
-BEGIN
-	ALTER TABLE IM_Animals DROP COLUMN TypeName;
-END
+--
+--alter columns
+--
+ALTER TABLE IM_Animals ALTER COLUMN SquadCode NVARCHAR(100) NULL;
+ALTER TABLE IM_Animals ALTER COLUMN TypeCode NVARCHAR(100) NULL;
 
 
 --
