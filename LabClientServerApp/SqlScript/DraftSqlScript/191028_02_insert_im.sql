@@ -78,6 +78,45 @@ INSERT INTO dbo.IM_Types (TypeCode, TypeName) VALUES ('Arthropods', 'Членистоног
 
 
 --
+--update IM_Animals
+--
+UPDATE a
+SET a.SquadCode = s.SquadCode,  
+    a.TypeCode = t.TypeCode
+FROM dbo.IM_Animals a
+     JOIN dbo.IM_Squads s
+	   ON a.SquadName = s.SquadName
+	 JOIN dbo.IM_Types t
+	   ON a.TypeName = t.TypeName;
+
+
+--
+--drop columns
+--
+IF (EXISTS (SELECT * --o.object_id, o.name object_name, c.name column_name, c.max_length, c.precision, c.scale, c.is_nullable
+			FROM sys.objects AS o  
+				 JOIN sys.columns AS c 
+				   ON o.object_id = c.object_id    
+			WHERE o.type = 'U'
+				  AND o.object_id = object_id('IM_Animals')
+				  AND lower(c.name) = 'SquadName'))
+BEGIN
+	ALTER TABLE IM_Animals DROP COLUMN SquadName;
+END
+
+IF (EXISTS (SELECT * --o.object_id, o.name object_name, c.name column_name, c.max_length, c.precision, c.scale, c.is_nullable
+			FROM sys.objects AS o  
+				 JOIN sys.columns AS c 
+				   ON o.object_id = c.object_id    
+			WHERE o.type = 'U'
+				  AND o.object_id = object_id('IM_Animals')
+				  AND lower(c.name) = 'TypeName'))
+BEGIN
+	ALTER TABLE IM_Animals DROP COLUMN TypeName;
+END
+
+
+--
 --insert IM_Countries
 --
 INSERT INTO dbo.IM_Countries (CountryCode, CountryName, ContinentName, Capital, AmountNationalReserves) VALUES ('RUS', 'Россия                   ', 'Евразия                  ', 'Москва                   ', 93);
