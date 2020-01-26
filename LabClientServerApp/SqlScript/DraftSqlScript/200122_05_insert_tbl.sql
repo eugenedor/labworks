@@ -59,3 +59,19 @@ FROM IM_Animals
 	 LEFT JOIN CT_Types
 	   ON IM_Animals.TypeCode = CT_Types.TypeCode
 WHERE SK_Animals.AnimalId IS NULL;
+
+
+--
+--CT_Continents
+--
+UPDATE CT_Continents
+SET ContinentName = IM_Continents.ContinentName
+FROM IM_Continents
+WHERE CT_Continents.ContinentCode = IM_Continents.ContinentCode;
+
+INSERT INTO CT_Continents (ContinentCode, ContinentName)
+SELECT im.ContinentCode, im.ContinentName
+FROM IM_Continents im
+     LEFT JOIN CT_Continents ct
+	   ON im.ContinentCode = ct.ContinentCode
+WHERE ct.ContinentId IS NULL;
