@@ -84,9 +84,9 @@ UPDATE a
 SET a.SquadCode = s.SquadCode,  
     a.TypeCode = t.TypeCode
 FROM dbo.IM_Animals a
-     JOIN dbo.IM_Squads s
+     LEFT JOIN dbo.IM_Squads s
 	   ON a.SquadName = s.SquadName
-	 JOIN dbo.IM_Types t
+	 LEFT JOIN dbo.IM_Types t
 	   ON a.TypeName = t.TypeName;
 
 
@@ -99,8 +99,7 @@ ALTER TABLE IM_Animals DROP COLUMN TypeName;
 --
 --alter columns
 --
-ALTER TABLE IM_Animals ALTER COLUMN SquadCode NVARCHAR(100) NULL;
-ALTER TABLE IM_Animals ALTER COLUMN TypeCode NVARCHAR(100) NULL;
+ALTER TABLE IM_Animals ALTER COLUMN SquadCode NVARCHAR(100) NOT NULL;
 
 
 --
