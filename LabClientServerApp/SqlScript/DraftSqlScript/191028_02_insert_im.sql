@@ -78,8 +78,8 @@ INSERT INTO dbo.IM_Types (TypeCode, TypeName) VALUES ('Arthropods', 'Членистоног
 
 
 --
---update IM_Animals
---
+--IM_Animals
+--update
 UPDATE a
 SET a.SquadCode = s.SquadCode,  
     a.TypeCode = t.TypeCode
@@ -88,17 +88,10 @@ FROM dbo.IM_Animals a
 	   ON a.SquadName = s.SquadName
 	 LEFT JOIN dbo.IM_Types t
 	   ON a.TypeName = t.TypeName;
-
-
---
 --drop columns
---
 ALTER TABLE IM_Animals DROP COLUMN SquadName;
 ALTER TABLE IM_Animals DROP COLUMN TypeName;
-
---
 --alter columns
---
 ALTER TABLE IM_Animals ALTER COLUMN SquadCode NVARCHAR(100) NOT NULL;
 
 
@@ -149,6 +142,19 @@ INSERT INTO dbo.IM_Continents (ContinentCode, ContinentName) VALUES ('Australia'
 INSERT INTO dbo.IM_Continents (ContinentCode, ContinentName) VALUES ('Eurasia', 'Евразия');
 INSERT INTO dbo.IM_Continents (ContinentCode, ContinentName) VALUES ('North America', 'Северная Америка');
 INSERT INTO dbo.IM_Continents (ContinentCode, ContinentName) VALUES ('South America', 'Южная Америка');
+
+--
+--IM_Countries
+--update
+UPDATE c
+SET c.ContinentCode = cc.ContinentCode
+FROM dbo.IM_Countries c
+     LEFT JOIN dbo.IM_Continents cc
+	   ON c.ContinentName = cc.ContinentName;
+--drop column
+ALTER TABLE IM_Countries DROP COLUMN ContinentName;
+--alter column
+ALTER TABLE IM_Countries ALTER COLUMN ContinentCode NVARCHAR(100) NOT NULL;
 
 --
 --insert IM_Habitat

@@ -33,6 +33,7 @@ GO
 CREATE TABLE dbo.IM_Countries (
 CountryCode NVARCHAR(100) NOT NULL,
 CountryName NVARCHAR(100) NOT NULL,
+ContinentCode NVARCHAR(100) NULL,
 ContinentName NVARCHAR(100) NOT NULL,
 Capital NVARCHAR(100) NOT NULL, 
 AmountNationalReserves INT NULL,
