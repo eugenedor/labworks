@@ -101,3 +101,28 @@ FROM IM_Countries
 WHERE SK_Countries.CountryId IS NULL;
 
 
+--
+--RS_Habitat
+--
+UPDATE RS_Habitat
+SET RS_Habitat.Population = IM_Habitat.Population
+FROM IM_Habitat
+     JOIN SK_Animals
+	   ON IM_Habitat.AnimalCode = SK_Animals.AnimalCode
+	 JOIN SK_Countries
+	   ON IM_Habitat.CountryCode = SK_Countries.CountryCode
+     JOIN RS_Habitat
+	   ON SK_Animals.AnimalId = RS_Habitat.AnimalId
+	      AND SK_Countries.CountryId = RS_Habitat.CountryId;
+
+INSERT INTO RS_Habitat (AnimalId, CountryId, Population)
+SELECT SK_Animals.AnimalId, SK_Countries.CountryId, IM_Habitat.Population
+FROM IM_Habitat
+     JOIN SK_Animals
+	   ON IM_Habitat.AnimalCode = SK_Animals.AnimalCode
+	 JOIN SK_Countries
+	   ON IM_Habitat.CountryCode = SK_Countries.CountryCode
+     LEFT JOIN RS_Habitat
+	   ON SK_Animals.AnimalId = RS_Habitat.AnimalId
+	      AND SK_Countries.CountryId = RS_Habitat.CountryId
+WHERE RS_Habitat.HabitatId IS NULL;
