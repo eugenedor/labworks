@@ -49,19 +49,6 @@ GO
 CREATE TABLE IM_Habitat (
 AnimalCode  NVARCHAR(100) NOT NULL,
 CountryCode NVARCHAR(100) NOT NULL,
-Population INT NOT NULL
+Population BIGINT NOT NULL
 )
 GO
-
---CREATE TABLE Habitat (
---AnimalCode INT NOT NULL,
---CountryCode INT NOT NULL,
---Population INT NOT NULL
---CONSTRAINT FK_Habitat_Animals
---FOREIGN KEY (AnimalCode)
---REFERENCES Animals (AnimalCode),
---CONSTRAINT FK_Habitat_Countries
---FOREIGN KEY (CountryCode)
---REFERENCES Countries (CountryCode)
---)
---GO
