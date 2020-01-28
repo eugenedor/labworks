@@ -41,9 +41,9 @@ SET AnimalName = IM_Animals.AnimalName,
     SquadId = CT_Squads.SquadId,
 	TypeId = CT_Types.TypeId,
 	TypicalWeight = IM_Animals.TypicalWeight
-FROM SK_Animals
-     JOIN IM_Animals
-	   ON SK_Animals.AnimalCode = IM_Animals.AnimalCode
+FROM IM_Animals 
+     JOIN SK_Animals
+	   ON IM_Animals.AnimalCode = SK_Animals.AnimalCode
      LEFT JOIN CT_Squads
 	   ON IM_Animals.SquadCode = CT_Squads.SquadCode
 	 LEFT JOIN CT_Types
@@ -75,3 +75,29 @@ FROM IM_Continents im
      LEFT JOIN CT_Continents ct
 	   ON im.ContinentCode = ct.ContinentCode
 WHERE ct.ContinentId IS NULL;
+
+
+--
+--SK_Countries
+--
+UPDATE SK_Countries
+SET CountryName = IM_Countries.CountryName,
+	ContinentId = CT_Continents.ContinentId,
+	Capital = IM_Countries.Capital, 
+	AmountNationalReserves = IM_Countries.AmountNationalReserves
+FROM IM_Countries 
+     JOIN SK_Countries
+	   ON IM_Countries.CountryCode = SK_Countries.CountryCode
+     LEFT JOIN CT_Continents
+	   ON IM_Countries.ContinentCode = CT_Continents.ContinentCode;
+
+INSERT INTO SK_Countries (CountryCode, CountryName, ContinentId, Capital, AmountNationalReserves)
+SELECT IM_Countries.CountryCode, IM_Countries.CountryName, CT_Continents.ContinentId, IM_Countries.Capital, IM_Countries.AmountNationalReserves
+FROM IM_Countries 
+     LEFT JOIN SK_Countries
+	   ON IM_Countries.CountryCode = SK_Countries.CountryCode
+     LEFT JOIN CT_Continents
+	   ON IM_Countries.ContinentCode = CT_Continents.ContinentCode
+WHERE SK_Countries.CountryId IS NULL;
+
+
