@@ -42,22 +42,22 @@ SET AnimalName = IM_Animals.AnimalName,
 	TypeId = CT_Types.TypeId,
 	TypicalWeight = IM_Animals.TypicalWeight
 FROM IM_Animals 
-     JOIN SK_Animals
-	   ON IM_Animals.AnimalCode = SK_Animals.AnimalCode
-     LEFT JOIN CT_Squads
+     JOIN CT_Squads
 	   ON IM_Animals.SquadCode = CT_Squads.SquadCode
 	 LEFT JOIN CT_Types
-	   ON IM_Animals.TypeCode = CT_Types.TypeCode;
+	   ON IM_Animals.TypeCode = CT_Types.TypeCode
+     JOIN SK_Animals
+	   ON IM_Animals.AnimalCode = SK_Animals.AnimalCode;
 
 INSERT INTO SK_Animals (AnimalCode, AnimalName, SquadId, TypeId, TypicalWeight)
 SELECT IM_Animals.AnimalCode, IM_Animals.AnimalName, CT_Squads.SquadId, CT_Types.TypeId, IM_Animals.TypicalWeight
 FROM IM_Animals 
-     LEFT JOIN SK_Animals
-	   ON IM_Animals.AnimalCode = SK_Animals.AnimalCode
-     LEFT JOIN CT_Squads
+     JOIN CT_Squads
 	   ON IM_Animals.SquadCode = CT_Squads.SquadCode
 	 LEFT JOIN CT_Types
 	   ON IM_Animals.TypeCode = CT_Types.TypeCode
+     LEFT JOIN SK_Animals
+	   ON IM_Animals.AnimalCode = SK_Animals.AnimalCode
 WHERE SK_Animals.AnimalId IS NULL;
 
 
@@ -86,18 +86,18 @@ SET CountryName = IM_Countries.CountryName,
 	Capital = IM_Countries.Capital, 
 	AmountNationalReserves = IM_Countries.AmountNationalReserves
 FROM IM_Countries 
+     JOIN CT_Continents
+	   ON IM_Countries.ContinentCode = CT_Continents.ContinentCode
      JOIN SK_Countries
-	   ON IM_Countries.CountryCode = SK_Countries.CountryCode
-     LEFT JOIN CT_Continents
-	   ON IM_Countries.ContinentCode = CT_Continents.ContinentCode;
+	   ON IM_Countries.CountryCode = SK_Countries.CountryCode;
 
 INSERT INTO SK_Countries (CountryCode, CountryName, ContinentId, Capital, AmountNationalReserves)
 SELECT IM_Countries.CountryCode, IM_Countries.CountryName, CT_Continents.ContinentId, IM_Countries.Capital, IM_Countries.AmountNationalReserves
 FROM IM_Countries 
+     JOIN CT_Continents
+	   ON IM_Countries.ContinentCode = CT_Continents.ContinentCode
      LEFT JOIN SK_Countries
 	   ON IM_Countries.CountryCode = SK_Countries.CountryCode
-     LEFT JOIN CT_Continents
-	   ON IM_Countries.ContinentCode = CT_Continents.ContinentCode
 WHERE SK_Countries.CountryId IS NULL;
 
 
