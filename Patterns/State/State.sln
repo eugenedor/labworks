@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "State", "State\State.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Water", "Water\Water.csproj", "{DFA3EEB1-F4EE-4761-80CB-59DAB66AE606}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterAntiPa", "WaterAntiPa\WaterAntiPa.csproj", "{FE554967-0A05-4BCF-A6F0-700696EE56A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DFA3EEB1-F4EE-4761-80CB-59DAB66AE606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFA3EEB1-F4EE-4761-80CB-59DAB66AE606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFA3EEB1-F4EE-4761-80CB-59DAB66AE606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
