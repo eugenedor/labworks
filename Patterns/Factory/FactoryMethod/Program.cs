@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Factory //Factory Method
+namespace FactoryMethod
 {
     class Program
     {
@@ -12,7 +12,7 @@ namespace Factory //Factory Method
         {
             Developer developer = new PanelDeveloper("ООО КирпичСтрой");
             developer.PrintDev();
-            House housePanel = developer.Create();            
+            House housePanel = developer.Create();
             Console.WriteLine();
 
             developer = new WoodDeveloper("Частный застройщик");

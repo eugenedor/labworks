@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Factory
+namespace FactoryMethod
 {
     /// <summary>
     /// Деревянный дом (ConcreteProductB)
