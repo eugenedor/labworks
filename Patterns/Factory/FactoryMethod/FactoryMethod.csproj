@@ -43,18 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Developer.cs" />
-    <Compile Include="House.cs" />
-    <Compile Include="PanelDeveloper.cs" />
-    <Compile Include="PanelHouse.cs" />
+    <Compile Include="Abstract\Developer.cs" />
+    <Compile Include="Abstract\House.cs" />
+    <Compile Include="Concrete\Dev\PanelDeveloper.cs" />
+    <Compile Include="Concrete\Hs\PanelHouse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WoodDeveloper.cs" />
-    <Compile Include="WoodHouse.cs" />
+    <Compile Include="Concrete\Dev\WoodDeveloper.cs" />
+    <Compile Include="Concrete\Hs\WoodHouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

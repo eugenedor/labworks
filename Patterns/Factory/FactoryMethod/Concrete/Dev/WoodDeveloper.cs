@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FactoryMethod.Abstract;
+using FactoryMethod.Concrete.Hs;
 
-namespace FactoryMethod
+namespace FactoryMethod.Concrete.Dev
 {
     /// <summary>
     /// Строит деревянные дома (ConcreteCreatorB)
