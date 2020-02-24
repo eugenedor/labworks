@@ -14,9 +14,6 @@ namespace AbstractFactory.Abstract
         public abstract Movement CreateMovement();
         public abstract Weapon CreateWeapon();
 
-        /// <summary>
-        ///  шаблонный метод абстрактного класса
-        /// </summary>
         public abstract void Print();
     }
 }

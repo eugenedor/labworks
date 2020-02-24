@@ -51,7 +51,7 @@
     <Compile Include="Abstract\HeroFactory.cs" />
     <Compile Include="Abstract\Movement.cs" />
     <Compile Include="Concrete\Wpn\Sword.cs" />
-    <Compile Include="Hero.cs" />
+    <Compile Include="Concrete\Hero.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Abstract\Weapon.cs" />
