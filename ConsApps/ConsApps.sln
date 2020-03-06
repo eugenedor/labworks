@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsApp191205", "ConsApp191
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsApp191008", "ConsApp191008\ConsApp191008.csproj", "{6ADA0957-F0E2-4C66-A173-F390B9D492C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsApp200207", "ConsApp200207\ConsApp200207.csproj", "{35070253-EC75-4340-B097-A00349DEDA0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6ADA0957-F0E2-4C66-A173-F390B9D492C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ADA0957-F0E2-4C66-A173-F390B9D492C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ADA0957-F0E2-4C66-A173-F390B9D492C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35070253-EC75-4340-B097-A00349DEDA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35070253-EC75-4340-B097-A00349DEDA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35070253-EC75-4340-B097-A00349DEDA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35070253-EC75-4340-B097-A00349DEDA0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
