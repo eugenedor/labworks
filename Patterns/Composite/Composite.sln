@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Composite", "Composite\Composite.csproj", "{7D4CB355-F7D9-46F9-86C2-E1EE4B8BD5CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSysComposite", "FileSysComposite\FileSysComposite.csproj", "{3A4010BB-DA32-4D0D-84CB-70BFDC55679B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7D4CB355-F7D9-46F9-86C2-E1EE4B8BD5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D4CB355-F7D9-46F9-86C2-E1EE4B8BD5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D4CB355-F7D9-46F9-86C2-E1EE4B8BD5CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A4010BB-DA32-4D0D-84CB-70BFDC55679B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A4010BB-DA32-4D0D-84CB-70BFDC55679B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A4010BB-DA32-4D0D-84CB-70BFDC55679B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A4010BB-DA32-4D0D-84CB-70BFDC55679B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
