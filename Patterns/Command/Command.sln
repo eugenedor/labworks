@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Command", "Command\Command.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pult", "Pult\Pult.csproj", "{D926ACF4-0F4C-4448-A3FC-31DE36B3FD52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiPult", "MultiPult\MultiPult.csproj", "{9BFE0670-DC92-486A-ADEF-43B3F6E19A98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D926ACF4-0F4C-4448-A3FC-31DE36B3FD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D926ACF4-0F4C-4448-A3FC-31DE36B3FD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D926ACF4-0F4C-4448-A3FC-31DE36B3FD52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BFE0670-DC92-486A-ADEF-43B3F6E19A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BFE0670-DC92-486A-ADEF-43B3F6E19A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BFE0670-DC92-486A-ADEF-43B3F6E19A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BFE0670-DC92-486A-ADEF-43B3F6E19A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
