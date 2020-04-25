@@ -14,7 +14,10 @@ namespace Pult.Concrete
     {
         ICommand command;
 
-        public Pult() { }
+        public Pult()
+        {
+            command = new NoCommand();
+        }
 
         public void SetCommand(ICommand com)
         {
@@ -23,10 +26,12 @@ namespace Pult.Concrete
 
         public void PressButton()
         {
+            //if (command != null)
             command.Execute();
         }
         public void PressUndo()
         {
+            //if (command != null)
             command.Undo();
         }
     }

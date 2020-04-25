@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\ICommand.cs" />
+    <Compile Include="Concrete\Microwave.cs" />
+    <Compile Include="Concrete\MicrowaveCommand.cs" />
+    <Compile Include="Concrete\NoCommand.cs" />
     <Compile Include="Concrete\Pult.cs" />
     <Compile Include="Concrete\TV.cs" />
     <Compile Include="Concrete\TVOnCommand.cs" />
