@@ -19,7 +19,7 @@ open _cur1
 	fetch next from _cur1 INTO @name
 	while @@fetch_status  = 0
 	BEGIN
-		SET @string = 'IF ((SELECT COUNT(*) FROM Test.dbo.[' + @name +']) > 0) ' + 
+		SET @string = 'IF ((SELECT COUNT(*) FROM ToolsStore.dbo.[' + @name +']) > 0) ' + 
 		                'BEGIN SELECT ''' +@name + ''' END'
 		INSERT INTO @Table
 		EXECUTE sp_executesql @string
@@ -41,7 +41,7 @@ open _cur2
 	fetch next from _cur2 INTO @name
 	while @@fetch_status  = 0
 	BEGIN
-		SET @string = 'SELECT * FROM Test.dbo.[' + @name +']'
+		SET @string = 'SELECT * FROM ToolsStore.dbo.[' + @name +']'
 		EXECUTE sp_executesql @string
 		PRINT @string
 		fetch next from _cur2 into @name
