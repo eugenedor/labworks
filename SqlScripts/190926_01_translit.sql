@@ -1,0 +1,52 @@
+DECLARE @String NVARCHAR(MAX);  
+SET @String = 'Привет мир!';
+
+DECLARE @tTrans TABLE(Rus CHAR PRIMARY KEY, Lat VarChar(2));
+DECLARE	@Value	VARCHAR(MAX);
+ 
+INSERT @tTrans (Rus, Lat)
+	      SELECT 'А', 'A'
+UNION ALL SELECT 'Б', 'B'
+UNION ALL SELECT 'В', 'V'
+UNION ALL SELECT 'Г', 'G'
+UNION ALL SELECT 'Д', 'D'
+UNION ALL SELECT 'Е', 'E'
+UNION ALL SELECT 'Ё', 'Yo'
+UNION ALL SELECT 'Ж', 'Zh'
+UNION ALL SELECT 'З', 'Z'
+UNION ALL SELECT 'И', 'I'
+UNION ALL SELECT 'Й', 'Y'
+UNION ALL SELECT 'К', 'K'
+UNION ALL SELECT 'Л', 'L'
+UNION ALL SELECT 'М', 'M'
+UNION ALL SELECT 'Н', 'N'
+UNION ALL SELECT 'О', 'O'
+UNION ALL SELECT 'П', 'P'
+UNION ALL SELECT 'Р', 'R'
+UNION ALL SELECT 'С', 'S'
+UNION ALL SELECT 'Т', 'T'
+UNION ALL SELECT 'У', 'U'
+UNION ALL SELECT 'Ф', 'F'
+UNION ALL SELECT 'Х', 'H'
+UNION ALL SELECT 'Ц', 'C'
+UNION ALL SELECT 'Ч', 'Ch'
+UNION ALL SELECT 'Ш', 'Sh'
+UNION ALL SELECT 'Щ', 'Sh'
+UNION ALL SELECT 'Ъ', ''
+UNION ALL SELECT 'Ы', 'Y'
+UNION ALL SELECT 'Ь', ''
+UNION ALL SELECT 'Э', 'E'
+UNION ALL SELECT 'Ю', 'Yu'
+UNION ALL SELECT 'Я', 'Ya';
+	
+SET	@Value	= @String;
+	
+SELECT @Value = REPLACE(@Value, UPPER(Rus) COLLATE Cyrillic_General_CS_AS, Lat) 
+FROM @tTrans 
+WHERE @String LIKE '%' + Rus + '%';
+
+SELECT @Value = REPLACE(@Value, LOWER(Rus) COLLATE Cyrillic_General_CI_AS, LOWER(Lat)) 
+FROM @tTrans 
+WHERE @String LIKE '%' + Rus + '%';
+	
+SELECT @Value AS Result;
