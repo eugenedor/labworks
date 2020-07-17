@@ -1,4 +1,4 @@
-DECLARE @condition  INT;
+DECLARE @condition INT;
 DECLARE @tCase TABLE (clmn INT);
 DECLARE @tErr TABLE (clmn INT);
 
