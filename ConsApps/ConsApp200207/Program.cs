@@ -14,9 +14,30 @@ namespace ConsApp200207
             A ab = new B();
             B bb = new B();
 
+            Console.WriteLine("*aaprint*");
             aa.Print();
+
+            Console.WriteLine("*abprint*");
             ab.Print();
+
+            Console.WriteLine("*bbprint*");
             bb.Print();
+
+            Console.WriteLine("*aa*");
+            aa.Method_One();
+            aa.Method_Two();
+            aa.Method_Three();
+
+            Console.WriteLine("*ab*");
+            ab.Method_One();
+            ab.Method_Two();
+            ab.Method_Three();
+
+            Console.WriteLine("*bb*");
+            bb.Method_One();
+            bb.Method_Two();
+            bb.Method_Three();
+
             Console.ReadKey();
         }
     }
@@ -30,20 +51,44 @@ namespace ConsApp200207
     {
         public void Print()
         {
-            Method();
+            Console.WriteLine("Methods:");
+            Method_One();
+            Method_Two();
+            Method_Three();
+            Console.WriteLine();
         }
 
-        public virtual void Method()
+        public virtual void Method_One()
         {
-            Console.WriteLine("Method_A");
+            Console.WriteLine("Method1_A");
+        }
+
+        public virtual void Method_Two()
+        {
+            Console.WriteLine("Method2_A");
+        }
+
+        public void Method_Three()
+        {
+            Console.WriteLine("Method3_A");
         }
     }
 
     public class B : A
     {
-        public override void Method()
+        public override void Method_One()
         {
-            Console.WriteLine("Method_B");
+            Console.WriteLine("Method1_B");
+        }
+
+        public new void Method_Two()
+        {
+            Console.WriteLine("Method2_B");
+        }
+
+        public void Method_Three()
+        {
+            Console.WriteLine("Method3_B");
         }
     }
 }
