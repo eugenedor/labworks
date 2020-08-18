@@ -18,7 +18,7 @@ namespace ConsApp200121
             c.Method1();
             Console.WriteLine();
 
-            Parent pc = new Child();
+            Parent pc = new Child(); //Parent pc = new Child() Вызываем метод Method1 виртуальный, а так как мы передаем экземпляр Child (с переопределением метода), то  мы проваливаемся в Method1 класса Child и уже потом дергаем базовый Parent.
             pc.Method1();
             Console.WriteLine();
 
@@ -26,7 +26,7 @@ namespace ConsApp200121
             ce.Method1();
             Console.WriteLine();
 
-            Parent pce = new ChildEx();
+            Parent pce = new ChildEx(); //Parent pc = new ChildEx() Вызываем метод Method1 виртуальный, а так как мы передаем экземпляр ChildEx (с сокрытием метода), то мы сразу в Method1 класса Parent (это только здесь сразу проваливаемся).
             pce.Method1();
             Console.WriteLine();
             Console.ReadLine();
