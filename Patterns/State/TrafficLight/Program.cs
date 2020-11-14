@@ -37,6 +37,7 @@ namespace TrafficLight
             Console.WriteLine("End");
             Thread.Sleep(1000);
             Console.Clear();
+
             Console.ReadLine();
         }
     }
