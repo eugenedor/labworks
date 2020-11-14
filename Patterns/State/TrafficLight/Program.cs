@@ -15,7 +15,7 @@ namespace TrafficLight
         {
             var tl = new TrafficLight.Concrete.TrafficLight(new Red());
 
-            Console.WriteLine("Begin");
+            Console.WriteLine("BEGIN");
             Thread.Sleep(1000);
 
             //1
@@ -34,7 +34,7 @@ namespace TrafficLight
             tl.ToSwitch();
 
             Console.Clear();
-            Console.WriteLine("End");
+            Console.WriteLine("END");
             Thread.Sleep(1000);
             Console.Clear();
 
