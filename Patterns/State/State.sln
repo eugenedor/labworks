@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Water", "Water\Water.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterAntiPa", "WaterAntiPa\WaterAntiPa.csproj", "{FE554967-0A05-4BCF-A6F0-700696EE56A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficLight", "TrafficLight\TrafficLight.csproj", "{E71512EC-EB9A-45C8-A09E-A9CD12E78B4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE554967-0A05-4BCF-A6F0-700696EE56A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71512EC-EB9A-45C8-A09E-A9CD12E78B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71512EC-EB9A-45C8-A09E-A9CD12E78B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71512EC-EB9A-45C8-A09E-A9CD12E78B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71512EC-EB9A-45C8-A09E-A9CD12E78B4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
