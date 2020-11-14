@@ -13,23 +13,25 @@ namespace TrafficLight
     {
         static void Main(string[] args)
         {
-            Context cntxt = new Context(new Red());
+            var tl = new TrafficLight.Concrete.TrafficLight(new Red());
 
             Console.WriteLine("Begin");
             Thread.Sleep(1000);
 
             //1
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
             //2
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
-            cntxt.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            tl.ToSwitch();
+            //3
+            tl.ToSwitch();
 
             Console.Clear();
             Console.WriteLine("End");

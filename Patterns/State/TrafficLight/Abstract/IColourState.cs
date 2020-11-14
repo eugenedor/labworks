@@ -9,6 +9,6 @@ namespace TrafficLight.Abstract
 {
     interface IColourState
     {
-        void ToSwitch(Context context);
+        void ToSwitch(TrafficLight.Concrete.TrafficLight tl);
     }
 }

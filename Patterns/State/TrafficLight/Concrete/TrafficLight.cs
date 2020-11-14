@@ -7,11 +7,11 @@ using TrafficLight.Abstract;
 
 namespace TrafficLight.Concrete
 {
-    class Context
+    class TrafficLight
     {
         public IColourState State { get; set; }
 
-        public Context(IColourState cs)
+        public TrafficLight(IColourState cs)
         {
             State = cs;
         }

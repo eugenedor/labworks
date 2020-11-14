@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Concrete\Context.cs" />
     <Compile Include="Concrete\Green.cs" />
     <Compile Include="Concrete\GreenBlink.cs" />
     <Compile Include="Abstract\IColourState.cs" />
+    <Compile Include="Concrete\TrafficLight.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Concrete\Red.cs" />

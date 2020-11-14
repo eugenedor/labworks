@@ -10,12 +10,12 @@ namespace TrafficLight.Concrete
 {
     class Green : IColourState
     {
-        public void ToSwitch(Context context)
+        public void ToSwitch(TrafficLight tl)
         {
             Console.Clear();
             Console.WriteLine("ЗЕЛЕНЫЙ");
             Thread.Sleep(5000);
-            context.State = new GreenBlink();
+            tl.State = new GreenBlink();
         }
     }
 }
