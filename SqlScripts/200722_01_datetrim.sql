@@ -1,6 +1,7 @@
 SELECT --1--
        GETDATE() AS _getdate, DATEDIFF(dd, 0, GETDATE()) _datediffdate, 
-	   DATEADD(dd, DATEDIFF(dd, 0, GETDATE()), 0) _trimdate;
+	   DATEADD(dd, DATEDIFF(dd, 0, GETDATE()), 0) _trimdate,
+	   DATEADD(ms, -3, DATEADD(dd, 1, DATEADD(dd, DATEDIFF(dd, 0, GETDATE()), 0))) _datemidnight;
 
 SELECT --2--
 	   CONVERT(VARCHAR(25), GETDATE(), 104) _date104,
@@ -29,3 +30,4 @@ SELECT --2--
 	   --10--
 	   CONVERT(VARCHAR(25), GETDATE(), 100) _d100,
 	   CAST(CONVERT(VARCHAR(25), GETDATE(), 100) AS DATETIME) _trimd100;
+
