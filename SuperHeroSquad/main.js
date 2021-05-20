@@ -26,8 +26,14 @@ function setMembers(members) {
             <p>age: ${hero.age}</p>
             <p>superPowers:</p>
             <ul>
-                ${hero.powers.map((power) => `<li>${power}</li>`).join(` `)}
+                ${setPowers(hero.powers)}
             </ul></div>
             `
         ).join(` `);
+}
+
+function setPowers(powers) {
+    return powers.map(
+        (power) => `<li>${power}</li>`
+    ).join(` `);
 }
