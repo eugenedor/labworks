@@ -16,8 +16,8 @@ namespace Algorithms
             Factorial(5);
             Fibonacci(5);
             Reverse(9);
-            Caesar("Abc. Everyone has one's own path.", 3);
-            DoubleShift("Everyone has one's own path.", "3|2|4|0|1", "4|0|3|2|5|1");
+            //Caesar("Abc. Everyone has one's own path.", 3);
+            //DoubleShift("Everyone has one's own path.", "3|2|4|0|1", "4|0|3|2|5|1");
             Console.ReadKey();
         }
 
@@ -46,7 +46,7 @@ namespace Algorithms
 
         public static void Search()
         {
-            var arr4 = new int[] { 1, 2, 3, 5, 7, 12, 25, 37};
+            var arr4 = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             int val4 = 5;
             Print.PrintArr(arr4, "LinearSearch");
             var inx4 = AlgorithmsSearch.LinearSearch(arr4, val4);
@@ -54,7 +54,7 @@ namespace Algorithms
             Console.WriteLine($"Value = {val4}; indexSearch = {inx4}");
             Console.WriteLine();
 
-            var arr5 = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var arr5 = arr4;
             int val5 = 6;
             Print.PrintArr(arr5, "BinarySearchRecursion");
             var inx5 = AlgorithmsSearch.BinarySearchRecursion(arr5, val5, 0, arr5.Length - 1);

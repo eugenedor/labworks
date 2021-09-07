@@ -41,7 +41,7 @@ namespace Algorithms
                 return q; //recursion bottom
 
             if (val < mid)
-                return BinarySearchRecursion(arr, val, p, q);     //left array
+                return BinarySearchRecursion(arr, val, p, q - 1); //left array
             else
                 return BinarySearchRecursion(arr, val, q + 1, r); //right array
         }
@@ -60,7 +60,7 @@ namespace Algorithms
                 var mid = arr[q];
 
                 if (val == mid)
-                    return q;
+                    return q; //recursion bottom
 
                 if (val < mid)
                     r = q - 1; //narrowing on the right side
