@@ -29,7 +29,7 @@ FROM @users_partners up
 	 LEFT JOIN @users_programs_blocked upb
 	   ON pp.programID = upb.programID
 		  AND up.userID = upb.userID 
---WHERE upb.ID IS NULL;
+WHERE upb.ID IS NULL;
 
 
 --var 2
