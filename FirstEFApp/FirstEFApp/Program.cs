@@ -13,10 +13,10 @@ namespace FirstEFApp
             using (EFDbContext db = new EFDbContext())
             {
                 // создаем 4 объекта User
-                User user1 = new User { SurName = "Иванов", Name = "Иван", Age = 30 };
-                User user2 = new User { SurName = "Петров", Name = "Петр", Age = 31 };
-                User user3 = new User { SurName = "Тест", Name = "Тест", Age = 29 };
-                User user4 = new User { SurName = "Сидоров", Name = "Сидр", Age = 31 };
+                User user1 = new User { SurName = "Иванов", Name = "Иван", Age = 31 };
+                User user2 = new User { SurName = "Петров", Name = "Петр", Age = 32 };
+                User user3 = new User { SurName = "Тест", Name = "Тест", Age = 30 };
+                User user4 = new User { SurName = "Сидоров", Name = "Сидр", Age = 32 };
 
                 // добавляем их в бд
                 db.Users.Add(user1);
@@ -37,7 +37,7 @@ namespace FirstEFApp
                 //редактируем
                 User us = db.Users.Where(x => x.SurName == "Сидоров" && x.Name == "Сидр").Single();
                 us.Name = "Сид";
-                us.Age = 32;
+                us.Age = 33;
                 db.Entry(us).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 Console.WriteLine("Объект редактировался");
