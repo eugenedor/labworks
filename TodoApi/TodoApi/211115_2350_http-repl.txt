@@ -1,0 +1,55 @@
+В рамках этого руководства для проверки веб-API используется средство http-repl.
+Выполните в командной строке следующую команду:
+Интерфейс командной строки.NET
+dotnet tool install -g Microsoft.dotnet-httprepl
+Если у вас не установлены среда выполнения или пакет SDK для .NET 5.0, установите среду выполнения .NET 5.0.
+
+httprepl https://localhost:7220/api/todoitems
+post -h Content-Type=application/json -c "{"name":"walk dog","isComplete":true}"
+
+{
+  "id": 1,
+  "name": "walk dog",
+  "isComplete": true
+}
+
+connect https://localhost:7220/api/todoitems/1
+get
+
+{
+  "id": 1,
+  "name": "walk dog",
+  "isComplete": true
+}
+
+connect https://localhost:7220/api/todoitems
+get
+
+[
+  {
+    "id": 1,
+    "name": "walk dog",
+    "isComplete": true
+  }
+]
+
+
+connect https://localhost:7220/api/todoitems/1
+put -h Content-Type=application/json -c "{"id":1,"name":"feed fish","isComplete":true}"
+get
+
+{
+  "id": 1,
+  "name": "feed fish",
+  "isComplete": true
+}
+
+connect https://localhost:7220/api/todoitems/1
+delete
+
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+  "title": "Not Found",
+  "status": 404,
+  "traceId": "00-5d4e5419b8d6482bfc3e697594ce02e3-f7a5e8bc877a7419-00"
+}
