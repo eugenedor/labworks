@@ -16,8 +16,8 @@ namespace CsvToDataTable
             try
             {
                 string fileName;
-                //fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username.csv";
-                fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username1";
+                fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username.csv";
+                //fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username1";
 
                 DataTable result;
                 string[] rows;
@@ -41,6 +41,12 @@ namespace CsvToDataTable
                 result = GetDataTable(rows, delimiter);
                 PrintTable(result);
                 PrintTable2(result);
+
+                Console.WriteLine(System.Environment.NewLine + "Press any key");
+                Console.ReadKey();
+                Console.Clear();
+
+                FieldsInRow.Test();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
                 Console.ReadKey();
