@@ -16,16 +16,20 @@ namespace CsvToDataTable
             try
             {
                 string fileName;
-                fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username.csv";
+                //fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username.csv";
+                fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username1";
 
                 DataTable result;
                 string[] rows;
+                string delimiter;
 
-                rows = GetAllRows(fileName)?.ToArray();
-                string delimiter = GetDelimiter();
+                rows = ReadRowsFromFile(fileName)?.ToArray();
+                delimiter = GetDelimiter();
 
                 if (rows == null || rows.Count() == 0)
+                {
                     return;
+                }
 
                 Console.WriteLine("rows:");
                 foreach (var r in rows)
@@ -47,7 +51,10 @@ namespace CsvToDataTable
             }
         }
 
-        static List<string> GetAllRows(string fileName)
+        /// <summary>
+        /// Прочитать строки из файла
+        /// </summary>
+        static List<string> ReadRowsFromFile(string fileName)
         {
             try
             {
@@ -57,7 +64,7 @@ namespace CsvToDataTable
                     string row;
                     while ((row = reader.ReadLine()) != null)
                     {
-                        if (!string.IsNullOrWhiteSpace(row))
+                        if (!string.IsNullOrEmpty(row.Trim()))
                             rows.Add(row); ;
                     }
                 }
@@ -69,30 +76,14 @@ namespace CsvToDataTable
             }
         }
 
+        /// <summary>
+        /// Получить разделитель из данных
+        /// </summary>
         static string GetDelimiter() => ";";
 
-        static void GetSizeOfTable(string[] rows, string delimiter, out int rowCount, out int colCount)
-        {
-            rowCount = colCount = 0;
-            try
-            {
-                rowCount = rows.Count();
-                if (rows == null || rowCount == 0)
-                {
-                    throw new ArgumentNullException("Невозможно определить размер для DataTable"); ;
-                }
-                var rowFirst = rows[0];
-                colCount = GetCountOfFieldsInRow(rowFirst, delimiter);
-
-                Console.WriteLine($"rowCount = {rowCount}; colCount = {colCount};");
-                Console.WriteLine();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
+        /// <summary>
+        /// Определить количество полей в строке
+        /// </summary>
         static int GetCountOfFieldsInRow(string row, string delimiter)
         {
             try
@@ -101,7 +92,7 @@ namespace CsvToDataTable
                     return 0;
 
                 var delimiters = Regex.Matches(row, delimiter);
-                var delimiterCount = delimiters.Count ;
+                var delimiterCount = delimiters.Count;
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
                 if (Regex.IsMatch(row, patternOfQuotes))
@@ -124,6 +115,34 @@ namespace CsvToDataTable
             }
         }
 
+        /// <summary>
+        /// Определить размер таблицы
+        /// </summary>
+        static void GetSizeOfTable(string[] rows, string delimiter, out int rowCount, out int colCount)
+        {
+            rowCount = colCount = 0;
+            try
+            {
+                rowCount = rows.Count();
+                if (rows == null || rowCount == 0)
+                {
+                    throw new ArgumentNullException("Невозможно определить размер для DataTable"); ;
+                }
+                var rowFirst = rows[0];
+                colCount = GetCountOfFieldsInRow(rowFirst, delimiter);
+
+                Console.WriteLine($"rowCount = {rowCount}; colCount = {colCount};");
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Получить таблицу данных
+        /// </summary>
         static DataTable GetDataTable(string[] rows, string delimiter)
         {
             try
@@ -131,8 +150,11 @@ namespace CsvToDataTable
                 GetSizeOfTable(rows, delimiter, out int RowCnt, out int ColCnt);
                 //Console.WriteLine($"RowCnt = {RowCnt}; ColCnt = {ColCnt};");
 
-                char separator = delimiter.ToCharArray()[0];
-                DataTable dt = new DataTable();
+                var hasDelimiter = !string.IsNullOrEmpty(delimiter);
+                char separator = default;
+                if (hasDelimiter)
+                    separator = delimiter.ToCharArray()[0];
+                var dt = new DataTable();
 
                 //header
                 for (int j = 0; j < ColCnt; j++)
@@ -144,14 +166,13 @@ namespace CsvToDataTable
                 //{
                 //    dt.Columns.Add(header);
                 //}
-
                 //content
                 for (int i = 0; i < RowCnt; i++)
                 {
-                    string[] fields = rows[i].Split(separator);
-                    int fieldsCount = fields.Count();
+                    var fields = hasDelimiter ? rows[i].Split(separator) : new[] { rows[i] };
+                    var fieldsCount = fields.Count();
 
-                    DataRow dr = dt.NewRow();
+                    var dr = dt.NewRow();
                     for (int j = 0; j < ColCnt; j++)
                     {
                         if (fieldsCount == ColCnt || j < fieldsCount)
