@@ -46,7 +46,7 @@ namespace CsvToDataTable
                 Console.ReadKey();
                 Console.Clear();
 
-                FieldsInRow.Test();
+                FieldsInRow.TestCountOfFieldsInRow();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
                 Console.ReadKey();
