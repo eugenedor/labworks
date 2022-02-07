@@ -54,7 +54,13 @@ namespace CsvToDataTable
                 Console.ReadKey();
                 Console.Clear();
 
-                Delimiter.TestIsDelimiter();
+                Delimiter.TestGetDelimiter();
+
+                Console.WriteLine(System.Environment.NewLine + "Press any key3");
+                Console.ReadKey();
+                Console.Clear();
+
+                Separator.TestSepar();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
                 Console.ReadKey();

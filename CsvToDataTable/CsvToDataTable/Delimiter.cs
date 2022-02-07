@@ -9,7 +9,7 @@ namespace CsvToDataTable
 {
     public class Delimiter
     {
-        public static void TestIsDelimiter()
+        public static void TestGetDelimiter()
         {
             string[] rows = new string[]
             {
