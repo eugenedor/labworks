@@ -13,22 +13,123 @@ namespace CsvToDataTable
         {
             string[] rows = new string[]
             {
-                null,                                           //Pos__0: 
-                string.Empty,                                   //Pos__1: 
-                "",                                             //Pos__2: 
-                "abc",                                          //Pos__3: 
-                ";;",                                           //Pos__4: 
-                @"ghj;abc;ijew;abc;wiuhewiu",                   //Pos__5: 
-                @"""123;456;789"";234;345;""456;789"";567",     //Pos__6: 
-                @"1965;Пиксель;E240 – формальдегид (опасный консервант)!;""красный, зелёный, битый"";""3000,00""",  //Pos__7: 
-                @"1965;Мышка;""А правильней; использовать """"Ёлочки;"""""";;""4900,00""",                          //Pos__8: 
-                @"""Н/д"";Кнопка;Сочетания клавиш;""MUST USE! Ctrl, Alt, Shift"";""4799,00""",                      //Pos__9: 
-                @"Тест;""Просто тест;""",                       //Pos_10: 
-                @"Креатив""Сила;""",                            //Pos_11: 
-                @"Тест;""И это тест, это так;""",               //Pos_12: 
-                @"Другой тест, ""Тоже важный, а вот так;""",    //Pos_13: 
-                @"Чепуха;""И ерундистика,;"""                   //Pos_14: 
+                string.Empty,                                   //Pos__0: 
+                "",                                             //Pos__1: 
+                "abc",                                          //Pos__2: 
+                ";;",                                           //Pos__3: 
+                @"ghj;abc;ijew;abc;wiuhewiu",                   //Pos__4: 
+                @"""123;456;789"";234;345;""456;789"";567",     //Pos__5: 
+                @"1965;Пиксель;E240 – формальдегид (опасный консервант)!;""красный, зелёный, битый"";""3000,00""",  //Pos__6: 
+                @"1965;Мышка;""А правильней; использовать """"Ёлочки;"""""";;""4900,00""",                          //Pos__7: 
+                @"""Н/д"";Кнопка;Сочетания клавиш;""MUST USE! Ctrl, Alt, Shift"";""4799,00""",                      //Pos__8: 
+                @"Тест;""Просто тест;""",                       //Pos_9: 
+                @"Креатив""Сила;""",                            //Pos_10: 
+                @"Тест;""И это тест, это так;""",               //Pos_11: 
+                @"Другой тест, ""Тоже важный, а вот так;""",    //Pos_12: 
+                @"Чепуха;""И ерундистика,;""",                 //Pos_13: 
+                @"ИТ;"""""                                      //Pos_14: 
             };
+
+            var c = 0;
+            foreach (var row in rows)
+            {
+                Console.WriteLine($"Pos = {c}, string = {row}");
+
+                var delimiter = GetDelimiter(row);
+                Console.WriteLine($"Delimiter {delimiter}");
+
+                Console.WriteLine();
+                c++;
+            }
+
+            Console.WriteLine();
+        }
+
+        static string GetDelimiter(string row)
+        {
+            try
+            {
+                var semicolon = ";";
+                var isDelimiterSemicolon = IsDelimiter(row, semicolon);
+                Console.WriteLine($"isDelimiterSemicolon = {isDelimiterSemicolon}");
+
+                var comma = ",";
+                var isDelimiterComma = IsDelimiter(row, comma);
+                Console.WriteLine($"isDelimiterComma = {isDelimiterComma}");
+
+                if (isDelimiterSemicolon && isDelimiterComma)
+                {
+                    throw new ArgumentNullException("Невозможно определить разделитель");
+                }
+
+                if (isDelimiterSemicolon && !isDelimiterComma)
+                {
+                    return semicolon;
+                }
+
+                if (!isDelimiterSemicolon && isDelimiterComma)
+                {
+                    return comma;
+                }
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        static bool IsDelimiter(string row, string delimiter)
+        {
+            try
+            {
+                if (row == null)
+                {
+                    throw new ArgumentNullException("Невозможно определить строку для чтения");
+                }
+                if (string.IsNullOrEmpty(delimiter))
+                {
+                    throw new ArgumentNullException("Не указан разделитель для проверки");
+                }
+
+                if (row.IndexOf(delimiter, 0) != -1)
+                {
+                    var delimiterCount = 0;
+                    var i = 0;
+                    while ((i = row.IndexOf(delimiter, i)) != -1)
+                    {
+                        delimiterCount++;
+                        i += delimiter.Length;
+                    }
+
+                    var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
+                    if (Regex.IsMatch(row, patternOfQuotes))
+                    {
+                        var rowQuotes = Regex.Matches(row, patternOfQuotes);
+                        var excludeDelimiterCount = 0;
+                        foreach (var rowQuot in rowQuotes)
+                        {
+                            var j = 0;
+                            while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                            {
+                                excludeDelimiterCount++;
+                                j += delimiter.Length;
+                            }
+                        }
+                        delimiterCount -= excludeDelimiterCount;
+                    }
+                    
+                    return (delimiterCount > 0);
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
+

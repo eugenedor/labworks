@@ -42,11 +42,17 @@ namespace CsvToDataTable
                 PrintTable(result);
                 PrintTable2(result);
 
-                Console.WriteLine(System.Environment.NewLine + "Press any key");
+                Console.WriteLine(System.Environment.NewLine + "Press any key1");
                 Console.ReadKey();
                 Console.Clear();
 
                 FieldsInRow.TestCountOfFieldsInRow();
+
+                Console.WriteLine(System.Environment.NewLine + "Press any key2");
+                Console.ReadKey();
+                Console.Clear();
+
+                Delimiter.TestIsDelimiter();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
                 Console.ReadKey();

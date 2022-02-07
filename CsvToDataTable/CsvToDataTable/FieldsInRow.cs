@@ -35,13 +35,13 @@ namespace CsvToDataTable
             var c = 0;
             foreach (var row in rows)
             {
-                Console.WriteLine($"Pos = {c}");
+                Console.WriteLine($"Pos = {c}, string = {row}");
 
                 var countFieldsMatches = GetCountOfFieldsInRowMatches(row, delimiter);
-                Console.WriteLine($"CountFieldsMatches = {countFieldsMatches}; string = {row}");
+                Console.WriteLine($"CountFieldsMatches = {countFieldsMatches}");
                 
                 var countFieldsIndexOf = GetCountOfFieldsInRowMtchsIndexOf(row, delimiter);
-                Console.WriteLine($"CountFieldsIndexOf = {countFieldsIndexOf}; string = {row}");
+                Console.WriteLine($"CountFieldsIndexOf = {countFieldsIndexOf}");
                 
                 Console.WriteLine();
                 c++;
@@ -61,6 +61,8 @@ namespace CsvToDataTable
             {
                 if (string.IsNullOrEmpty(row))
                     return 0;
+                if (string.IsNullOrEmpty(delimiter))
+                    return 1;
 
                 var delimiters = Regex.Matches(row, delimiter);
                 var delimiterCount = delimiters.Count;
@@ -92,6 +94,8 @@ namespace CsvToDataTable
             {
                 if (string.IsNullOrEmpty(row))
                     return 0;
+                if (string.IsNullOrEmpty(delimiter))
+                    return 1;
 
                 var delimiterCount = 0;
                 var i = 0;
