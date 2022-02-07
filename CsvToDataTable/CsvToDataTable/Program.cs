@@ -97,8 +97,13 @@ namespace CsvToDataTable
                 if (string.IsNullOrEmpty(row))
                     return 0;
 
-                var delimiters = Regex.Matches(row, delimiter);
-                var delimiterCount = delimiters.Count;
+                var delimiterCount = 0;
+                var i = 0;
+                while ((i = row.IndexOf(delimiter, i)) != -1)
+                {
+                    delimiterCount++;
+                    i += delimiter.Length;
+                }
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
                 if (Regex.IsMatch(row, patternOfQuotes))
@@ -107,8 +112,12 @@ namespace CsvToDataTable
                     var excludeDelimiterCount = 0;
                     foreach (var rowQuot in rowQuotes)
                     {
-                        var excludeDelimiters = Regex.Matches(rowQuot.ToString(), delimiter);
-                        excludeDelimiterCount += excludeDelimiters.Count;
+                        var j = 0;
+                        while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                        {
+                            excludeDelimiterCount++;
+                            j += delimiter.Length;
+                        }
                     }
                     delimiterCount -= excludeDelimiterCount;
                 }
@@ -128,12 +137,13 @@ namespace CsvToDataTable
         {
             rowCount = colCount = 0;
             try
-            {
-                rowCount = rows.Count();
-                if (rows == null || rowCount == 0)
+            {                 
+                if (rows == null || rows.Count() == 0)
                 {
                     throw new ArgumentNullException("Невозможно определить размер для DataTable"); ;
                 }
+                rowCount = rows.Count();
+
                 var rowFirst = rows[0];
                 colCount = GetCountOfFieldsInRow(rowFirst, delimiter);
 

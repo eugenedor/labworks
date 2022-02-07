@@ -92,7 +92,8 @@ namespace CsvToDataTable
                 if (string.IsNullOrEmpty(row))
                     return 0;
 
-                int i = 0, delimiterCount = 0;
+                var delimiterCount = 0;
+                var i = 0;
                 while ((i = row.IndexOf(delimiter, i)) != -1)
                 {
                     delimiterCount++;
