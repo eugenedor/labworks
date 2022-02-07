@@ -52,7 +52,6 @@ namespace CsvToDataTable
                 var semicolon = ";";
                 var isDelimiterSemicolon = IsDelimiter(row, semicolon);
                 Console.WriteLine($"isDelimiterSemicolon = {isDelimiterSemicolon}");
-
                 var comma = ",";
                 var isDelimiterComma = IsDelimiter(row, comma);
                 Console.WriteLine($"isDelimiterComma = {isDelimiterComma}");
@@ -62,15 +61,10 @@ namespace CsvToDataTable
                     throw new ArgumentNullException("Невозможно определить разделитель");
                 }
 
-                if (isDelimiterSemicolon && !isDelimiterComma)
-                {
+                if (isDelimiterSemicolon)
                     return semicolon;
-                }
-
-                if (!isDelimiterSemicolon && isDelimiterComma)
-                {
+                if (isDelimiterComma)
                     return comma;
-                }
 
                 return string.Empty;
             }

@@ -61,7 +61,8 @@ namespace CsvToDataTable
             }
             catch (Exception ex)
             { 
-                Console.WriteLine(ex.Message); 
+                Console.WriteLine(ex.Message);
+                Console.ReadKey();
             }
         }
 
@@ -140,15 +141,8 @@ namespace CsvToDataTable
 
         static bool IsDelimiter(string row, string delimiter)
         {
-            try
-            {
-                var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
-                return (delimiterCnt > 0); ;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
+            return (delimiterCnt > 0);
         }
 
         /// <summary>
@@ -160,7 +154,6 @@ namespace CsvToDataTable
             {
                 var semicolon = ";";
                 var isDelimiterSemicolon = IsDelimiter(row, semicolon);
-
                 var comma = ",";
                 var isDelimiterComma = IsDelimiter(row, comma);
 
@@ -169,15 +162,10 @@ namespace CsvToDataTable
                     throw new ArgumentNullException("Невозможно определить разделитель");
                 }
 
-                if (isDelimiterSemicolon && !isDelimiterComma)
-                {
+                if (isDelimiterSemicolon)
                     return semicolon;
-                }
-
-                if (!isDelimiterSemicolon && isDelimiterComma)
-                {
+                if (isDelimiterComma)
                     return comma;
-                }
 
                 return string.Empty;
             }
@@ -192,22 +180,15 @@ namespace CsvToDataTable
         /// </summary>
         static int GetCountOfFieldsInRow(string row, string delimiter)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(row))
-                    return 0;
-                if (string.IsNullOrEmpty(delimiter))
-                    return 1;
+            if (string.IsNullOrEmpty(row))
+                return 0;
+            if (string.IsNullOrEmpty(delimiter))
+                return 1;
 
-                var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
-                var fieldCount = delimiterCnt + 1;
+            var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
+            var fieldCount = delimiterCnt + 1;
 
-                return fieldCount;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return fieldCount;
         }
 
         /// <summary>
