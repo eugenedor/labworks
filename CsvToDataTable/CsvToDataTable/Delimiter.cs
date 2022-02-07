@@ -80,7 +80,7 @@ namespace CsvToDataTable
             }
         }
 
-        static int GetCountOfDelimiterInRow(string row, string delimiter)
+        static int GetCountOfDelimitersInRow(string row, string delimiter)
         {
             try
             {
@@ -129,8 +129,8 @@ namespace CsvToDataTable
         {
             try
             {
-                var countofdelimiter = GetCountOfDelimiterInRow(row, delimiter);
-                return (countofdelimiter > 0); ;
+                var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
+                return (delimiterCnt > 0); ;
             }
             catch (Exception ex)
             {
