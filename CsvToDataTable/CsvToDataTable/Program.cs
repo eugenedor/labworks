@@ -102,6 +102,8 @@ namespace CsvToDataTable
             {
                 if (string.IsNullOrEmpty(row))
                     return 0;
+                if (string.IsNullOrEmpty(delimiter))
+                    return 1;
 
                 var delimiterCount = 0;
                 var i = 0;
@@ -112,7 +114,7 @@ namespace CsvToDataTable
                 }
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                if (Regex.IsMatch(row, patternOfQuotes))
+                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
                 {
                     var rowQuotes = Regex.Matches(row, patternOfQuotes);
                     var excludeDelimiterCount = 0;

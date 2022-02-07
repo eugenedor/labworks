@@ -80,7 +80,7 @@ namespace CsvToDataTable
             }
         }
 
-        static bool IsDelimiter(string row, string delimiter)
+        static int GetCountOfDelimiterInRow(string row, string delimiter)
         {
             try
             {
@@ -93,37 +93,44 @@ namespace CsvToDataTable
                     throw new ArgumentNullException("Не указан разделитель для проверки");
                 }
 
-                if (row.IndexOf(delimiter, 0) != -1)
+                var delimiterCount = 0;
+                var i = 0;
+                while ((i = row.IndexOf(delimiter, i)) != -1)
                 {
-                    var delimiterCount = 0;
-                    var i = 0;
-                    while ((i = row.IndexOf(delimiter, i)) != -1)
-                    {
-                        delimiterCount++;
-                        i += delimiter.Length;
-                    }
-
-                    var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                    if (Regex.IsMatch(row, patternOfQuotes))
-                    {
-                        var rowQuotes = Regex.Matches(row, patternOfQuotes);
-                        var excludeDelimiterCount = 0;
-                        foreach (var rowQuot in rowQuotes)
-                        {
-                            var j = 0;
-                            while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
-                            {
-                                excludeDelimiterCount++;
-                                j += delimiter.Length;
-                            }
-                        }
-                        delimiterCount -= excludeDelimiterCount;
-                    }
-                    
-                    return (delimiterCount > 0);
+                    delimiterCount++;
+                    i += delimiter.Length;
                 }
 
-                return false;
+                var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
+                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
+                {
+                    var rowQuotes = Regex.Matches(row, patternOfQuotes);
+                    var excludeDelimiterCount = 0;
+                    foreach (var rowQuot in rowQuotes)
+                    {
+                        var j = 0;
+                        while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                        {
+                            excludeDelimiterCount++;
+                            j += delimiter.Length;
+                        }
+                    }
+                    delimiterCount -= excludeDelimiterCount;
+                }
+                return delimiterCount;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        static bool IsDelimiter(string row, string delimiter)
+        {
+            try
+            {
+                var countofdelimiter = GetCountOfDelimiterInRow(row, delimiter);
+                return (countofdelimiter > 0); ;
             }
             catch (Exception ex)
             {

@@ -64,11 +64,12 @@ namespace CsvToDataTable
                 if (string.IsNullOrEmpty(delimiter))
                     return 1;
 
+                //TODO GetCountOfDelimiterInRow
                 var delimiters = Regex.Matches(row, delimiter);
                 var delimiterCount = delimiters.Count;
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                if (Regex.IsMatch(row, patternOfQuotes))
+                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
                 {
                     var rowQuotes = Regex.Matches(row, patternOfQuotes);
                     var excludeDelimiterCount = 0;
@@ -97,6 +98,7 @@ namespace CsvToDataTable
                 if (string.IsNullOrEmpty(delimiter))
                     return 1;
 
+                //TODO GetCountOfDelimiterInRow
                 var delimiterCount = 0;
                 var i = 0;
                 while ((i = row.IndexOf(delimiter, i)) != -1)
@@ -106,7 +108,7 @@ namespace CsvToDataTable
                 }
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                if (Regex.IsMatch(row, patternOfQuotes))
+                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
                 {
                     var rowQuotes = Regex.Matches(row, patternOfQuotes);
                     var excludeDelimiterCount = 0;
@@ -121,6 +123,7 @@ namespace CsvToDataTable
                     }
                     delimiterCount -= excludeDelimiterCount;
                 }
+                //
                 var fieldCount = delimiterCount + 1;
                 return fieldCount;
             }
