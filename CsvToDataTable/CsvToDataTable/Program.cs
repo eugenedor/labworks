@@ -91,7 +91,7 @@ namespace CsvToDataTable
         }
 
         /// <summary>
-        /// Определить разделителей в строке
+        /// Определить количество разделителей в строке
         /// </summary>
         static int GetCountOfDelimitersInRow(string row, string delimiter) 
         {
@@ -201,6 +201,7 @@ namespace CsvToDataTable
 
                 var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
                 var fieldCount = delimiterCnt + 1;
+
                 return fieldCount;
             }
             catch (Exception ex)
