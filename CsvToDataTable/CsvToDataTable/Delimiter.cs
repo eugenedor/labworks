@@ -87,29 +87,58 @@ namespace CsvToDataTable
                     throw new ArgumentNullException("Не указан разделитель для проверки");
                 }
 
+                //var delimiterCount = 0;
+                //var i = 0;
+                //while ((i = row.IndexOf(delimiter, i)) != -1)
+                //{
+                //    delimiterCount++;
+                //    i += delimiter.Length;
+                //}
+
+                //var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
+                //if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
+                //{
+                //    var rowQuotes = Regex.Matches(row, patternOfQuotes);
+                //    var excludeDelimiterCount = 0;
+                //    foreach (var rowQuot in rowQuotes)
+                //    {
+                //        var j = 0;
+                //        while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                //        {
+                //            excludeDelimiterCount++;
+                //            j += delimiter.Length;
+                //        }
+                //    }
+                //    delimiterCount -= excludeDelimiterCount;
+                //}
+
                 var delimiterCount = 0;
                 var i = 0;
-                while ((i = row.IndexOf(delimiter, i)) != -1)
+                var j = 0;
+                while ((j = row.IndexOf(delimiter, j)) != -1)
                 {
-                    delimiterCount++;
-                    i += delimiter.Length;
-                }
+                    var sbstr = row.Substring(i, j - i);
 
-                var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
-                {
-                    var rowQuotes = Regex.Matches(row, patternOfQuotes);
-                    var excludeDelimiterCount = 0;
-                    foreach (var rowQuot in rowQuotes)
+                    var quot = @"""";
+                    if (sbstr.Contains(quot))
                     {
-                        var j = 0;
-                        while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                        var quotInSbstrCount = 0;
+                        var k = 0;
+                        while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
-                            excludeDelimiterCount++;
+                            quotInSbstrCount++;
+                            k += quot.Length;
+                        }
+                        if (quotInSbstrCount % 2 == 1)
+                        {
                             j += delimiter.Length;
+                            continue;
                         }
                     }
-                    delimiterCount -= excludeDelimiterCount;
+
+                    delimiterCount++;
+                    j += delimiter.Length;
+                    i = j;
                 }
                 return delimiterCount;
             }
