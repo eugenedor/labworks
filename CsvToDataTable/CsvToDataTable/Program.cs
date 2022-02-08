@@ -228,6 +228,57 @@ namespace CsvToDataTable
         }
 
         /// <summary>
+        /// Сплит
+        /// </summary>
+        static string[] Split(string row, string delimiter)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(row))
+                    return new[] { string.Empty };
+
+                var lst = new List<string>();
+                var i = 0;
+                var j = 0;
+                while ((j = row.IndexOf(delimiter, j)) != -1)
+                {
+                    var sbstr = row.Substring(i, j - i);
+
+                    var quot = @"""";
+                    if (sbstr.Contains(quot))
+                    {
+                        var quotInSbstrCount = 0;
+                        var k = 0;
+                        while ((k = sbstr.IndexOf(quot, k)) != -1)
+                        {
+                            quotInSbstrCount++;
+                            k += quot.Length;
+                        }
+                        if (quotInSbstrCount % 2 == 1)
+                        {
+                            j += delimiter.Length;
+                            continue;
+                        }
+                    }
+
+                    lst.Add(sbstr);
+                    j += delimiter.Length;
+                    i = j;
+                }
+
+                j = row.Length;
+                var sbstrLast = row.Substring(i, j - i);
+                lst.Add(sbstrLast);
+
+                return lst?.ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Получить таблицу данных
         /// </summary>
         static DataTable GetDataTable(string[] rows, string delimiter)
@@ -238,9 +289,6 @@ namespace CsvToDataTable
                 //Console.WriteLine($"RowCnt = {RowCnt}; ColCnt = {ColCnt};");
 
                 var hasDelimiter = !string.IsNullOrEmpty(delimiter);
-                char separator = default;
-                if (hasDelimiter)
-                    separator = delimiter.ToCharArray()[0];
                 var dt = new DataTable();
 
                 //header
@@ -256,16 +304,18 @@ namespace CsvToDataTable
                 //content
                 for (int i = 0; i < RowCnt; i++)
                 {
-                    var fields = hasDelimiter ? rows[i].Split(separator) : new[] { rows[i] };
+                    var fields = hasDelimiter ? Split(rows[i], delimiter) : new[] { rows[i] };
                     var fieldsCount = fields.Count();
+
+                    if (fieldsCount != ColCnt)
+                    {
+                        throw new Exception("Несовпадение количества полей в строке и столбцов в DataTable");
+                    }
 
                     var dr = dt.NewRow();
                     for (int j = 0; j < ColCnt; j++)
                     {
-                        if (fieldsCount == ColCnt || j < fieldsCount)
-                            dr[j] = fields[j];
-                        else
-                            dr[j] = string.Empty;
+                        dr[j] = fields[j];
                     }
                     dt.Rows.Add(dr);
                 }
