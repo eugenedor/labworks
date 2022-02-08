@@ -41,43 +41,50 @@ namespace CsvToDataTable
 
         static string[] Split(string row, string delimiter) 
         {
-            if (string.IsNullOrEmpty(row))
-                return new [] { string.Empty };
-
-            var lst = new List<string>();
-            var i = 0;
-            var j = 0;
-            while ((j = row.IndexOf(delimiter, j)) != -1)
+            try
             {
-                var sbstr = row.Substring(i, j - i);
+                if (string.IsNullOrEmpty(row))
+                    return new[] { string.Empty };
 
-                var quot = @"""";
-                if (sbstr.Contains(quot))
+                var lst = new List<string>();
+                var i = 0;
+                var j = 0;
+                while ((j = row.IndexOf(delimiter, j)) != -1)
                 {
-                    var quotInSbstrCount = 0;
-                    var k = 0;
-                    while ((k = sbstr.IndexOf(quot, k)) != -1)
+                    var sbstr = row.Substring(i, j - i);
+
+                    var quot = @"""";
+                    if (sbstr.Contains(quot))
                     {
-                        quotInSbstrCount++;
-                        k += quot.Length;
+                        var quotInSbstrCount = 0;
+                        var k = 0;
+                        while ((k = sbstr.IndexOf(quot, k)) != -1)
+                        {
+                            quotInSbstrCount++;
+                            k += quot.Length;
+                        }
+                        if (quotInSbstrCount % 2 == 1)
+                        {
+                            j += delimiter.Length;
+                            continue;
+                        }
                     }
-                    if (quotInSbstrCount % 2 == 1)
-                    {
-                        j += delimiter.Length;
-                        continue;
-                    }
+
+                    lst.Add(sbstr);
+                    j += delimiter.Length;
+                    i = j;
                 }
 
-                lst.Add(sbstr);
-                j += delimiter.Length;
-                i = j;
+                j = row.Length;
+                var sbstrLast = row.Substring(i, j - i);
+                lst.Add(sbstrLast);
+
+                return lst?.ToArray();
             }
-
-            j = row.Length;
-            var sbstrLast = row.Substring(i, j - i);
-            lst.Add(sbstrLast);
-
-            return lst?.ToArray();
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

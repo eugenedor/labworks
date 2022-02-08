@@ -37,12 +37,15 @@ namespace CsvToDataTable
             {
                 Console.WriteLine($"Pos = {c}, string = {row}");
 
-                var countFieldsMatches = GetCountOfFieldsInRowMatches(row, delimiter);
-                Console.WriteLine($"CountFieldsMatches = {countFieldsMatches}");
+                var countOfFieldsInRowMatches = GetCountOfFieldsInRowMatches(row, delimiter);
+                Console.WriteLine($"CountOfFieldsInRowMatches      = {countOfFieldsInRowMatches}");
                 
-                var countFieldsIndexOf = GetCountOfFieldsInRowMtchsIndexOf(row, delimiter);
-                Console.WriteLine($"CountFieldsIndexOf = {countFieldsIndexOf}");
-                
+                var countOfFieldsInRowMtchsIndexOf = GetCountOfFieldsInRowMtchsIndexOf(row, delimiter);                
+                Console.WriteLine($"CountOfFieldsInRowMtchsIndexOf = {countOfFieldsInRowMtchsIndexOf}");
+
+                var countOfFieldsInRowIndexOf = GetCountOfFieldsInRowIndexOf(row, delimiter);
+                Console.WriteLine($"CountOfFieldsInRowIndexOf      = {countOfFieldsInRowIndexOf}");
+
                 Console.WriteLine();
                 c++;
             }
@@ -122,6 +125,54 @@ namespace CsvToDataTable
                         }
                     }
                     delimiterCount -= excludeDelimiterCount;
+                }
+                //
+                var fieldCount = delimiterCount + 1;
+                return fieldCount;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        static int GetCountOfFieldsInRowIndexOf(string row, string delimiter)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(row))
+                    return 0;
+                if (string.IsNullOrEmpty(delimiter))
+                    return 1;
+
+                //TODO GetCountOfDelimiterInRow New!!!
+                var delimiterCount = 0;
+                var i = 0;
+                var j = 0;
+                while ((j = row.IndexOf(delimiter, j)) != -1)
+                {
+                    var sbstr = row.Substring(i, j - i);
+
+                    var quot = @"""";
+                    if (sbstr.Contains(quot))
+                    {
+                        var quotInSbstrCount = 0;
+                        var k = 0;
+                        while ((k = sbstr.IndexOf(quot, k)) != -1)
+                        {
+                            quotInSbstrCount++;
+                            k += quot.Length;
+                        }
+                        if (quotInSbstrCount % 2 == 1)
+                        {
+                            j += delimiter.Length;
+                            continue;
+                        }
+                    }
+
+                    delimiterCount++;
+                    j += delimiter.Length;
+                    i = j;
                 }
                 //
                 var fieldCount = delimiterCount + 1;
