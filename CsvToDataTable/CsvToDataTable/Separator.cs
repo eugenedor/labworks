@@ -19,14 +19,16 @@ namespace CsvToDataTable
                 "abc",                                          //Pos__3: 1
                 ";;",                                           //Pos__4: 3
                 @"ghj;abc;ijew;abc;wiuhewiu",                   //Pos__5: 5
-                @"""123;456;789"";234;345;""456;789"";567"      //Pos__6: 5 (8)
+                @"ABC;DE;F",                                    //Pos__6: 7
+                @"ABC;DE;F;",                                   //Pos__7: 4
+                @"""123;456;789"";234;345;""456;789"";567"      //Pos__8: 5 (8)
             };
 
             var c = 0;
             foreach (string row in rows)
             {                
                 Console.WriteLine($"Pos = {c}, string = {row}");
-                var fields = Separ(row, delimiter);
+                var fields = Split(row, delimiter);
                 Console.WriteLine("-SeparVarOne-");
                 for (int i = 0; i < fields.Length; i++)
                 {
@@ -37,7 +39,7 @@ namespace CsvToDataTable
             }
         }
 
-        static string[] Separ(string row, string delimiter) 
+        static string[] Split(string row, string delimiter) 
         {
             if (string.IsNullOrEmpty(row))
                 return new [] { string.Empty };
@@ -47,32 +49,33 @@ namespace CsvToDataTable
             var j = 0;
             while ((j = row.IndexOf(delimiter, j)) != -1)
             {
-                var s = row.Substring(i, j - i);
+                var sbstr = row.Substring(i, j - i);
 
-                if (s.Contains(@""""))
+                var quot = @"""";
+                if (sbstr.Contains(quot))
                 {
-                    var c = 0;
+                    var quotInSbstrCount = 0;
                     var k = 0;
-                    while ((k = s.IndexOf(@"""", k)) != -1)
+                    while ((k = sbstr.IndexOf(quot, k)) != -1)
                     {
-                        c++;
-                        k += @"""".Length;
+                        quotInSbstrCount++;
+                        k += quot.Length;
                     }
-                    if (c % 2 == 1)
+                    if (quotInSbstrCount % 2 == 1)
                     {
                         j += delimiter.Length;
                         continue;
                     }
                 }
 
-                lst.Add(s);
+                lst.Add(sbstr);
                 j += delimiter.Length;
                 i = j;
             }
 
             j = row.Length;
-            var se = row.Substring(i, j - i);
-            lst.Add(se);
+            var sbstrLast = row.Substring(i, j - i);
+            lst.Add(sbstrLast);
 
             return lst?.ToArray();
         }
