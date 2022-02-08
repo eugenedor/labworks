@@ -10,7 +10,7 @@ namespace CsvToDataTable
     {
         public static void TestSplt()
         {
-            var delimiter = ";";
+            var separator = ";";
             string[] rows = new string[]
             {
                 null,                                           //Pos__0: 0
@@ -30,7 +30,7 @@ namespace CsvToDataTable
             foreach (string row in rows)
             {                
                 Console.WriteLine($"Pos = {c}, string = {row}");
-                var fields = SplitRow(row, delimiter);
+                var fields = SplitRow(row, separator);
                 Console.WriteLine("-SeparVarOne-");
                 for (int i = 0; i < fields.Length; i++)
                 {
@@ -41,20 +41,20 @@ namespace CsvToDataTable
             }
         }
 
-        static string[] SplitRow(string row, string delimiter) 
+        static string[] SplitRow(string row, string separator) 
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return new[] { string.Empty };
 
-                if (string.IsNullOrEmpty(delimiter) || row.IndexOf(delimiter, 0) == -1)
+                if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
                     return new[] { row };
 
                 var lst = new List<string>();
                 var i = 0;
                 var j = 0;
-                while ((j = row.IndexOf(delimiter, j)) != -1)
+                while ((j = row.IndexOf(separator, j)) != -1)
                 {
                     var sbstr = row.Substring(i, j - i);
 
@@ -70,13 +70,13 @@ namespace CsvToDataTable
                         }
                         if (quotInSbstrCount % 2 == 1)
                         {
-                            j += delimiter.Length;
+                            j += separator.Length;
                             continue;
                         }
                     }
 
                     lst.Add(sbstr);
-                    j += delimiter.Length;
+                    j += separator.Length;
                     i = j;
                 }
 

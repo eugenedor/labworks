@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace CsvToDataTable
 {
-    public class TestDelimiter
+    public class TestSeparator
     {
-        public static void TestGetDelimiter()
+        public static void TestGetSeparator()
         {
             string[] rows = new string[]
             {
@@ -35,8 +35,8 @@ namespace CsvToDataTable
             {
                 Console.WriteLine($"Pos = {c}, string = {row}");
 
-                var delimiter = GetDelimiter(row);
-                Console.WriteLine($"Delimiter {delimiter}");
+                var separator = GetSeparator(row);
+                Console.WriteLine($"Separator {separator}");
 
                 Console.WriteLine();
                 c++;
@@ -45,25 +45,25 @@ namespace CsvToDataTable
             Console.WriteLine();
         }
 
-        static string GetDelimiter(string row)
+        static string GetSeparator(string row)
         {
             try
             {
                 var semicolon = ";";
-                var isDelimiterSemicolon = IsDelimiter(row, semicolon);
-                Console.WriteLine($"isDelimiterSemicolon = {isDelimiterSemicolon}");
+                var isSeparatorSemicolon = IsSeparator(row, semicolon);
+                Console.WriteLine($"isSeparatorSemicolon = {isSeparatorSemicolon}");
                 var comma = ",";
-                var isDelimiterComma = IsDelimiter(row, comma);
-                Console.WriteLine($"isDelimiterComma = {isDelimiterComma}");
+                var isSeparatorComma = IsSeparator(row, comma);
+                Console.WriteLine($"isSeparatorComma = {isSeparatorComma}");
 
-                if (isDelimiterSemicolon && isDelimiterComma)
+                if (isSeparatorSemicolon && isSeparatorComma)
                 {
                     throw new ArgumentNullException("Невозможно определить разделитель");
                 }
 
-                if (isDelimiterSemicolon)
+                if (isSeparatorSemicolon)
                     return semicolon;
-                if (isDelimiterComma)
+                if (isSeparatorComma)
                     return comma;
 
                 return string.Empty;
@@ -74,7 +74,7 @@ namespace CsvToDataTable
             }
         }
 
-        static int GetCountOfDelimitersInRow(string row, string delimiter)
+        static int GetCountOfSeparatorsInRow(string row, string separator)
         {
             try
             {
@@ -82,40 +82,40 @@ namespace CsvToDataTable
                 {
                     throw new ArgumentNullException("Невозможно определить строку для чтения");
                 }
-                if (string.IsNullOrEmpty(delimiter))
+                if (string.IsNullOrEmpty(separator))
                 {
                     throw new ArgumentNullException("Не указан разделитель для проверки");
                 }
 
-                //var delimiterCount = 0;
+                //var separatorCount = 0;
                 //var i = 0;
-                //while ((i = row.IndexOf(delimiter, i)) != -1)
+                //while ((i = row.IndexOf(separator, i)) != -1)
                 //{
-                //    delimiterCount++;
-                //    i += delimiter.Length;
+                //    separatorCount++;
+                //    i += separator.Length;
                 //}
 
                 //var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                //if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
+                //if (separatorCount > 0 && Regex.IsMatch(row, patternOfQuotes))
                 //{
                 //    var rowQuotes = Regex.Matches(row, patternOfQuotes);
-                //    var excludeDelimiterCount = 0;
+                //    var excludeSeparatorCount = 0;
                 //    foreach (var rowQuot in rowQuotes)
                 //    {
                 //        var j = 0;
-                //        while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                //        while ((j = rowQuot.ToString().IndexOf(separator, j)) != -1)
                 //        {
-                //            excludeDelimiterCount++;
-                //            j += delimiter.Length;
+                //            excludeSeparatorCount++;
+                //            j += separator.Length;
                 //        }
                 //    }
-                //    delimiterCount -= excludeDelimiterCount;
+                //    separatorCount -= excludeSeparatorCount;
                 //}
 
-                var delimiterCount = 0;
+                var separatorCount = 0;
                 var i = 0;
                 var j = 0;
-                while ((j = row.IndexOf(delimiter, j)) != -1)
+                while ((j = row.IndexOf(separator, j)) != -1)
                 {
                     var sbstr = row.Substring(i, j - i);
 
@@ -131,16 +131,16 @@ namespace CsvToDataTable
                         }
                         if (quotInSbstrCount % 2 == 1)
                         {
-                            j += delimiter.Length;
+                            j += separator.Length;
                             continue;
                         }
                     }
 
-                    delimiterCount++;
-                    j += delimiter.Length;
+                    separatorCount++;
+                    j += separator.Length;
                     i = j;
                 }
-                return delimiterCount;
+                return separatorCount;
             }
             catch (Exception ex)
             {
@@ -148,12 +148,12 @@ namespace CsvToDataTable
             }
         }
 
-        static bool IsDelimiter(string row, string delimiter)
+        static bool IsSeparator(string row, string separator)
         {
             try
             {
-                var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
-                return (delimiterCnt > 0); ;
+                var separatorCnt = GetCountOfSeparatorsInRow(row, separator);
+                return (separatorCnt > 0); ;
             }
             catch (Exception ex)
             {

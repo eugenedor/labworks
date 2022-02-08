@@ -21,7 +21,7 @@ namespace CsvToDataTable
 
                 DataTable result;
                 string[] rows;
-                string delimiter;
+                string separator;
 
                 rows = ReadRowsFromFile(fileName)?.ToArray();                
 
@@ -31,7 +31,7 @@ namespace CsvToDataTable
                 }
 
                 var rowFirst = rows[0];
-                delimiter = GetDelimiter(rowFirst);
+                separator = GetSeparator(rowFirst);
 
                 Console.WriteLine("rows:");
                 foreach (var r in rows)
@@ -40,7 +40,7 @@ namespace CsvToDataTable
                 }
                 Console.WriteLine();
 
-                result = GetDataTable(rows, delimiter);
+                result = GetDataTable(rows, separator);
                 PrintTable(result);
                 PrintTable2(result);
 
@@ -54,7 +54,7 @@ namespace CsvToDataTable
                 Console.ReadKey();
                 Console.Clear();
 
-                TestDelimiter.TestGetDelimiter();
+                TestSeparator.TestGetSeparator();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key3");
                 Console.ReadKey();
@@ -100,7 +100,7 @@ namespace CsvToDataTable
         /// <summary>
         /// Определить количество разделителей в строке
         /// </summary>
-        static int GetCountOfDelimitersInRow(string row, string delimiter) 
+        static int GetCountOfSeparatorsInRow(string row, string separator) 
         {
             try
             {
@@ -108,13 +108,13 @@ namespace CsvToDataTable
                 {
                     throw new ArgumentNullException("Невозможно определить строку для чтения");
                 }
-                if (string.IsNullOrEmpty(delimiter))
+                if (string.IsNullOrEmpty(separator))
                 {
                     throw new ArgumentNullException("Не указан разделитель для проверки");
                 }
 
-                int delimiterCount = 0, i = 0, j = 0;
-                while ((j = row.IndexOf(delimiter, j)) != -1)
+                int separatorCount = 0, i = 0, j = 0;
+                while ((j = row.IndexOf(separator, j)) != -1)
                 {
                     var sbstr = row.Substring(i, j - i);
                     var quot = @"""";
@@ -128,15 +128,15 @@ namespace CsvToDataTable
                         }
                         if (quotInSbstrCount % 2 == 1)
                         {
-                            j += delimiter.Length;
+                            j += separator.Length;
                             continue;
                         }
                     }
-                    delimiterCount++;
-                    j += delimiter.Length;
+                    separatorCount++;
+                    j += separator.Length;
                     i = j;
                 }
-                return delimiterCount;
+                return separatorCount;
             }
             catch (Exception ex)
             {
@@ -147,32 +147,32 @@ namespace CsvToDataTable
         /// <summary>
         /// Является ли разделителем
         /// </summary>
-        static bool IsDelimiter(string row, string delimiter)
+        static bool IsSeparator(string row, string separator)
         {
-            var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
-            return (delimiterCnt > 0);
+            var separatorCnt = GetCountOfSeparatorsInRow(row, separator);
+            return (separatorCnt > 0);
         }
 
         /// <summary>
         /// Получить разделитель из данных
         /// </summary>
-        static string GetDelimiter(string row)
+        static string GetSeparator(string row)
         {
             try
             {
                 var semicolon = ";";
-                var isDelimiterSemicolon = IsDelimiter(row, semicolon);
+                var isSeparatorSemicolon = IsSeparator(row, semicolon);
                 var comma = ",";
-                var isDelimiterComma = IsDelimiter(row, comma);
+                var isSeparatorComma = IsSeparator(row, comma);
 
-                if (isDelimiterSemicolon && isDelimiterComma)
+                if (isSeparatorSemicolon && isSeparatorComma)
                 {
                     throw new ArgumentNullException("Невозможно определить разделитель");
                 }
 
-                if (isDelimiterSemicolon)
+                if (isSeparatorSemicolon)
                     return semicolon;
-                if (isDelimiterComma)
+                if (isSeparatorComma)
                     return comma;
 
                 return string.Empty;
@@ -186,15 +186,15 @@ namespace CsvToDataTable
         /// <summary>
         /// Определить количество полей в строке
         /// </summary>
-        static int GetCountOfFieldsInRow(string row, string delimiter)
+        static int GetCountOfFieldsInRow(string row, string separator)
         {
             if (string.IsNullOrEmpty(row))
                 return 0;
-            if (string.IsNullOrEmpty(delimiter))
+            if (string.IsNullOrEmpty(separator))
                 return 1;
 
-            var delimiterCnt = GetCountOfDelimitersInRow(row, delimiter);
-            var fieldCount = delimiterCnt + 1;
+            var separatorCnt = GetCountOfSeparatorsInRow(row, separator);
+            var fieldCount = separatorCnt + 1;
 
             return fieldCount;
         }
@@ -202,7 +202,7 @@ namespace CsvToDataTable
         /// <summary>
         /// Определить размер таблицы
         /// </summary>
-        static void GetSizeOfTable(string[] rows, string delimiter, out int rowCount, out int colCount)
+        static void GetSizeOfTable(string[] rows, string separator, out int rowCount, out int colCount)
         {
             rowCount = 0;
             colCount = 0;
@@ -215,7 +215,7 @@ namespace CsvToDataTable
                 rowCount = rows.Count();
 
                 var rowFirst = rows[0];
-                colCount = GetCountOfFieldsInRow(rowFirst, delimiter);
+                colCount = GetCountOfFieldsInRow(rowFirst, separator);
 
                 Console.WriteLine($"rowCount = {rowCount}; colCount = {colCount};");
                 Console.WriteLine();
@@ -229,20 +229,20 @@ namespace CsvToDataTable
         /// <summary>
         /// Разделение строк на массив подстрок
         /// </summary>
-        static string[] SplitRow(string row, string delimiter)
+        static string[] SplitRow(string row, string separator)
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return new[] { string.Empty };
 
-                if (string.IsNullOrEmpty(delimiter) || row.IndexOf(delimiter, 0) == -1)
+                if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
                     return new[] { row };
 
 
                 var lst = new List<string>();
                 int i = 0, j = 0;
-                while ((j = row.IndexOf(delimiter, j)) != -1)
+                while ((j = row.IndexOf(separator, j)) != -1)
                 {
                     var sbstr = row.Substring(i, j - i);
                     var quot = @"""";
@@ -256,12 +256,12 @@ namespace CsvToDataTable
                         }
                         if (quotInSbstrCount % 2 == 1)
                         {
-                            j += delimiter.Length;
+                            j += separator.Length;
                             continue;
                         }
                     }
                     lst.Add(sbstr);
-                    j += delimiter.Length;
+                    j += separator.Length;
                     i = j;
                 }
                 j = row.Length;
@@ -279,11 +279,11 @@ namespace CsvToDataTable
         /// <summary>
         /// Получить таблицу данных
         /// </summary>
-        static DataTable GetDataTable(string[] rows, string delimiter)
+        static DataTable GetDataTable(string[] rows, string separator)
         {
             try
             {
-                GetSizeOfTable(rows, delimiter, out int RowCnt, out int ColCnt);
+                GetSizeOfTable(rows, separator, out int RowCnt, out int ColCnt);
                 //Console.WriteLine($"RowCnt = {RowCnt}; ColCnt = {ColCnt};");
 
                 var dt = new DataTable();
@@ -301,7 +301,7 @@ namespace CsvToDataTable
                 //content
                 for (int i = 0; i < RowCnt; i++)
                 {
-                    var fields = SplitRow(rows[i], delimiter);
+                    var fields = SplitRow(rows[i], separator);
                     var fieldsCount = fields.Count();
 
                     if (fieldsCount != ColCnt)

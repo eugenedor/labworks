@@ -11,7 +11,7 @@ namespace CsvToDataTable
     {
         public static void TestCountOfFieldsInRow()
         {
-            var delimiter = ";";
+            var separator = ";";
             string[] rows = new string[]
             {
                 null,                                           //Pos__0: 0
@@ -37,13 +37,13 @@ namespace CsvToDataTable
             {
                 Console.WriteLine($"Pos = {c}, string = {row}");
 
-                var countOfFieldsInRowMatches = GetCountOfFieldsInRowMatches(row, delimiter);
+                var countOfFieldsInRowMatches = GetCountOfFieldsInRowMatches(row, separator);
                 Console.WriteLine($"CountOfFieldsInRowMatches      = {countOfFieldsInRowMatches}");
                 
-                var countOfFieldsInRowMtchsIndexOf = GetCountOfFieldsInRowMtchsIndexOf(row, delimiter);                
+                var countOfFieldsInRowMtchsIndexOf = GetCountOfFieldsInRowMtchsIndexOf(row, separator);                
                 Console.WriteLine($"CountOfFieldsInRowMtchsIndexOf = {countOfFieldsInRowMtchsIndexOf}");
 
-                var countOfFieldsInRowIndexOf = GetCountOfFieldsInRowIndexOf(row, delimiter);
+                var countOfFieldsInRowIndexOf = GetCountOfFieldsInRowIndexOf(row, separator);
                 Console.WriteLine($"CountOfFieldsInRowIndexOf      = {countOfFieldsInRowIndexOf}");
 
                 Console.WriteLine();
@@ -58,32 +58,32 @@ namespace CsvToDataTable
             Console.WriteLine($"str={str}, ixA={ixA}, ixB={ixB}, ixD={ixD}");
         }
 
-        static int GetCountOfFieldsInRowMatches(string row, string delimiter)
+        static int GetCountOfFieldsInRowMatches(string row, string separator)
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return 0;
-                if (string.IsNullOrEmpty(delimiter))
+                if (string.IsNullOrEmpty(separator))
                     return 1;
 
-                //TODO GetCountOfDelimiterInRow
-                var delimiters = Regex.Matches(row, delimiter);
-                var delimiterCount = delimiters.Count;
+                //TODO GetCountOfSeparatorInRow
+                var separators = Regex.Matches(row, separator);
+                var separatorCount = separators.Count;
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
+                if (separatorCount > 0 && Regex.IsMatch(row, patternOfQuotes))
                 {
                     var rowQuotes = Regex.Matches(row, patternOfQuotes);
-                    var excludeDelimiterCount = 0;
+                    var excludeSeparatorCount = 0;
                     foreach (var rowQuot in rowQuotes)
                     {
-                        var excludeDelimiters = Regex.Matches(rowQuot.ToString(), delimiter);
-                        excludeDelimiterCount += excludeDelimiters.Count;
+                        var excludeSeparators = Regex.Matches(rowQuot.ToString(), separator);
+                        excludeSeparatorCount += excludeSeparators.Count;
                     }
-                    delimiterCount -= excludeDelimiterCount;
+                    separatorCount -= excludeSeparatorCount;
                 }
-                var fieldCount = delimiterCount + 1;
+                var fieldCount = separatorCount + 1;
                 return fieldCount;
             }
             catch (Exception ex)
@@ -92,42 +92,42 @@ namespace CsvToDataTable
             }
         }
 
-        static int GetCountOfFieldsInRowMtchsIndexOf(string row, string delimiter)
+        static int GetCountOfFieldsInRowMtchsIndexOf(string row, string separator)
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return 0;
-                if (string.IsNullOrEmpty(delimiter))
+                if (string.IsNullOrEmpty(separator))
                     return 1;
 
-                //TODO GetCountOfDelimiterInRow
-                var delimiterCount = 0;
+                //TODO GetCountOfSeparatorInRow
+                var separatorCount = 0;
                 var i = 0;
-                while ((i = row.IndexOf(delimiter, i)) != -1)
+                while ((i = row.IndexOf(separator, i)) != -1)
                 {
-                    delimiterCount++;
-                    i += delimiter.Length;
+                    separatorCount++;
+                    i += separator.Length;
                 }
 
                 var patternOfQuotes = "(?:\\\"[^\\\"]*\\\")";
-                if (delimiterCount > 0 && Regex.IsMatch(row, patternOfQuotes))
+                if (separatorCount > 0 && Regex.IsMatch(row, patternOfQuotes))
                 {
                     var rowQuotes = Regex.Matches(row, patternOfQuotes);
-                    var excludeDelimiterCount = 0;
+                    var excludeSeparatorCount = 0;
                     foreach (var rowQuot in rowQuotes)
                     {
                         var j = 0;
-                        while ((j = rowQuot.ToString().IndexOf(delimiter, j)) != -1)
+                        while ((j = rowQuot.ToString().IndexOf(separator, j)) != -1)
                         {
-                            excludeDelimiterCount++;
-                            j += delimiter.Length;
+                            excludeSeparatorCount++;
+                            j += separator.Length;
                         }
                     }
-                    delimiterCount -= excludeDelimiterCount;
+                    separatorCount -= excludeSeparatorCount;
                 }
                 //
-                var fieldCount = delimiterCount + 1;
+                var fieldCount = separatorCount + 1;
                 return fieldCount;
             }
             catch (Exception ex)
@@ -136,20 +136,20 @@ namespace CsvToDataTable
             }
         }
 
-        static int GetCountOfFieldsInRowIndexOf(string row, string delimiter)
+        static int GetCountOfFieldsInRowIndexOf(string row, string separator)
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return 0;
-                if (string.IsNullOrEmpty(delimiter))
+                if (string.IsNullOrEmpty(separator))
                     return 1;
 
-                //TODO GetCountOfDelimiterInRow New!!!
-                var delimiterCount = 0;
+                //TODO GetCountOfSeparatorInRow New!!!
+                var separatorCount = 0;
                 var i = 0;
                 var j = 0;
-                while ((j = row.IndexOf(delimiter, j)) != -1)
+                while ((j = row.IndexOf(separator, j)) != -1)
                 {
                     var sbstr = row.Substring(i, j - i);
 
@@ -165,17 +165,17 @@ namespace CsvToDataTable
                         }
                         if (quotInSbstrCount % 2 == 1)
                         {
-                            j += delimiter.Length;
+                            j += separator.Length;
                             continue;
                         }
                     }
 
-                    delimiterCount++;
-                    j += delimiter.Length;
+                    separatorCount++;
+                    j += separator.Length;
                     i = j;
                 }
                 //
-                var fieldCount = delimiterCount + 1;
+                var fieldCount = separatorCount + 1;
                 return fieldCount;
             }
             catch (Exception ex)
