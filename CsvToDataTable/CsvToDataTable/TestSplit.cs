@@ -41,28 +41,25 @@ namespace CsvToDataTable
             }
         }
 
-        static string[] SplitRow(string row, string separator) 
+        static string[] SpltRowBackup(string row, string separator)
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return new[] { string.Empty };
-
                 if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
                     return new[] { row };
 
+
                 var lst = new List<string>();
-                var i = 0;
-                var j = 0;
+                int i = 0, j = 0;
                 while ((j = row.IndexOf(separator, j)) != -1)
                 {
                     var sbstr = row.Substring(i, j - i);
-
                     var quot = @"""";
                     if (sbstr.Contains(quot))
                     {
-                        var quotInSbstrCount = 0;
-                        var k = 0;
+                        int quotInSbstrCount = 0, k = 0;
                         while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
                             quotInSbstrCount++;
@@ -74,15 +71,56 @@ namespace CsvToDataTable
                             continue;
                         }
                     }
-
                     lst.Add(sbstr);
                     j += separator.Length;
                     i = j;
                 }
-
                 j = row.Length;
                 var sbstrLast = row.Substring(i, j - i);
                 lst.Add(sbstrLast);
+
+                return lst?.ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        static string[] SplitRow(string row, string separator) 
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(row))
+                    return new[] { string.Empty };
+                if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
+                    return new[] { row };
+
+                var lst = new List<string>();
+                int i = 0, j = 0, len = row.Length;
+                while (j <= len)
+                {
+                    j = row.IndexOf(separator, j) != -1 ? row.IndexOf(separator, j) : len;
+                    var sbstr = row.Substring(i, j - i);
+                    var quot = @"""";
+                    if (sbstr.Contains(quot))
+                    {
+                        int quotInSbstrCount = 0, k = 0;
+                        while ((k = sbstr.IndexOf(quot, k)) != -1)
+                        {
+                            quotInSbstrCount++;
+                            k += quot.Length;
+                        }
+                        if (quotInSbstrCount % 2 == 1)
+                        {
+                            j += separator.Length;
+                            continue;
+                        }
+                    }
+                    lst.Add(sbstr);
+                    j += separator.Length;
+                    i = j;
+                }
 
                 return lst?.ToArray();
             }

@@ -54,8 +54,9 @@ namespace CsvToDataTable
             var ixA = str.IndexOf("A", 0);
             var ixB = str.IndexOf("B", 0);
             var ixD = str.IndexOf("D", 0);
+            var sbstr = str.Substring(0, str.Length);
 
-            Console.WriteLine($"str={str}, ixA={ixA}, ixB={ixB}, ixD={ixD}");
+            Console.WriteLine($"str={str}, ixA={ixA}, ixB={ixB}, ixD={ixD}, sbstr={sbstr}");
         }
 
         static int GetCountOfFieldsInRowMatches(string row, string separator)

@@ -235,7 +235,6 @@ namespace CsvToDataTable
             {
                 if (string.IsNullOrEmpty(row))
                     return new[] { string.Empty };
-
                 if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
                     return new[] { row };
 
