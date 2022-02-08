@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace CsvToDataTable
 {
-    public class FieldsInRow
+    public class TestFieldsInRow
     {
         public static void TestCountOfFieldsInRow()
         {

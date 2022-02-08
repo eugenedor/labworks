@@ -48,19 +48,19 @@ namespace CsvToDataTable
                 Console.ReadKey();
                 Console.Clear();
 
-                FieldsInRow.TestCountOfFieldsInRow();
+                TestFieldsInRow.TestCountOfFieldsInRow();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key2");
                 Console.ReadKey();
                 Console.Clear();
 
-                Delimiter.TestGetDelimiter();
+                TestDelimiter.TestGetDelimiter();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key3");
                 Console.ReadKey();
                 Console.Clear();
 
-                Separator.TestSepar();
+                TestSplit.TestSplt();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
                 Console.ReadKey();

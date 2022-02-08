@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CsvToDataTable
 {
-    public class Separator
+    public class TestSplit
     {
-        public static void TestSepar()
+        public static void TestSplt()
         {
             var delimiter = ";";
             string[] rows = new string[]
