@@ -21,14 +21,16 @@ namespace CsvToDataTable
                 @"ghj;abc;ijew;abc;wiuhewiu",                   //Pos__5: 5
                 @"ABC;DE;F",                                    //Pos__6: 7
                 @"ABC;DE;F;",                                   //Pos__7: 4
-                @"""123;456;789"";234;345;""456;789"";567"      //Pos__8: 5 (8)
+                @"ABC;""DE;F""",                                //Pos__8: 4
+                @"ABC;""DE;F;""",                               //Pos__9: 4
+                @"""123;456;789"";234;345;""456;789"";567"      //Pos__10: 5 (8)
             };
 
             var c = 0;
             foreach (string row in rows)
             {                
                 Console.WriteLine($"Pos = {c}, string = {row}");
-                var fields = Split(row, delimiter);
+                var fields = SplitRow(row, delimiter);
                 Console.WriteLine("-SeparVarOne-");
                 for (int i = 0; i < fields.Length; i++)
                 {
@@ -39,12 +41,15 @@ namespace CsvToDataTable
             }
         }
 
-        static string[] Split(string row, string delimiter) 
+        static string[] SplitRow(string row, string delimiter) 
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
                     return new[] { string.Empty };
+
+                if (string.IsNullOrEmpty(delimiter) || row.IndexOf(delimiter, 0) == -1)
+                    return new[] { row };
 
                 var lst = new List<string>();
                 var i = 0;

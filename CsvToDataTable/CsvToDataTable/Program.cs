@@ -236,6 +236,10 @@ namespace CsvToDataTable
                 if (string.IsNullOrEmpty(row))
                     return new[] { string.Empty };
 
+                if (string.IsNullOrEmpty(delimiter) || row.IndexOf(delimiter, 0) == -1)
+                    return new[] { row };
+
+
                 var lst = new List<string>();
                 int i = 0, j = 0;
                 while ((j = row.IndexOf(delimiter, j)) != -1)
@@ -282,7 +286,6 @@ namespace CsvToDataTable
                 GetSizeOfTable(rows, delimiter, out int RowCnt, out int ColCnt);
                 //Console.WriteLine($"RowCnt = {RowCnt}; ColCnt = {ColCnt};");
 
-                var hasDelimiter = !string.IsNullOrEmpty(delimiter);
                 var dt = new DataTable();
 
                 //header
@@ -298,7 +301,7 @@ namespace CsvToDataTable
                 //content
                 for (int i = 0; i < RowCnt; i++)
                 {
-                    var fields = hasDelimiter ? SplitRow(rows[i], delimiter) : new[] { rows[i] };
+                    var fields = SplitRow(rows[i], delimiter);
                     var fieldsCount = fields.Count();
 
                     if (fieldsCount != ColCnt)
