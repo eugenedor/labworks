@@ -107,7 +107,7 @@ namespace CsvToDataTable
             }
         }
 
-        static string[] SplitRow(string row, string separator) 
+        static string[] SplitRow(string row, string separator)
         {
             try
             {
