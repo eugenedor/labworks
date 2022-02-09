@@ -16,8 +16,7 @@ namespace CsvToDataTable
             try
             {
                 string fileName;
-                fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username.csv";
-                //fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username1";
+                fileName = @"C:\Users\edorokhin\labworks\CsvToDataTable\AppData\username";
 
                 DataTable result;
                 string[] rows;
