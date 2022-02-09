@@ -149,8 +149,8 @@ namespace CsvToDataTable
         /// </summary>
         static bool IsSeparator(string row, string separator)
         {
-            var separatorCnt = GetCountOfSeparatorsInRow(row, separator);
-            return (separatorCnt > 0);
+            var separatorCount = GetCountOfSeparatorsInRow(row, separator);
+            return (separatorCount > 0);
         }
 
         /// <summary>
@@ -193,8 +193,8 @@ namespace CsvToDataTable
             if (string.IsNullOrEmpty(separator))
                 return 1;
 
-            var separatorCnt = GetCountOfSeparatorsInRow(row, separator);
-            var fieldCount = separatorCnt + 1;
+            var separatorCount = GetCountOfSeparatorsInRow(row, separator);
+            var fieldCount = separatorCount + 1;
 
             return fieldCount;
         }
@@ -279,13 +279,12 @@ namespace CsvToDataTable
         {
             try
             {
-                GetSizeOfTable(rows, separator, out int RowCnt, out int ColCnt);
-                //Console.WriteLine($"RowCnt = {RowCnt}; ColCnt = {ColCnt};");
+                GetSizeOfTable(rows, separator, out int rowCount, out int columnCount);
+                //Console.WriteLine($"RowCount = {rowCount}; ColumnCount = {columnCount};");
 
                 var dt = new DataTable();
-
                 //header
-                for (int j = 0; j < ColCnt; j++)
+                for (int j = 0; j < columnCount; j++)
                 {
                     dt.Columns.Add($"column{j}");
                 }
@@ -295,18 +294,18 @@ namespace CsvToDataTable
                 //    dt.Columns.Add(header);
                 //}
                 //content
-                for (int i = 0; i < RowCnt; i++)
+                for (int i = 0; i < rowCount; i++)
                 {
                     var fields = SplitRow(rows[i], separator);
                     var fieldsCount = fields.Count();
 
-                    if (fieldsCount != ColCnt)
+                    if (fieldsCount != columnCount)
                     {
                         throw new Exception("Несовпадение количества полей в строке и столбцов в DataTable");
                     }
 
                     var dr = dt.NewRow();
-                    for (int j = 0; j < ColCnt; j++)
+                    for (int j = 0; j < columnCount; j++)
                     {
                         dr[j] = fields[j];
                     }

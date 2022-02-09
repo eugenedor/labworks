@@ -152,8 +152,8 @@ namespace CsvToDataTable
         {
             try
             {
-                var separatorCnt = GetCountOfSeparatorsInRow(row, separator);
-                return (separatorCnt > 0); ;
+                var separatorCount = GetCountOfSeparatorsInRow(row, separator);
+                return (separatorCount > 0); ;
             }
             catch (Exception ex)
             {
