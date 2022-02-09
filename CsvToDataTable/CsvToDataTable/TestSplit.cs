@@ -27,11 +27,31 @@ namespace CsvToDataTable
             };
 
             var c = 0;
+            Console.WriteLine("--SpltRowBackup--");
+            foreach (string row in rows)
+            {
+                Console.WriteLine($"Pos = {c}, string = {row}");
+                var fields = SpltRowBackup(row, separator);
+                Console.WriteLine("-SeparVar-");
+                for (int i = 0; i < fields.Length; i++)
+                {
+                    Console.WriteLine($"{i} fieldValue=|{fields[i]}|");
+                }
+                Console.WriteLine();
+                c++;
+            }
+
+            Console.WriteLine(System.Environment.NewLine + "Press any key");
+            Console.ReadKey();
+            Console.Clear();
+
+            c = 0;
+            Console.WriteLine("--SplitRow--");
             foreach (string row in rows)
             {                
                 Console.WriteLine($"Pos = {c}, string = {row}");
                 var fields = SplitRow(row, separator);
-                Console.WriteLine("-SeparVarOne-");
+                Console.WriteLine("-SeparVar-");
                 for (int i = 0; i < fields.Length; i++)
                 {
                     Console.WriteLine($"{i} fieldValue=|{fields[i]}|");

@@ -23,7 +23,7 @@ namespace CsvToDataTable
                 string[] rows;
                 string separator;
 
-                rows = ReadRowsFromFile(fileName)?.ToArray();                
+                rows = ReadRowsFromFile(fileName)?.ToArray();
 
                 if (rows == null || rows.Count() == 0)
                 {
@@ -238,11 +238,11 @@ namespace CsvToDataTable
                 if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
                     return new[] { row };
 
-
                 var lst = new List<string>();
-                int i = 0, j = 0;
-                while ((j = row.IndexOf(separator, j)) != -1)
+                int i = 0, j = 0, len = row.Length;
+                while (j <= len)
                 {
+                    j = row.IndexOf(separator, j) != -1 ? row.IndexOf(separator, j) : len;
                     var sbstr = row.Substring(i, j - i);
                     var quot = @"""";
                     if (sbstr.Contains(quot))
@@ -263,9 +263,6 @@ namespace CsvToDataTable
                     j += separator.Length;
                     i = j;
                 }
-                j = row.Length;
-                var sbstrLast = row.Substring(i, j - i);
-                lst.Add(sbstrLast);
 
                 return lst?.ToArray();
             }
