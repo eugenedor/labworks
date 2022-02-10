@@ -97,6 +97,45 @@ namespace CsvToDataTable
         }
 
         /// <summary>
+        /// Получить разделитель из данных
+        /// </summary>
+        static string GetSeparator(string row)
+        {
+            try
+            {
+                var semicolon = ";";
+                var isSeparatorSemicolon = IsSeparator(row, semicolon);
+                var comma = ",";
+                var isSeparatorComma = IsSeparator(row, comma);
+
+                if (isSeparatorSemicolon && isSeparatorComma)
+                {
+                    throw new ArgumentNullException("Невозможно определить разделитель");
+                }
+
+                if (isSeparatorSemicolon)
+                    return semicolon;
+                if (isSeparatorComma)
+                    return comma;
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Является ли разделителем
+        /// </summary>
+        static bool IsSeparator(string row, string separator)
+        {
+            var separatorCount = GetCountOfSeparatorsInRow(row, separator);
+            return (separatorCount > 0);
+        }
+
+        /// <summary>
         /// Определить количество разделителей в строке
         /// </summary>
         static int GetCountOfSeparatorsInRow(string row, string separator) 
@@ -144,37 +183,72 @@ namespace CsvToDataTable
         }
 
         /// <summary>
-        /// Является ли разделителем
+        /// Получить таблицу данных
         /// </summary>
-        static bool IsSeparator(string row, string separator)
-        {
-            var separatorCount = GetCountOfSeparatorsInRow(row, separator);
-            return (separatorCount > 0);
-        }
-
-        /// <summary>
-        /// Получить разделитель из данных
-        /// </summary>
-        static string GetSeparator(string row)
+        static DataTable GetDataTable(string[] rows, string separator)
         {
             try
             {
-                var semicolon = ";";
-                var isSeparatorSemicolon = IsSeparator(row, semicolon);
-                var comma = ",";
-                var isSeparatorComma = IsSeparator(row, comma);
+                GetSizeOfTable(rows, separator, out int rowCount, out int columnCount);
+                //Console.WriteLine($"RowCount = {rowCount}; ColumnCount = {columnCount};");
 
-                if (isSeparatorSemicolon && isSeparatorComma)
+                var dt = new DataTable();
+                //header
+                for (int j = 0; j < columnCount; j++)
                 {
-                    throw new ArgumentNullException("Невозможно определить разделитель");
+                    dt.Columns.Add($"column{j}");
                 }
+                //string[] headers = strs[0].Split(separator); 
+                //foreach (string header in headers)
+                //{
+                //    dt.Columns.Add(header);
+                //}
+                //content
+                for (int i = 0; i < rowCount; i++)
+                {
+                    var fields = SplitRow(rows[i], separator);
+                    var fieldCount = fields.Count();
 
-                if (isSeparatorSemicolon)
-                    return semicolon;
-                if (isSeparatorComma)
-                    return comma;
+                    if (fieldCount != columnCount)
+                    {
+                        throw new Exception("Несовпадение количества полей в строке и столбцов в DataTable");
+                    }
 
-                return string.Empty;
+                    var dr = dt.NewRow();
+                    for (int j = 0; j < columnCount; j++)
+                    {
+                        dr[j] = fields[j];
+                    }
+                    dt.Rows.Add(dr);
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Определить размер таблицы
+        /// </summary>
+        static void GetSizeOfTable(string[] rows, string separator, out int rowCount, out int colCount)
+        {
+            rowCount = 0;
+            colCount = 0;
+            try
+            {
+                if (rows == null || rows.Count() == 0)
+                {
+                    throw new ArgumentNullException("Невозможно определить размер для DataTable"); ;
+                }
+                rowCount = rows.Count();
+
+                var rowFirst = rows[0];
+                colCount = GetCountOfFieldsInRow(rowFirst, separator);
+
+                Console.WriteLine($"rowCount = {rowCount}; colCount = {colCount};");
+                Console.WriteLine();
             }
             catch (Exception ex)
             {
@@ -196,33 +270,6 @@ namespace CsvToDataTable
             var fieldCount = separatorCount + 1;
 
             return fieldCount;
-        }
-
-        /// <summary>
-        /// Определить размер таблицы
-        /// </summary>
-        static void GetSizeOfTable(string[] rows, string separator, out int rowCount, out int colCount)
-        {
-            rowCount = 0;
-            colCount = 0;
-            try
-            {                 
-                if (rows == null || rows.Count() == 0)
-                {
-                    throw new ArgumentNullException("Невозможно определить размер для DataTable"); ;
-                }
-                rowCount = rows.Count();
-
-                var rowFirst = rows[0];
-                colCount = GetCountOfFieldsInRow(rowFirst, separator);
-
-                Console.WriteLine($"rowCount = {rowCount}; colCount = {colCount};");
-                Console.WriteLine();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
         }
 
         /// <summary>
@@ -264,53 +311,6 @@ namespace CsvToDataTable
                 }
 
                 return lst?.ToArray();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Получить таблицу данных
-        /// </summary>
-        static DataTable GetDataTable(string[] rows, string separator)
-        {
-            try
-            {
-                GetSizeOfTable(rows, separator, out int rowCount, out int columnCount);
-                //Console.WriteLine($"RowCount = {rowCount}; ColumnCount = {columnCount};");
-
-                var dt = new DataTable();
-                //header
-                for (int j = 0; j < columnCount; j++)
-                {
-                    dt.Columns.Add($"column{j}");
-                }
-                //string[] headers = strs[0].Split(separator); 
-                //foreach (string header in headers)
-                //{
-                //    dt.Columns.Add(header);
-                //}
-                //content
-                for (int i = 0; i < rowCount; i++)
-                {
-                    var fields = SplitRow(rows[i], separator);
-                    var fieldCount = fields.Count();
-
-                    if (fieldCount != columnCount)
-                    {
-                        throw new Exception("Несовпадение количества полей в строке и столбцов в DataTable");
-                    }
-
-                    var dr = dt.NewRow();
-                    for (int j = 0; j < columnCount; j++)
-                    {
-                        dr[j] = fields[j];
-                    }
-                    dt.Rows.Add(dr);
-                }
-                return dt;
             }
             catch (Exception ex)
             {
