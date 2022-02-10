@@ -82,7 +82,7 @@ namespace CsvToDataTable
                         int quotInSbstrCount = 0, k = 0;
                         while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
-                            quotInSbstrCount++;
+                            ++quotInSbstrCount;
                             k += quot.Length;
                         }
                         if (quotInSbstrCount % 2 == 1)
@@ -128,7 +128,7 @@ namespace CsvToDataTable
                         int quotInSbstrCount = 0, k = 0;
                         while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
-                            quotInSbstrCount++;
+                            ++quotInSbstrCount;
                             k += quot.Length;
                         }
                         if (quotInSbstrCount % 2 == 1)

@@ -91,7 +91,7 @@ namespace CsvToDataTable
                 //var i = 0;
                 //while ((i = row.IndexOf(separator, i)) != -1)
                 //{
-                //    separatorCount++;
+                //    ++separatorCount;
                 //    i += separator.Length;
                 //}
 
@@ -105,7 +105,7 @@ namespace CsvToDataTable
                 //        var j = 0;
                 //        while ((j = rowQuot.ToString().IndexOf(separator, j)) != -1)
                 //        {
-                //            excludeSeparatorCount++;
+                //            ++excludeSeparatorCount;
                 //            j += separator.Length;
                 //        }
                 //    }
@@ -126,7 +126,7 @@ namespace CsvToDataTable
                         var k = 0;
                         while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
-                            quotInSbstrCount++;
+                            ++quotInSbstrCount;
                             k += quot.Length;
                         }
                         if (quotInSbstrCount % 2 == 1)
@@ -136,7 +136,7 @@ namespace CsvToDataTable
                         }
                     }
 
-                    separatorCount++;
+                    ++separatorCount;
                     j += separator.Length;
                     i = j;
                 }

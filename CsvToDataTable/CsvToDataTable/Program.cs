@@ -122,7 +122,7 @@ namespace CsvToDataTable
                         int quotInSbstrCount = 0, k = 0;
                         while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
-                            quotInSbstrCount++;
+                            ++quotInSbstrCount;
                             k += quot.Length;
                         }
                         if (quotInSbstrCount % 2 == 1)
@@ -131,7 +131,7 @@ namespace CsvToDataTable
                             continue;
                         }
                     }
-                    separatorCount++;
+                    ++separatorCount;
                     j += separator.Length;
                     i = j;
                 }
@@ -249,7 +249,7 @@ namespace CsvToDataTable
                         int quotInSbstrCount = 0, k = 0;
                         while ((k = sbstr.IndexOf(quot, k)) != -1)
                         {
-                            quotInSbstrCount++;
+                            ++quotInSbstrCount;
                             k += quot.Length;
                         }
                         if (quotInSbstrCount % 2 == 1)
@@ -296,9 +296,9 @@ namespace CsvToDataTable
                 for (int i = 0; i < rowCount; i++)
                 {
                     var fields = SplitRow(rows[i], separator);
-                    var fieldsCount = fields.Count();
+                    var fieldCount = fields.Count();
 
-                    if (fieldsCount != columnCount)
+                    if (fieldCount != columnCount)
                     {
                         throw new Exception("Несовпадение количества полей в строке и столбцов в DataTable");
                     }
