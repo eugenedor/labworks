@@ -232,10 +232,10 @@ namespace CsvToDataTable
         /// <summary>
         /// Определить размер таблицы
         /// </summary>
-        static void GetSizeOfTable(string[] rows, string separator, out int rowCount, out int colCount)
+        static void GetSizeOfTable(string[] rows, string separator, out int rowCount, out int columnCount)
         {
             rowCount = 0;
-            colCount = 0;
+            columnCount = 0;
             try
             {
                 if (rows == null || rows.Count() == 0)
@@ -244,10 +244,17 @@ namespace CsvToDataTable
                 }
                 rowCount = rows.Count();
 
-                var rowFirst = rows[0];
-                colCount = GetCountOfFieldsInRow(rowFirst, separator);
+                for (int i = 0; i < rowCount; ++i) 
+                {
+                    int fieldCountInRow = GetCountOfFieldsInRow(rows[i], separator);
+                    if (fieldCountInRow > columnCount)
+                    {
+                        columnCount = fieldCountInRow;
+                    }
+                }
 
-                Console.WriteLine($"rowCount = {rowCount}; colCount = {colCount};");
+
+                Console.WriteLine($"rowCount = {rowCount}; columnCount = {columnCount};");
                 Console.WriteLine();
             }
             catch (Exception ex)
