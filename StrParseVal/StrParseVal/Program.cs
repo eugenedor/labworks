@@ -66,6 +66,8 @@ namespace StrParseVal
         {
             try
             {
+                value = (value ?? string.Empty).Trim();
+
                 var cultInv = CultureInfo.InvariantCulture;
                 var cultRu = CultureInfo.CreateSpecificCulture("ru-Ru");
                 var cultEn = CultureInfo.CreateSpecificCulture("en-US");
