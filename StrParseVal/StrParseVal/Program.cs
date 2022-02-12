@@ -41,8 +41,8 @@ namespace StrParseVal
                 "007",
                 "00008",
                 "a000009",
-                "False",
-                "True",
+                "FALse",
+                "TRue",
                 ""
             };
 
@@ -68,7 +68,12 @@ namespace StrParseVal
             {
                 value = (value ?? string.Empty).Trim();
 
-                var cultInv = CultureInfo.InvariantCulture;
+                if (string.IsNullOrEmpty(value))
+                {
+                    return value;
+                }
+
+                var cultIn = CultureInfo.InvariantCulture;
                 var cultRu = CultureInfo.CreateSpecificCulture("ru-Ru");
                 var cultEn = CultureInfo.CreateSpecificCulture("en-US");
 
@@ -79,14 +84,13 @@ namespace StrParseVal
                     return dateResult.ToString("dd.MM.yyyy");
                 }
 
-                var pattern = @"^\d+$";
-                if (Regex.IsMatch(value, pattern) && value.StartsWith("0"))
+                if (Regex.IsMatch(value, @"^\d+$") && value.StartsWith("0"))
                 {
                     return value;
                 }
 
                 var numStylesInt = NumberStyles.Integer;
-                if (long.TryParse(value, numStylesInt, cultInv, out long intResult))
+                if (long.TryParse(value, numStylesInt, cultIn, out long intResult))
                 {
                     return intResult.ToString();
                 }
@@ -100,7 +104,7 @@ namespace StrParseVal
 
                 if (bool.TryParse(value, out bool boolResult))
                 {
-                    return boolResult.ToString();
+                    return boolResult.ToString().ToUpper();
                 }
 
                 return value;
