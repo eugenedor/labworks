@@ -217,6 +217,7 @@ namespace CsvToDataTable
                         result.Rows.Add(row);
                     }
                     result = RemoveEmptyEndRows(result);
+                    result = RemoveEmptyEndColumns(result);
                 }
 
                 return result;
@@ -423,6 +424,35 @@ namespace CsvToDataTable
                 return true;
             }
             return false;
+        }
+
+        static DataTable RemoveEmptyEndColumns(DataTable data)
+        {
+            int lastIndex = data.Columns.Count - 1;
+            for (int i = lastIndex; i >= 0; --i)
+            {
+                if (ColumnIsEmpty(data.Columns[i]))
+                {
+                    data.Columns.RemoveAt(i);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return data;
+        }
+
+        static bool ColumnIsEmpty(DataColumn column)
+        {
+            for (int i = 0; i < column.Table.Rows.Count; ++i)
+            {
+                if (!string.IsNullOrEmpty(Convert.ToString(column.Table.Rows[i][column.Ordinal])))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         static void PrintTable(DataTable dt)
