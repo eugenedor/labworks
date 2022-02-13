@@ -215,7 +215,8 @@ namespace CsvToDataTable
                         }
 
                         result.Rows.Add(row);
-                    }                    
+                    }
+                    result = RemoveEmptyEndRows(result);
                 }
 
                 return result;
@@ -375,6 +376,53 @@ namespace CsvToDataTable
                 Console.WriteLine($"!!!catch-error!!! {value}");
                 return value;
             }
+        }
+
+        static DataTable RemoveEmptyEndRows(DataTable data)
+        {
+            int lastIndex = data.Rows.Count - 1;
+            for (int i = lastIndex; i >= 0; --i)
+            {
+                if (RowIsEmpty(data.Rows[i]))
+                {
+                    data.Rows.RemoveAt(i);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return data;
+        }
+
+        static bool RowIsEmpty(DataRow row)
+        {
+            if (row.ItemArray.Length > 0)
+            {
+                int emptyCellCount = 0;
+                for (int i = 0; i < row.ItemArray.Length; ++i)
+                {
+                    if (row[i] == null
+                        || row[i].GetType() != typeof(string)
+                        || string.IsNullOrEmpty((string)row[i]))
+                    {
+                        ++emptyCellCount;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (emptyCellCount == row.ItemArray.Length)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+            return false;
         }
 
         static void PrintTable(DataTable dt)
