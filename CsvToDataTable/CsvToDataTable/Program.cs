@@ -43,23 +43,23 @@ namespace CsvToDataTable
                 PrintTable(result);
                 PrintTable2(result);
 
-                Console.WriteLine(System.Environment.NewLine + "Press any key1");
-                Console.ReadKey();
-                Console.Clear();
+                //Console.WriteLine(System.Environment.NewLine + "Press any key1");
+                //Console.ReadKey();
+                //Console.Clear();
 
-                TestFieldsInRow.TestCountOfFieldsInRow();
+                //TestFieldsInRow.TestCountOfFieldsInRow();
 
-                Console.WriteLine(System.Environment.NewLine + "Press any key2");
-                Console.ReadKey();
-                Console.Clear();
+                //Console.WriteLine(System.Environment.NewLine + "Press any key2");
+                //Console.ReadKey();
+                //Console.Clear();
 
-                TestSeparator.TestGetSeparator();
+                //TestSeparator.TestGetSeparator();
 
-                Console.WriteLine(System.Environment.NewLine + "Press any key3");
-                Console.ReadKey();
-                Console.Clear();
+                //Console.WriteLine(System.Environment.NewLine + "Press any key3");
+                //Console.ReadKey();
+                //Console.Clear();
 
-                TestSplit.TestSplt();
+                //TestSplit.TestSplt();
 
                 Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
                 Console.ReadKey();
@@ -79,7 +79,7 @@ namespace CsvToDataTable
             try
             {
                 var rows = new List<string>();
-                using (var reader = new StreamReader(fileName))
+                using (var reader = new StreamReader(fileName, Encoding.GetEncoding(1251)))
                 {
                     string row;
                     while ((row = reader.ReadLine()) != null)
@@ -105,19 +105,16 @@ namespace CsvToDataTable
             {
                 var semicolon = ";";
                 var isSeparatorSemicolon = IsSeparator(row, semicolon);
+                if (isSeparatorSemicolon)
+                {
+                    return semicolon;
+                }
                 var comma = ",";
                 var isSeparatorComma = IsSeparator(row, comma);
-
-                if (isSeparatorSemicolon && isSeparatorComma)
-                {
-                    throw new ArgumentNullException("Невозможно определить разделитель");
-                }
-
-                if (isSeparatorSemicolon)
-                    return semicolon;
                 if (isSeparatorComma)
+                {
                     return comma;
-
+                }                    
                 return string.Empty;
             }
             catch (Exception ex)
