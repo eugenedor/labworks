@@ -90,16 +90,18 @@ namespace StrParseVal
                 }
 
                 var numStylesInt = NumberStyles.Integer;
-                if (long.TryParse(value, numStylesInt, cultIn, out long intResult))
+                if (long.TryParse(value, numStylesInt, cultIn, out long longResult))
                 {
-                    return intResult.ToString();
+                    return longResult.ToString();
                 }
 
                 var numStylesNum = NumberStyles.Number;
-                if (decimal.TryParse(value, numStylesNum, cultRu, out decimal numResult) ||
-                    decimal.TryParse(value, numStylesNum, cultEn, out numResult))
+                var numStylesFlt = NumberStyles.Float;
+                if (decimal.TryParse(value, numStylesNum, cultRu, out decimal decResult) ||
+                    decimal.TryParse(value, numStylesNum, cultEn, out decResult) ||
+                    decimal.TryParse(value, numStylesFlt, cultIn, out decResult))
                 {
-                    return numResult.ToString(cultEn);
+                    return decResult.ToString(cultEn);
                 }
 
                 if (bool.TryParse(value, out bool boolResult))
