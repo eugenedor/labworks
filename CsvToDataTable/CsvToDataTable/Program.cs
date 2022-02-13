@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Data;
+using System.Globalization;
 
 namespace CsvToDataTable
 {
@@ -205,7 +206,7 @@ namespace CsvToDataTable
                         {
                             if (j < fieldCount)
                             {
-                                row[$"F{j+1}"] = fields[j];
+                                row[$"F{j+1}"] = GetParseValue(fields[j]);
                             }
                             else
                             {
@@ -317,6 +318,62 @@ namespace CsvToDataTable
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        static string GetParseValue(string value)
+        {
+            try
+            {
+                value = (value ?? string.Empty).Trim();
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    return value;
+                }
+
+                if (Regex.IsMatch(value, @"^\d+$") && value.StartsWith("0"))
+                {
+                    return value;
+                }
+                if (long.TryParse(value, out long longResult))
+                {
+                    return longResult.ToString();
+                }
+
+                if (Regex.IsMatch(value, @"^[-]?\d+[,]\d+$"))
+                {
+                    return value.Replace(",", ".");
+                }
+                if (Regex.IsMatch(value, @"^[-]?\d+[.]\d+$"))
+                {
+                    return value;
+                }
+                if (decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal decResult))
+                {
+                    return decResult.ToString();
+                }
+
+                var cultRu = CultureInfo.CreateSpecificCulture("ru-Ru");
+                var cultEn = CultureInfo.CreateSpecificCulture("en-US");
+                var dateStyles = DateTimeStyles.None;
+                if (DateTime.TryParse(value, cultRu, dateStyles, out DateTime dateResult) ||
+                    DateTime.TryParse(value, cultEn, dateStyles, out dateResult))
+                {
+                    return dateResult.ToString("dd.MM.yyyy");
+                }
+
+                if (bool.TryParse(value, out bool boolResult))
+                {
+                    return boolResult.ToString().ToUpper();
+                }
+
+                return value;
+            }
+            catch
+            {
+                Console.WriteLine($"!!!catch-error!!! {value}");
+                return value;
             }
         }
 
