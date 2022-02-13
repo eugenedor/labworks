@@ -39,7 +39,7 @@ namespace CsvToDataTable
                 }
                 Console.WriteLine();
 
-                result = GetDataTable(rows, separator);
+                result = ConvertRowsToDataTable(rows, separator);
                 PrintTable(result);
                 PrintTable2(result);
 
@@ -180,45 +180,44 @@ namespace CsvToDataTable
         }
 
         /// <summary>
-        /// Получить таблицу данных
+        /// Конвертация строк в таблицу данных
         /// </summary>
-        static DataTable GetDataTable(string[] rows, string separator)
+        static DataTable ConvertRowsToDataTable(string[] rows, string separator)
         {
             try
             {
-                GetSizeOfTable(rows, separator, out int rowCount, out int columnCount);
-                //Console.WriteLine($"RowCount = {rowCount}; ColumnCount = {columnCount};");
-
-                var dt = new DataTable();
-                //header
-                for (int j = 0; j < columnCount; j++)
+                DataTable result = new DataTable();
+                if (rows != null && rows.Count() > 0)
                 {
-                    dt.Columns.Add($"column{j}");
-                }
-                //string[] headers = strs[0].Split(separator); 
-                //foreach (string header in headers)
-                //{
-                //    dt.Columns.Add(header);
-                //}
-                //content
-                for (int i = 0; i < rowCount; i++)
-                {
-                    var fields = SplitRow(rows[i], separator);
-                    var fieldCount = fields.Count();
-
-                    if (fieldCount != columnCount)
+                    GetSizeOfTable(rows, separator, out int rowCount, out int columnCount);
+                    for (int j = 0; j < columnCount; ++j)
                     {
-                        throw new Exception("Несовпадение количества полей в строке и столбцов в DataTable");
+                        result.Columns.Add($"F{j+1}", typeof(string));
                     }
-
-                    var dr = dt.NewRow();
-                    for (int j = 0; j < columnCount; j++)
+                    for (int i = 0; i < rowCount; ++i)
                     {
-                        dr[j] = fields[j];
-                    }
-                    dt.Rows.Add(dr);
+                        DataRow row = result.NewRow();
+
+                        string[] fields = SplitRow(rows[i], separator);
+                        var fieldCount = fields.Count();
+
+                        for (int j = 0; j < columnCount; ++j)
+                        {
+                            if (j < fieldCount)
+                            {
+                                row[$"F{j+1}"] = fields[j];
+                            }
+                            else
+                            {
+                                row[$"F{j+1}"] = string.Empty;
+                            }                            
+                        }
+
+                        result.Rows.Add(row);
+                    }                    
                 }
-                return dt;
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -249,7 +248,6 @@ namespace CsvToDataTable
                         columnCount = fieldCountInRow;
                     }
                 }
-
 
                 Console.WriteLine($"rowCount = {rowCount}; columnCount = {columnCount};");
                 Console.WriteLine();
