@@ -67,33 +67,6 @@ namespace LastDigitsZero
         }
 
         /// <summary>
-        /// Получить количество цифр в строке
-        /// </summary>
-        static int GetDigitCountInString(string str)
-        {
-            int c = 0;
-            foreach (char ch in str)
-            {
-                if (char.IsDigit(ch))
-                    ++c;
-            }
-            return c;
-        }
-
-        /// <summary>
-        /// Только цифры в строке
-        /// </summary>
-        static bool DigitsOnlyInString(string str)
-        {
-            foreach (char ch in str)
-            {
-                if (!char.IsDigit(ch))
-                    return false;
-            }
-            return true;
-        }
-
-        /// <summary>
         /// НЕ ИСПОЛЬЗУЕТСЯ!
         /// Изменить последние цифры длинного числа (больше 15) на ноль
         /// Excel сохраняет только 15 значащих цифр числа и изменяет цифры после пятнадцатого разряда на ноль
@@ -175,6 +148,33 @@ namespace LastDigitsZero
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Получить количество цифр в строке
+        /// </summary>
+        static int GetDigitCountInString(string s)
+        {
+            int count = 0;
+            foreach (char ch in s)
+            {
+                if (char.IsDigit(ch))
+                    ++count;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Только цифры в строке
+        /// </summary>
+        static bool DigitsOnlyInString(string s)
+        {
+            foreach (char ch in s)
+            {
+                if (!char.IsDigit(ch))
+                    return false;
+            }
+            return true;
         }
     }
 }
