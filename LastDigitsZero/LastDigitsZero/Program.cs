@@ -67,11 +67,25 @@ namespace LastDigitsZero
         }
 
         /// <summary>
+        /// Получить количество цифр в строке
+        /// </summary>
+        static int GetDigitCountInString(string str)
+        {
+            int c = 0;
+            foreach (char ch in str)
+            {
+                if (char.IsDigit(ch))
+                    ++c;
+            }
+            return c;
+        }
+
+        /// <summary>
         /// Только цифры в строке
         /// </summary>
         static bool DigitsOnlyInString(string str)
         {
-            foreach (char ch in str.ToCharArray())
+            foreach (char ch in str)
             {
                 if (!char.IsDigit(ch))
                     return false;
@@ -82,7 +96,7 @@ namespace LastDigitsZero
         /// <summary>
         /// Изменить последние цифры длинного числа (больше 15) на ноль
         /// </summary>
-        static string ChangeLastDigitsOfLongNumToZero(string str, char delimiter)
+        static string ChangeLastDigitsOfLongNumToZero(string str, char digitdelims)
         {
             try
             {
@@ -91,7 +105,7 @@ namespace LastDigitsZero
                     return str;
                 }
 
-                str = str.Trim().TrimEnd(new[] { delimiter });
+                str = str.Trim().TrimEnd(new[] { digitdelims });
 
                 if (str.StartsWith("'"))
                 {
@@ -100,20 +114,21 @@ namespace LastDigitsZero
 
                 int digitCount = 15;
                 int len = str.Length;
-                char minus = '-';
-                bool isNegative = str.StartsWith(minus.ToString());
-
-                int count = digitCount;
-                if (isNegative)
-                    count++;
-                if (str.Contains(delimiter))
-                    count++;
-                if (len <= count)
+                if (len <= digitCount)
                 {
                     return str;
                 }
 
+                int digitCountInString = GetDigitCountInString(str);
+                if (digitCountInString <= digitCount)
+                {
+                    return str;
+                }
+
+                char minus = '-';
                 char zero = '0';
+
+                bool isNegative = str.StartsWith(minus.ToString());             
                 if (isNegative && DigitsOnlyInString(str.Substring(1)) || DigitsOnlyInString(str))
                 {
                     if (isNegative)
@@ -121,15 +136,15 @@ namespace LastDigitsZero
                     return str.Substring(0, digitCount).PadRight(len, zero);
                 }
 
-                if (str.Contains(delimiter))
+                if (str.Contains(digitdelims))
                 {
                     int i = 0;
                     var result = new StringBuilder();
-                    foreach (char ch in str.ToCharArray())
+                    foreach (char ch in str)
                     {
                         if (!char.IsDigit(ch))
                         {
-                            if (ch != delimiter && ch != minus)
+                            if (ch != digitdelims && ch != minus)
                             {
                                 return str;
                             }
