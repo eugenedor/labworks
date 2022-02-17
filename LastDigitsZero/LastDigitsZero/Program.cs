@@ -85,12 +85,13 @@ namespace LastDigitsZero
 
                 str = str.Trim().TrimEnd(new[] { digitDelimiter });
 
-                if (str.StartsWith("'"))
+                if (str.StartsWith("\'"))
                 {
                     return str;
                 }
 
                 int digitCount = 15;
+
                 int len = str.Length;
                 if (len <= digitCount)
                 {
@@ -110,7 +111,9 @@ namespace LastDigitsZero
                 if (isNegative && DigitsOnlyInString(str.Substring(1)) || DigitsOnlyInString(str))
                 {
                     if (isNegative)
-                        digitCount++;
+                    {
+                        ++digitCount;
+                    }                        
                     return str.Substring(0, digitCount).PadRight(len, zero);
                 }
 
@@ -141,7 +144,6 @@ namespace LastDigitsZero
                     }
                     return result.ToString();
                 }
-
                 return str;
             }
             catch (Exception ex)
