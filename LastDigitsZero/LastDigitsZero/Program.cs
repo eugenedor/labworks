@@ -94,9 +94,14 @@ namespace LastDigitsZero
         }
 
         /// <summary>
+        /// НЕ ИСПОЛЬЗУЕТСЯ!
         /// Изменить последние цифры длинного числа (больше 15) на ноль
+        /// Excel сохраняет только 15 значащих цифр числа и изменяет цифры после пятнадцатого разряда на ноль
         /// </summary>
-        static string ChangeLastDigitsOfLongNumToZero(string str, char digitdelims)
+        /// <param name="str">строка</param>
+        /// <param name="digitDelimiter">разделитель цифр</param>
+        /// <returns>строка</returns>
+        static string ChangeLastDigitsOfLongNumToZero(string str, char digitDelimiter)
         {
             try
             {
@@ -105,7 +110,7 @@ namespace LastDigitsZero
                     return str;
                 }
 
-                str = str.Trim().TrimEnd(new[] { digitdelims });
+                str = str.Trim().TrimEnd(new[] { digitDelimiter });
 
                 if (str.StartsWith("'"))
                 {
@@ -136,7 +141,7 @@ namespace LastDigitsZero
                     return str.Substring(0, digitCount).PadRight(len, zero);
                 }
 
-                if (str.Contains(digitdelims))
+                if (str.Contains(digitDelimiter))
                 {
                     int i = 0;
                     var result = new StringBuilder();
@@ -144,7 +149,7 @@ namespace LastDigitsZero
                     {
                         if (!char.IsDigit(ch))
                         {
-                            if (ch != digitdelims && ch != minus)
+                            if (ch != digitDelimiter && ch != minus)
                             {
                                 return str;
                             }
