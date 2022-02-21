@@ -43,9 +43,8 @@ namespace CsvToDataTable
                 Console.WriteLine();
 
                 result = ConvertRowsToDataTable(rows, separator);
-                PrintTableWithReader(result);
-                PrintTableWithRowCol(result);
-
+                PrintDataTableReader(result);
+                PrintDataTableRowCol(result);
                 PrintDataRow(result.Rows[result.Rows.Count - 1]);
 
                 //Console.WriteLine(System.Environment.NewLine + "Press any key1");
@@ -452,7 +451,7 @@ namespace CsvToDataTable
             return true;
         }
 
-        static void PrintTableWithReader(DataTable dt)
+        static void PrintDataTableReader(DataTable dt)
         {
             Console.WriteLine($"*****1. PrintTableWithReader*****");
             Console.WriteLine($"countRows = {dt.Rows.Count};");
@@ -478,7 +477,7 @@ namespace CsvToDataTable
             Console.WriteLine();
         }
 
-        static void PrintTableWithRowCol(DataTable dt)
+        static void PrintDataTableRowCol(DataTable dt)
         {
             Console.WriteLine($"*****2. PrintTableWithRowCol*****");
             Console.WriteLine($"countRows = {dt.Rows.Count};");
@@ -506,7 +505,7 @@ namespace CsvToDataTable
             Console.WriteLine($"*****3. PrintDataRow*****");
             for (int i = 0; i < row.ItemArray.Length; i++)
             {
-                Console.Write("|" + row[i].ToString() + "|" + "\t");
+                Console.Write("|" + row[i].ToString() + "|\t");
             }
             Console.WriteLine();
         }
