@@ -454,8 +454,6 @@ namespace CsvToDataTable
         static void PrintDataTableReader(DataTable dt)
         {
             Console.WriteLine($"*****1. PrintTableWithReader*****");
-            Console.WriteLine($"countRows = {dt.Rows.Count};");
-            Console.WriteLine($"countColumns = {dt.Columns.Count};");
 
             for (int curCol = 0; curCol < dt.Columns.Count; curCol++)
             {
@@ -475,13 +473,14 @@ namespace CsvToDataTable
                 }
             }
             Console.WriteLine();
+            Console.WriteLine($"countRows = {dt.Rows.Count};");
+            Console.WriteLine($"countColumns = {dt.Columns.Count};");
+            Console.WriteLine($"**********");
         }
 
         static void PrintDataTableRowCol(DataTable dt)
         {
             Console.WriteLine($"*****2. PrintTableWithRowCol*****");
-            Console.WriteLine($"countRows = {dt.Rows.Count};");
-            Console.WriteLine($"countColumns = {dt.Columns.Count};");
 
             for (int curCol = 0; curCol < dt.Columns.Count; curCol++)
             {
@@ -498,6 +497,9 @@ namespace CsvToDataTable
                 Console.WriteLine();
             }
             Console.WriteLine();
+            Console.WriteLine($"countRows = {dt.Rows.Count};");
+            Console.WriteLine($"countColumns = {dt.Columns.Count};");
+            Console.WriteLine($"**********");
         }
 
         static void PrintDataRow(DataRow row)
@@ -508,6 +510,8 @@ namespace CsvToDataTable
                 Console.Write("|" + row[i].ToString() + "|\t");
             }
             Console.WriteLine();
+            Console.WriteLine($"itemarrayLength = {row.ItemArray.Length};");
+            Console.WriteLine($"**********");
         }
     }
 }
