@@ -46,6 +46,8 @@ namespace CsvToDataTable
                 PrintTableWithReader(result);
                 PrintTableWithRowCol(result);
 
+                PrintDataRow(result.Rows[result.Rows.Count - 1]);
+
                 //Console.WriteLine(System.Environment.NewLine + "Press any key1");
                 //Console.ReadKey();
                 //Console.Clear();
@@ -495,6 +497,16 @@ namespace CsvToDataTable
                     Console.Write("|" + dt.Rows[curRow][curCol].ToString() + "|" + "\t");
                 }
                 Console.WriteLine();
+            }
+            Console.WriteLine();
+        }
+
+        static void PrintDataRow(DataRow row)
+        {
+            Console.WriteLine($"*****3. PrintDataRow*****");
+            for (int i = 0; i < row.ItemArray.Length; i++)
+            {
+                Console.Write("|" + row[i].ToString() + "|" + "\t");
             }
             Console.WriteLine();
         }
