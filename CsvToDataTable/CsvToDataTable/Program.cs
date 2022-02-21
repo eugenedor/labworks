@@ -43,8 +43,8 @@ namespace CsvToDataTable
                 Console.WriteLine();
 
                 result = ConvertRowsToDataTable(rows, separator);
-                PrintTable(result);
-                PrintTable2(result);
+                PrintTableWithReader(result);
+                PrintTableWithRowCol(result);
 
                 //Console.WriteLine(System.Environment.NewLine + "Press any key1");
                 //Console.ReadKey();
@@ -450,9 +450,11 @@ namespace CsvToDataTable
             return true;
         }
 
-        static void PrintTable(DataTable dt)
+        static void PrintTableWithReader(DataTable dt)
         {
-            Console.WriteLine($"Rows.Count = {dt.Rows.Count}; Columns.Count = {dt.Columns.Count};");
+            Console.WriteLine($"*****1. PrintTableWithReader*****");
+            Console.WriteLine($"countRows = {dt.Rows.Count};");
+            Console.WriteLine($"countColumns = {dt.Columns.Count};");
 
             for (int curCol = 0; curCol < dt.Columns.Count; curCol++)
             {
@@ -460,21 +462,23 @@ namespace CsvToDataTable
             }
             Console.WriteLine();
 
-            DataTableReader dtr = dt.CreateDataReader();
-            while (dtr.Read())
+            using (var dtr = dt.CreateDataReader())
             {
-                for (int i = 0; i < dtr.FieldCount; i++)
+                while (dtr.Read())
                 {
-                    Console.Write("|{0}|\t", dtr.GetValue(i).ToString().Trim());
+                    for (int i = 0; i < dtr.FieldCount; i++)
+                    {
+                        Console.Write($"|{dtr.GetValue(i).ToString().Trim()}|\t");
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
-            dtr.Close();
             Console.WriteLine();
         }
 
-        static void PrintTable2(DataTable dt)
+        static void PrintTableWithRowCol(DataTable dt)
         {
+            Console.WriteLine($"*****2. PrintTableWithRowCol*****");
             Console.WriteLine($"countRows = {dt.Rows.Count};");
             Console.WriteLine($"countColumns = {dt.Columns.Count};");
 
