@@ -33,7 +33,9 @@ namespace CsvToDataTable
                 var rowFirst = rows[0];
                 separator = GetSeparator(rowFirst);
 
-                Console.WriteLine("rows:");
+                int rowCount = rows.Count();
+                Console.WriteLine($"count rows: {rowCount}");
+                Console.WriteLine("content rows:");
                 foreach (var r in rows)
                 {
                     Console.WriteLine(r);
@@ -102,26 +104,19 @@ namespace CsvToDataTable
         /// </summary>
         static string GetSeparator(string row)
         {
-            try
+            var semicolon = ";";
+            var isSeparatorSemicolon = IsSeparator(row, semicolon);
+            if (isSeparatorSemicolon)
             {
-                var semicolon = ";";
-                var isSeparatorSemicolon = IsSeparator(row, semicolon);
-                if (isSeparatorSemicolon)
-                {
-                    return semicolon;
-                }
-                var comma = ",";
-                var isSeparatorComma = IsSeparator(row, comma);
-                if (isSeparatorComma)
-                {
-                    return comma;
-                }                    
-                return string.Empty;
+                return semicolon;
             }
-            catch (Exception ex)
+            var comma = ",";
+            var isSeparatorComma = IsSeparator(row, comma);
+            if (isSeparatorComma)
             {
-                throw new Exception(ex.Message);
-            }
+                return comma;
+            }                    
+            return string.Empty;
         }
 
         /// <summary>
