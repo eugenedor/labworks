@@ -28,11 +28,6 @@ namespace StrParseVal
                 "12.03.14",
                 "14.03.12",
                 "14.03.2012",
-                "0.00",
-                "0,00",
-                "123.49",
-                "567,89",
-                "Какой-то текст 14.03.2012 123.45 987,65!",
                 "2147483647",
                 "-2147483647",
                 "2147483648",
@@ -40,6 +35,15 @@ namespace StrParseVal
                 "9223372036854775807",
                 "007",
                 "00008",
+                "0.00",
+                "0,00",
+                "123.49",
+                "567,89",
+                "4.345E+11",
+                "4,345E+11",
+                "4.345E+2",
+                "4,345E+2",
+                "Какой-то текст 14.03.2012 123.45 987,65!",
                 "a000009",
                 "FALse",
                 "TRue",
@@ -62,6 +66,16 @@ namespace StrParseVal
             //GetCultures();
         }
 
+        static bool DigitOnlyInString(string s)
+        {
+            foreach (char ch in s)
+            {
+                if (!char.IsDigit(ch))
+                    return false;
+            }
+            return true;
+        }
+
         public static string GetParseValue(string value)
         {
             try
@@ -73,26 +87,36 @@ namespace StrParseVal
                     return value;
                 }
 
-                if (Regex.IsMatch(value, @"^\d+$") && value.StartsWith("0"))
+                if (Regex.IsMatch(value, @"^[-]?\d+$"))
                 {
+                    if (value.StartsWith("0") && DigitOnlyInString(value))
+                    {
+                        return value;
+                    }
+                    if (long.TryParse(value, out long longResult))
+                    {
+                        return longResult.ToString();
+                    }
                     return value;
-                }
-                if (long.TryParse(value, out long longResult))
-                {
-                    return longResult.ToString();
                 }
 
-                if (Regex.IsMatch(value, @"^[-]?\d+[,]\d+$"))
-                {
-                    return value.Replace(",", ".");
+                string CommaReplace (string s) 
+                { 
+                    return s.Contains(",") ? s.Replace(",", ".") : s;
                 }
-                if (Regex.IsMatch(value, @"^[-]?\d+[.]\d+$"))
+
+                if (Regex.IsMatch(value, @"^[-]?\d+((\.|\,)\d+)?(?:[eE][-+]?\d+)?$"))
                 {
+                    string res = CommaReplace(value);
+                    if (!res.ToLower().Contains("e"))
+                    {
+                        return res;
+                    }
+                    if (decimal.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal decResult))
+                    {
+                        return CommaReplace(decResult.ToString()); ;
+                    }
                     return value;
-                }
-                if (decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal decResult))
-                {
-                    return decResult.ToString();
                 }
 
                 var cultRu = CultureInfo.CreateSpecificCulture("ru-Ru");
