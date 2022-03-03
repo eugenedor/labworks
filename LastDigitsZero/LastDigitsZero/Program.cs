@@ -46,22 +46,32 @@ namespace LastDigitsZero
                 "-123456789012345,6789",
                 "1234567890123.4567",
                 "123456.7890123,4567",
+                "123456,7890123,4567",
                 "ABCDEFG7890123,4567",
                 "12345678901234.",
                 "'1234567890123456",
                 "'-1234567890123456",
             };
 
-            char comma = ',';
             int c = 0;
             foreach (string str in strs)
             {
                 ++c;
                 Console.WriteLine($"Num{c}\t = {str}");
-                string result = ChangeLastDigitsOfLongNumToZero(str, comma);
+                string result = ChangeLastDigitsOfLongNumToZero(str);
                 Console.WriteLine($"Result\t = {result}");
                 Console.WriteLine();
             }
+
+            //Console.WriteLine($"1 {RepeatDelimiter("", ',')}");
+            //Console.WriteLine($"2 {RepeatDelimiter("a", ',')}");
+            //Console.WriteLine($"3 {RepeatDelimiter("a,", ',')}");
+            //Console.WriteLine($"4 {RepeatDelimiter("a,b", ',')}");
+            //Console.WriteLine($"5 {RepeatDelimiter("a,b,", ',')}");
+            //Console.WriteLine($"6 {RepeatDelimiter("a,b,c", ',')}");
+            //Console.WriteLine($"7 {RepeatDelimiter("a,b,c,", ',')}");
+            //Console.WriteLine($"8 {RepeatDelimiter("a,b,c,d", ',')}");
+
             Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
             Console.ReadKey();
         }
@@ -74,7 +84,7 @@ namespace LastDigitsZero
         /// <param name="str">строка</param>
         /// <param name="digitDelimiter">разделитель цифр</param>
         /// <returns>строка</returns>
-        static string ChangeLastDigitsOfLongNumToZero(string str, char digitDelimiter)
+        static string ChangeLastDigitsOfLongNumToZero(string str)
         {
             try
             {
@@ -82,8 +92,36 @@ namespace LastDigitsZero
                 {
                     return str;
                 }
+                str = str.Trim();
 
-                str = str.Trim().TrimEnd(new[] { digitDelimiter });
+                char comma = ',';
+                char dot = '.';
+                var isDelimiterComma = str.Contains(comma);
+                var isDelimiterDot = str.Contains(dot);
+
+                if (isDelimiterComma && isDelimiterDot)
+                {
+                    return str;
+                }
+
+                char digitDelimiter = default;
+                if (isDelimiterComma)
+                {
+                    digitDelimiter = comma;
+                }
+                if (isDelimiterDot)
+                {
+                    digitDelimiter = dot;
+                }                
+
+                if (isDelimiterComma || isDelimiterDot)
+                {
+                    str = str.TrimEnd(new[] { digitDelimiter });
+                    if (RepeatDelimiter(str, digitDelimiter))
+                    {
+                        return str;
+                    }
+                }
 
                 if (str.StartsWith("\'"))
                 {
@@ -177,6 +215,24 @@ namespace LastDigitsZero
                     return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Повтор разделителя
+        /// </summary>
+        static bool RepeatDelimiter(string s, char delimiter)
+        {
+            int count = 0, j = 0;
+            while ((j = s.IndexOf(delimiter, j)) != -1)
+            {
+                ++count;
+                if (count > 1)
+                {
+                    return true;
+                }
+                ++j;
+            }
+            return false;
         }
     }
 }
