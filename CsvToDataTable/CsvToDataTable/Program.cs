@@ -319,7 +319,10 @@ namespace CsvToDataTable
             }
         }
 
-        static string GetParseValue(string value)
+        /// <summary>
+        /// Получить проанализированное значение
+        /// </summary>
+        public static string GetParseValue(string value)
         {
             try
             {
@@ -330,26 +333,33 @@ namespace CsvToDataTable
                     return value;
                 }
 
-                if (Regex.IsMatch(value, @"^\d+$") && value.StartsWith("0"))
+                if (Regex.IsMatch(value, @"^[-]?\d+$"))
                 {
+                    if (value.StartsWith("0") && DigitOnlyInString(value))
+                    {
+                        return value;
+                    }
+                    if (long.TryParse(value, out long longResult))
+                    {
+                        return longResult.ToString();
+                    }
                     return value;
-                }
-                if (long.TryParse(value, out long longResult))
-                {
-                    return longResult.ToString();
                 }
 
-                if (Regex.IsMatch(value, @"^[-]?\d+[,]\d+$"))
+                string CommaReplace(string s)
                 {
-                    return value.Replace(",", ".");
+                    return s.Contains(",") ? s.Replace(",", ".") : s;
                 }
-                if (Regex.IsMatch(value, @"^[-]?\d+[.]\d+$"))
+
+                if (Regex.IsMatch(value, @"^[-]?\d+((\.|\,)\d+)?(?:[eE][-+]?\d+)?$"))
                 {
+                    string res = CommaReplace(value);
+                    if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
+                        decimal.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
+                    {
+                        return CommaReplace(decResult.ToString()); ;
+                    }
                     return value;
-                }
-                if (decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal decResult))
-                {
-                    return decResult.ToString();
                 }
 
                 var cultRu = CultureInfo.CreateSpecificCulture("ru-Ru");
@@ -373,6 +383,19 @@ namespace CsvToDataTable
                 Console.WriteLine($"!!!catch-error!!! {value}");
                 return value;
             }
+        }
+
+        /// <summary>
+        /// Только цифры в строке
+        /// </summary>
+        static bool DigitOnlyInString(string s)
+        {
+            foreach (char ch in s)
+            {
+                if (!char.IsDigit(ch))
+                    return false;
+            }
+            return true;
         }
 
         static DataTable RemoveEmptyEndRows(DataTable data)

@@ -66,16 +66,9 @@ namespace StrParseVal
             //GetCultures();
         }
 
-        static bool DigitOnlyInString(string s)
-        {
-            foreach (char ch in s)
-            {
-                if (!char.IsDigit(ch))
-                    return false;
-            }
-            return true;
-        }
-
+        /// <summary>
+        /// Получить проанализированное значение
+        /// </summary>
         public static string GetParseValue(string value)
         {
             try
@@ -108,11 +101,8 @@ namespace StrParseVal
                 if (Regex.IsMatch(value, @"^[-]?\d+((\.|\,)\d+)?(?:[eE][-+]?\d+)?$"))
                 {
                     string res = CommaReplace(value);
-                    if (!res.ToLower().Contains("e"))
-                    {
-                        return res;
-                    }
-                    if (decimal.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal decResult))
+                    if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
+                        decimal.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
                     {
                         return CommaReplace(decResult.ToString()); ;
                     }
@@ -140,6 +130,19 @@ namespace StrParseVal
                 Console.WriteLine($"!!!catch-error!!! {value}");
                 return value;
             }
+        }
+
+        /// <summary>
+        /// Только цифры в строке
+        /// </summary>
+        static bool DigitOnlyInString(string s)
+        {
+            foreach (char ch in s)
+            {
+                if (!char.IsDigit(ch))
+                    return false;
+            }
+            return true;
         }
 
         public static void GetCultures()
