@@ -52,6 +52,8 @@ namespace DecParseAnalysis
             {
                 Console.WriteLine("comma -> dot");
                 str = SymReplace(str, comma, dot);
+                //Console.WriteLine("dot -> comma");
+                //str = SymReplace(str, dot, comma);
                 Console.WriteLine($"{nameof(str)} = {str}");
                 if (decimal.TryParse(str, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dec))
                 {
