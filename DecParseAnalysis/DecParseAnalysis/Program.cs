@@ -18,8 +18,8 @@ namespace DecParseAnalysis
             Console.WriteLine($"str2 = {str2}");
 
             Console.WriteLine();
-            Met(str1);
-            Met(str2);
+            MetOne(str1);
+            MetOne(str2);
 
             Console.WriteLine();
             MetMod(str1);
@@ -29,13 +29,13 @@ namespace DecParseAnalysis
             Console.ReadKey();
         }
 
-        private static string SymReplace(string s, string oldVal, string newVal)
+        private static void MetOne(string str)
         {
-            return s.Contains(oldVal) ? s.Replace(oldVal, newVal) : s;
-        }
+            string SymReplace(string s, string oldVal, string newVal)
+            {
+                return s.Contains(oldVal) ? s.Replace(oldVal, newVal) : s;
+            }
 
-        private static void Met(string str)
-        {
             Console.WriteLine($"{nameof(str)} = {str}");
             var comma = ",";
             var dot = ".";
