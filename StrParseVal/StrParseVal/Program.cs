@@ -106,7 +106,7 @@ namespace StrParseVal
                     if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
                         decimal.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
                     {
-                        return CommaReplace(decResult.ToString()); ;
+                        return CommaReplace(decResult.ToString());
                     }
                     return value;
                 }
