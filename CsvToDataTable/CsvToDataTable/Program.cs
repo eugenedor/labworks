@@ -346,11 +346,6 @@ namespace CsvToDataTable
                     return value;
                 }
 
-                //string CommaReplace(string s)
-                //{
-                //    return s.Contains(",") ? s.Replace(",", ".") : s;
-                //}
-
                 if (Regex.IsMatch(value, @"^[-]?\d+((\.|\,)\d+)?(?:[eE][-+]?\d+)?$"))
                 {
                     if (decimal.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||

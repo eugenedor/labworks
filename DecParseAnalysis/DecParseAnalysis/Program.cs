@@ -14,6 +14,10 @@ namespace DecParseAnalysis
             var str1 = "123.456";
             var str2 = "987,654";
 
+            Console.WriteLine(12.34m.ToString("F8", new CultureInfo("ru-RU")));
+            Console.WriteLine(12.34m.ToString("F15", new CultureInfo("ru-RU")));
+            Console.WriteLine();
+
             Console.WriteLine($"str1 = {str1}");
             Console.WriteLine($"str2 = {str2}");
 
@@ -86,25 +90,9 @@ namespace DecParseAnalysis
                 }
                 else
                 {
-                    Console.WriteLine("dec3 - false");
+                    Console.WriteLine($"RESULT DEFAULT: {str}");
                 }
             }
-
-
-            //string CommaReplace(string s)
-            //{
-            //    return s.Contains(",") ? s.Replace(",", ".") : s;
-            //}
-            //string res = CommaReplace(str);
-            //if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult))
-            //{
-            //    Console.WriteLine($"{nameof(str)} = {str}");
-            //    Console.WriteLine($"{nameof(res)} = {res}");
-            //    Console.WriteLine($"decResult = {decResult}");
-            //    Console.WriteLine($"RESULT =====> {CommaReplace(decResult.ToString())}");
-            //    Console.WriteLine();
-            //}
-
         }
     }
 }
