@@ -21,9 +21,9 @@ namespace DecParseAnalysis
             MetOne(str1);
             MetOne(str2);
 
-            Console.WriteLine();
-            MetMod(str1);
-            MetMod(str2);
+            //Console.WriteLine();
+            //MetMod(str1);
+            //MetMod(str2);
 
             Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
             Console.ReadKey();
@@ -37,29 +37,29 @@ namespace DecParseAnalysis
             }
 
             Console.WriteLine($"{nameof(str)} = {str}");
-            var comma = ",";
-            var dot = ".";
+            //var comma = ",";
+            //var dot = ".";
 
             if (decimal.TryParse(str, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal dec))
             {
                 Console.WriteLine("<->");
                 Console.WriteLine($"{nameof(str)} = {str}");
-                Console.WriteLine("dec1 - true");
-                Console.WriteLine($"dec1 = {dec}");
-                Console.WriteLine($"RESULT =====> {SymReplace(dec.ToString(), comma, dot)}");
+                Console.WriteLine($"1 dec = {dec}");
+                Console.WriteLine($"RESULT: {dec.ToString()}");
             }
             else
             {
                 Console.WriteLine("comma -> dot");
-                str = SymReplace(str, comma, dot);
+                if (str.Contains(","))
+                    str = str.Replace(",", ".");
+                //str = SymReplace(str, comma, dot);
                 //Console.WriteLine("dot -> comma");
                 //str = SymReplace(str, dot, comma);
                 Console.WriteLine($"{nameof(str)} = {str}");
                 if (decimal.TryParse(str, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dec))
                 {
-                    Console.WriteLine("dec2 - true");
-                    Console.WriteLine($"dec2 = {dec}");
-                    Console.WriteLine($"RESULT =====> {SymReplace(dec.ToString(), comma, dot)}");
+                    Console.WriteLine($"2 dec = {dec}");
+                    Console.WriteLine($"RESULT: {dec.ToString()}");
                 }
                 else
                 {
