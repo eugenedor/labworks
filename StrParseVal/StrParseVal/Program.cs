@@ -102,18 +102,26 @@ namespace StrParseVal
                     return value;
                 }
 
-                string CommaReplace (string s) 
-                { 
-                    return s.Contains(",") ? s.Replace(",", ".") : s;
-                }
+                //string CommaReplace (string s) 
+                //{ 
+                //    return s.Contains(",") ? s.Replace(",", ".") : s;
+                //}
 
                 if (Regex.IsMatch(value, @"^[-]?\d+((\.|\,)\d+)?(?:[eE][-+]?\d+)?$"))
                 {
-                    string res = CommaReplace(value);
-                    if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
-                        decimal.TryParse(res, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
+                    if (decimal.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
+                        decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
                     {
-                        return CommaReplace(decResult.ToString());
+                        return decResult.ToString();
+                    }
+                    else
+                    {
+                        var val = value.Contains(",") ? value.Replace(",", ".") : value;
+                        if (decimal.TryParse(val, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decResult) ||
+                            decimal.TryParse(val, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
+                        {
+                            return decResult.ToString();
+                        }
                     }
                     return value;
                 }
