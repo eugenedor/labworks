@@ -21,9 +21,9 @@ namespace DecParseAnalysis
             MetOne(str1);
             MetOne(str2);
 
-            //Console.WriteLine();
-            //MetMod(str1);
-            //MetMod(str2);
+            Console.WriteLine();
+            MetMod(str1);
+            MetMod(str2);
 
             Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
             Console.ReadKey();
@@ -31,10 +31,10 @@ namespace DecParseAnalysis
 
         private static void MetOne(string str)
         {
-            string SymReplace(string s, string oldVal, string newVal)
-            {
-                return s.Contains(oldVal) ? s.Replace(oldVal, newVal) : s;
-            }
+            //string SymReplace(string s, string oldVal, string newVal)
+            //{
+            //    return s.Contains(oldVal) ? s.Replace(oldVal, newVal) : s;
+            //}
 
             Console.WriteLine($"{nameof(str)} = {str}");
             //var comma = ",";
@@ -71,20 +71,39 @@ namespace DecParseAnalysis
 
         private static void MetMod(string str)
         {
-            string CommaReplace(string s)
+            if (decimal.TryParse(str, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal dec))
             {
-                return s.Contains(",") ? s.Replace(",", ".") : s;
+                Console.WriteLine($"RESULT: {dec.ToString()}");
+            }
+            else
+            {
+                if (str.Contains(","))
+                    str = str.Replace(",", ".");
+
+                if (decimal.TryParse(str, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out dec))
+                {
+                    Console.WriteLine($"RESULT: {dec.ToString()}");
+                }
+                else
+                {
+                    Console.WriteLine("dec3 - false");
+                }
             }
 
-            string res = CommaReplace(str);
-            if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult))
-            {
-                Console.WriteLine($"{nameof(str)} = {str}");
-                Console.WriteLine($"{nameof(res)} = {res}");
-                Console.WriteLine($"decResult = {decResult}");
-                Console.WriteLine($"RESULT =====> {CommaReplace(decResult.ToString())}");
-                Console.WriteLine();
-            }
+
+            //string CommaReplace(string s)
+            //{
+            //    return s.Contains(",") ? s.Replace(",", ".") : s;
+            //}
+            //string res = CommaReplace(str);
+            //if (decimal.TryParse(res, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult))
+            //{
+            //    Console.WriteLine($"{nameof(str)} = {str}");
+            //    Console.WriteLine($"{nameof(res)} = {res}");
+            //    Console.WriteLine($"decResult = {decResult}");
+            //    Console.WriteLine($"RESULT =====> {CommaReplace(decResult.ToString())}");
+            //    Console.WriteLine();
+            //}
 
         }
     }
