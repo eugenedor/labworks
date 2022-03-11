@@ -376,6 +376,23 @@ namespace CsvToDataTable
                     return boolResult.ToString().ToUpper();
                 }
 
+                var quot = @"""";
+                if (value.Contains(quot))
+                {
+                    if (value.StartsWith(quot))
+                    {
+                        value = value.Remove(0, 1);
+                    }
+                    if (value.EndsWith(quot))
+                    {
+                        value = value.Remove(value.Length - 1);
+                    }
+                    if (value.Contains(quot + quot))
+                    {
+                        value = value.Replace(quot + quot, quot);
+                    }
+                }
+
                 return value;
             }
             catch

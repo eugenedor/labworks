@@ -49,6 +49,13 @@ namespace StrParseVal
                 "a000009",
                 "FALse",
                 "TRue",
+                "\"ООО \"\"ХУДОЖЕСТВЕННЫЕ МАТЕРИАЛЫ\"\"\"",
+                "\"ООО \"\"ТАНТАЛ\"\"\"",
+                "\"\"\"ТЕКСТ1\"\"\"",
+                "\"\"ТЕКСТ2\"\"",
+                "\"ТЕКСТ3\"",
+                "\"\"",
+                "\"",
                 ""
             };
 
@@ -123,6 +130,23 @@ namespace StrParseVal
                 if (bool.TryParse(value, out bool boolResult))
                 {
                     return boolResult.ToString().ToUpper();
+                }
+
+                var quot = @"""";
+                if (value.Contains(quot))
+                {
+                    if (value.StartsWith(quot))
+                    {
+                        value = value.Remove(0, 1);
+                    }
+                    if (value.EndsWith(quot))
+                    {
+                        value = value.Remove(value.Length - 1);
+                    }
+                    if (value.Contains(quot + quot))
+                    {
+                        value = value.Replace(quot + quot, quot);
+                    }
                 }
 
                 return value;
