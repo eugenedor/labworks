@@ -86,9 +86,9 @@ namespace LastDigitsZero
         /// НЕ ИСПОЛЬЗУЕТСЯ!
         /// Изменить последние цифры длинного числа (больше 15) на ноль
         /// Excel сохраняет только 15 значащих цифр числа и изменяет цифры после пятнадцатого разряда на ноль
+        /// НЕ ЗАКОНЧЕНО! Для внедрения необходимо тестирование
         /// </summary>
         /// <param name="str">строка</param>
-        /// <param name="digitDelimiter">разделитель цифр</param>
         /// <returns>строка</returns>
         static string ChangeLastDigitsOfLongNumToZero(string str)
         {
