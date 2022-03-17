@@ -99,12 +99,12 @@ namespace LastDigitsZero
                     return str;
                 }
 
+                str = str.Trim();
+
                 if (str.StartsWith("\'"))
                 {
                     return str;
                 }
-
-                str = str.Trim();
 
                 char comma = ',';
                 char dot = '.';
