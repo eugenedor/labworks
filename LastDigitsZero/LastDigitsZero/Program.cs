@@ -98,6 +98,12 @@ namespace LastDigitsZero
                 {
                     return str;
                 }
+
+                if (str.StartsWith("\'"))
+                {
+                    return str;
+                }
+
                 str = str.Trim();
 
                 char comma = ',';
@@ -129,11 +135,6 @@ namespace LastDigitsZero
                     }
                 }
 
-                if (str.StartsWith("\'"))
-                {
-                    return str;
-                }
-
                 int digitCount = 15;
 
                 int len = str.Length;
@@ -150,8 +151,8 @@ namespace LastDigitsZero
 
                 char minus = '-';
                 char zero = '0';
-
-                bool isNegative = str.StartsWith(minus.ToString());             
+                bool isNegative = str.StartsWith(minus.ToString());
+                
                 if (isNegative && DigitsOnlyInString(str.Substring(1)) || DigitsOnlyInString(str))
                 {
                     if (isNegative)
