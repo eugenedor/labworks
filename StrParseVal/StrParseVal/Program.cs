@@ -35,8 +35,14 @@ namespace StrParseVal
                 "9223372036854775807",
                 "007",
                 "00008",
-                "0.00",
-                "0,00",
+                "0.01",
+                "0,02",
+                ".03",
+                ",04",
+                "-0.05",
+                "-0,06",
+                "-.07",
+                "-,08",
                 "123.49",
                 "567,89",
                 "4.345E+11",
@@ -45,6 +51,8 @@ namespace StrParseVal
                 "4,34531E+11",
                 "4.345E+2",
                 "4,345E+2",
+                ".345E+11",
+                ",345E+11",
                 "Какой-то текст 14.03.2012 123.45 987,65!",
                 "a000009",
                 "FALse",
@@ -102,18 +110,37 @@ namespace StrParseVal
                     return value;
                 }
 
-                if (Regex.IsMatch(value, @"^[-]?\d+((\.|\,)\d+)?(?:[eE][-+]?\d+)?$"))
+                if (Regex.IsMatch(value, @"^[-]?(\d+|(?:\d+)?(?:(\.|\,)\d+))(?:[eE][-+]?\d+)?$"))
                 {
-                    if (decimal.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
-                        decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
+                    string comma = ",";
+                    string dot = ".";
+                    var digitDelimiter = dot;
+                    if (value.Contains(comma))
+                    {
+                        digitDelimiter = comma;
+                    }
+
+                    var valueMod = value;
+                    int ixDigitDelimiter = valueMod.IndexOf(digitDelimiter);
+                    if (ixDigitDelimiter == 0)
+                    {
+                        valueMod = "0" + valueMod;
+                    }
+                    if (valueMod.StartsWith("-") && ixDigitDelimiter == 1)
+                    {
+                        valueMod = "-0" + valueMod.Substring(1);
+                    }
+
+                    if (decimal.TryParse(valueMod, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
+                        decimal.TryParse(valueMod, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
                     {
                         return decResult.ToString();
                     }
                     else
                     {
-                        var val = value.Contains(",") ? value.Replace(",", ".") : value;
-                        if (decimal.TryParse(val, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decResult) ||
-                            decimal.TryParse(val, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
+                        valueMod = valueMod.Contains(comma) ? valueMod.Replace(comma, dot) : valueMod;
+                        if (decimal.TryParse(valueMod, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decResult) ||
+                            decimal.TryParse(valueMod, NumberStyles.Float, CultureInfo.InvariantCulture, out decResult))
                         {
                             return decResult.ToString();
                         }
@@ -138,13 +165,13 @@ namespace StrParseVal
                 var quot = @"""";
                 if (value.Contains(quot))
                 {
-                    if (value.StartsWith(quot))
+                    if (value.StartsWith(quot) && value.EndsWith(quot))
                     {
                         value = value.Remove(0, 1);
-                    }
-                    if (value.EndsWith(quot))
-                    {
-                        value = value.Remove(value.Length - 1);
+                        if (value.Length > 0)
+                        {
+                            value = value.Remove(value.Length - 1);
+                        }
                     }
                     if (value.Contains(quot + quot))
                     {
