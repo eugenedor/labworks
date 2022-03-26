@@ -333,9 +333,10 @@ namespace CsvToDataTable
                     return value;
                 }
 
+                var zero = "0";
                 if (Regex.IsMatch(value, @"^[-]?\d+$"))
                 {
-                    if (value.StartsWith("0") && DigitOnlyInString(value))
+                    if (value.StartsWith(zero) && DigitsOnlyInString(value))
                     {
                         return value;
                     }
@@ -357,14 +358,15 @@ namespace CsvToDataTable
                     }
 
                     var valueMod = value;
-                    int ixDigitDelimiter = valueMod.IndexOf(digitDelimiter);
+                    var ixDigitDelimiter = valueMod.IndexOf(digitDelimiter);
                     if (ixDigitDelimiter == 0)
                     {
-                        valueMod = "0" + valueMod;
+                        valueMod = zero + valueMod;
                     }
-                    if (valueMod.StartsWith("-") && ixDigitDelimiter == 1)
+                    var minus = "-";
+                    if (valueMod.StartsWith(minus) && ixDigitDelimiter == 1)
                     {
-                        valueMod = "-0" + valueMod.Substring(1);
+                        valueMod = minus + zero + valueMod.Substring(1);
                     }
 
                     if (decimal.TryParse(valueMod, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
@@ -427,7 +429,7 @@ namespace CsvToDataTable
         /// <summary>
         /// Только цифры в строке
         /// </summary>
-        static bool DigitOnlyInString(string s)
+        static bool DigitsOnlyInString(string s)
         {
             foreach (char ch in s)
             {
