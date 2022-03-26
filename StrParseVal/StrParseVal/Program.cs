@@ -120,15 +120,17 @@ namespace StrParseVal
                         digitDelimiter = comma;
                     }
 
+                    var minus = "-";
+                    var zero = "0";
                     var valueMod = value;
-                    int ixDigitDelimiter = valueMod.IndexOf(digitDelimiter);
+                    var ixDigitDelimiter = valueMod.IndexOf(digitDelimiter);
                     if (ixDigitDelimiter == 0)
                     {
-                        valueMod = "0" + valueMod;
+                        valueMod = zero + valueMod;
                     }
-                    if (valueMod.StartsWith("-") && ixDigitDelimiter == 1)
+                    if (valueMod.StartsWith(minus) && ixDigitDelimiter == 1)
                     {
-                        valueMod = "-0" + valueMod.Substring(1);
+                        valueMod = minus + zero + valueMod.Substring(1);
                     }
 
                     if (decimal.TryParse(valueMod, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal decResult) ||
