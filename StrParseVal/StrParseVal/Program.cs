@@ -97,9 +97,10 @@ namespace StrParseVal
                     return value;
                 }
 
+                var zero = "0";
                 if (Regex.IsMatch(value, @"^[-]?\d+$"))
                 {
-                    if (value.StartsWith("0") && DigitOnlyInString(value))
+                    if (value.StartsWith(zero) && DigitsOnlyInString(value))
                     {
                         return value;
                     }
@@ -119,15 +120,14 @@ namespace StrParseVal
                     {
                         digitDelimiter = comma;
                     }
-
-                    var minus = "-";
-                    var zero = "0";
+                    
                     var valueMod = value;
                     var ixDigitDelimiter = valueMod.IndexOf(digitDelimiter);
                     if (ixDigitDelimiter == 0)
                     {
                         valueMod = zero + valueMod;
                     }
+                    var minus = "-";
                     if (valueMod.StartsWith(minus) && ixDigitDelimiter == 1)
                     {
                         valueMod = minus + zero + valueMod.Substring(1);
@@ -193,7 +193,7 @@ namespace StrParseVal
         /// <summary>
         /// Только цифры в строке
         /// </summary>
-        static bool DigitOnlyInString(string s)
+        static bool DigitsOnlyInString(string s)
         {
             foreach (char ch in s)
             {
