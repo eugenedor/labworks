@@ -62,5 +62,21 @@ namespace StrSplit
             Console.WriteLine(System.Environment.NewLine + "Press and key to exit");
             Console.ReadKey();
         }
+
+        static void PrintItems(string[] items, int cnt)
+        {
+            //Console.WriteLine();
+            Console.WriteLine("--------------------------------------");
+
+            for (int i = 0; i < items.Length; ++i)
+            {
+                Console.Write("|" + items[i].ToString() + "|\t");
+            }
+            Console.WriteLine();
+            Console.WriteLine($"itemsLength    = {items.Length}");
+            Console.WriteLine($"countDelimiter = {cnt}");
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine();
+        }
     }
 }
