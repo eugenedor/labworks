@@ -54,14 +54,83 @@ namespace StrSplit
             {
                 Console.WriteLine($"{i}) {str}");
                 //var separCount = GetCountOfSeparatorsInRow(str, separator);
-                //var result = SplitRow(str, separator);
-                //PrintItems(result, separCount);
+                var result = SplitRow(str, separator);
+                PrintItems(result, -1);
                 ++i;
                 Console.WriteLine();
             }
 
             Console.WriteLine(System.Environment.NewLine + "Press and key to exit");
             Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Разделение строки на массив подстрок
+        /// </summary>
+        static string[] SplitRow(string row, string separator)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(row))
+                {
+                    return new[] { string.Empty };
+                }
+                if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1 || row.IndexOf(separator, 0) == row.Length - 1)
+                {
+                    return new[] { row };
+                }
+
+                var lst = new List<string>();
+                var quot = @"""";
+                int i = 0, j = 0, len = row.Length;
+                int k = 1;  //пропуск первой кавычки
+                while (j <= len)
+                {
+                    if (j < len)
+                    {
+                        j = row.IndexOf(separator, j) != -1 ? row.IndexOf(separator, j) : len;
+                    }
+
+                    var subRow = row.Substring(i, j - i);
+
+                    if (subRow.StartsWith(quot))
+                    {
+                        int quotCount = 0;
+                        while ((k = subRow.IndexOf(quot, k)) != -1)
+                        {
+                            var symCur = subRow.Substring(k, quot.Length);
+                            k += quot.Length;
+                            if (k < subRow.Length)
+                            {
+                                var symNext = subRow.Substring(k, quot.Length);
+                                if (symCur == symNext)  //пропуск двойной кавычки
+                                {
+                                    k += quot.Length;
+                                    continue;
+                                }
+                            }
+                            ++quotCount;
+                        }
+                        if (j < len && quotCount == 0)  //пропуск разделителя
+                        {
+                            j += separator.Length;
+                            k = j - i;
+                            continue;
+                        }
+                    }
+
+                    lst.Add(subRow);
+                    j += separator.Length;
+                    i = j;
+                    k = 1;
+                }
+
+                return lst?.ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         /// <summary>
