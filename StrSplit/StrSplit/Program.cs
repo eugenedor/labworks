@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace StrSplit
 {
@@ -61,6 +62,31 @@ namespace StrSplit
 
             Console.WriteLine(System.Environment.NewLine + "Press and key to exit");
             Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Прочитать строки из файла
+        /// </summary>
+        static List<string> ReadRowsFromFile(string fileName)
+        {
+            try
+            {
+                var rows = new List<string>();
+                using (var reader = new StreamReader(fileName, Encoding.GetEncoding(1251)))
+                {
+                    string row;
+                    while ((row = reader.ReadLine()) != null)
+                    {
+                        if (!string.IsNullOrEmpty(row.Trim()))
+                            rows.Add(row);
+                    }
+                }
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         static void PrintItems(string[] items, int cnt)
