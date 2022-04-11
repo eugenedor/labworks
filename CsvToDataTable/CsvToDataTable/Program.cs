@@ -132,41 +132,60 @@ namespace CsvToDataTable
         /// <summary>
         /// Определить количество разделителей в строке
         /// </summary>
-        static int GetCountOfSeparatorsInRow(string row, string separator) 
+        static int GetCountOfSeparatorsInRow(string row, string separator)
         {
             try
             {
                 if (row == null)
                 {
-                    throw new ArgumentNullException("Невозможно определить строку для чтения");
+                    throw new ArgumentNullException("Невозможно определить строку для чтения.");
                 }
                 if (string.IsNullOrEmpty(separator))
                 {
-                    throw new ArgumentNullException("Не указан разделитель для проверки");
+                    throw new ArgumentNullException("Не указан  разделитель для проверки.");
+                }
+                if (row.IndexOf(separator, 0) == -1 || row.IndexOf(separator, 0) == row.Length - 1)
+                {
+                    return 0;
                 }
 
+                var quot = @"""";
                 int separatorCount = 0, i = 0, j = 0;
+                int k = 1;  //пропуск первой кавычки
                 while ((j = row.IndexOf(separator, j)) != -1)
                 {
-                    var sbstr = row.Substring(i, j - i);
-                    var quot = @"""";
-                    if (sbstr.Contains(quot))
+                    var subRow = row.Substring(i, j - i);
+
+                    if (subRow.StartsWith(quot))
                     {
-                        int quotInSbstrCount = 0, k = 0;
-                        while ((k = sbstr.IndexOf(quot, k)) != -1)
+                        int quotCount = 0;
+                        while ((k = subRow.IndexOf(quot, k)) != -1)
                         {
-                            ++quotInSbstrCount;
+                            var symCur = subRow.Substring(k, quot.Length);
                             k += quot.Length;
+                            if (k < subRow.Length)
+                            {
+                                var symNext = subRow.Substring(k, quot.Length);
+                                if (symCur == symNext)  //пропуск двойной кавычки
+                                {
+                                    k += quot.Length;
+                                    continue;
+                                }
+                            }
+                            ++quotCount;
                         }
-                        if (quotInSbstrCount % 2 == 1)
+                        if (j < row.Length && quotCount == 0)  //пропуск разделителя
                         {
                             j += separator.Length;
+                            k = j - i;
                             continue;
                         }
                     }
+
                     ++separatorCount;
                     j += separator.Length;
                     i = j;
+                    k = 1;
                 }
                 return separatorCount;
             }
@@ -274,41 +293,64 @@ namespace CsvToDataTable
         }
 
         /// <summary>
-        /// Разделение строк на массив подстрок
+        /// Разделение строки на массив подстрок
         /// </summary>
         static string[] SplitRow(string row, string separator)
         {
             try
             {
                 if (string.IsNullOrEmpty(row))
+                {
                     return new[] { string.Empty };
-                if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1)
+                }
+                if (string.IsNullOrEmpty(separator) || row.IndexOf(separator, 0) == -1 || row.IndexOf(separator, 0) == row.Length - 1)
+                {
                     return new[] { row };
+                }
 
                 var lst = new List<string>();
+                var quot = @"""";
                 int i = 0, j = 0, len = row.Length;
+                int k = 1;  //пропуск первой кавычки
                 while (j <= len)
                 {
-                    j = row.IndexOf(separator, j) != -1 ? row.IndexOf(separator, j) : len;
-                    var sbstr = row.Substring(i, j - i);
-                    var quot = @"""";
-                    if (sbstr.Contains(quot))
+                    if (j < len)
                     {
-                        int quotInSbstrCount = 0, k = 0;
-                        while ((k = sbstr.IndexOf(quot, k)) != -1)
+                        j = row.IndexOf(separator, j) != -1 ? row.IndexOf(separator, j) : len;
+                    }
+
+                    var subRow = row.Substring(i, j - i);
+
+                    if (subRow.StartsWith(quot))
+                    {
+                        int quotCount = 0;
+                        while ((k = subRow.IndexOf(quot, k)) != -1)
                         {
-                            ++quotInSbstrCount;
+                            var symCur = subRow.Substring(k, quot.Length);
                             k += quot.Length;
+                            if (k < subRow.Length)
+                            {
+                                var symNext = subRow.Substring(k, quot.Length);
+                                if (symCur == symNext)  //пропуск двойной кавычки
+                                {
+                                    k += quot.Length;
+                                    continue;
+                                }
+                            }
+                            ++quotCount;
                         }
-                        if (quotInSbstrCount % 2 == 1)
+                        if (j < len && quotCount == 0)  //пропуск разделителя
                         {
                             j += separator.Length;
+                            k = j - i;
                             continue;
                         }
                     }
-                    lst.Add(sbstr);
+
+                    lst.Add(subRow);
                     j += separator.Length;
                     i = j;
+                    k = 1;
                 }
 
                 return lst?.ToArray();
