@@ -254,7 +254,7 @@ namespace CsvToDataTable
             {
                 if (rows == null || rows.Count() == 0)
                 {
-                    throw new ArgumentNullException("Невозможно определить размер для DataTable"); ;
+                    throw new ArgumentNullException("Невозможно определить размер для DataTable."); ;
                 }
                 rowCount = rows.Count();
 
