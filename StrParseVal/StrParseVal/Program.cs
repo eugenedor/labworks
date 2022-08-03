@@ -28,6 +28,16 @@ namespace StrParseVal
                 "12.03.14",
                 "14.03.12",
                 "14.03.2012",
+                "12/0009",
+                "13/0009",
+                "0009/12",
+                "0009/13",
+                "12/2009",
+                "13/2009",
+                "2009/12",
+                "2009/13",
+                "09062022",
+                "20220609",
                 "2147483647",
                 "-2147483647",
                 "2147483648",
@@ -156,7 +166,13 @@ namespace StrParseVal
                 if (DateTime.TryParse(value, cultRu, dateStyles, out DateTime dateResult) ||
                     DateTime.TryParse(value, cultEn, dateStyles, out dateResult))
                 {
-                    return dateResult.ToString("dd.MM.yyyy");
+                    var dateStart = new DateTime(1900, 1, 1);
+                    var dateEnd = new DateTime(9999, 12, 31);
+                    if (dateStart <= dateResult.Date && dateResult.Date <= dateEnd
+                        && !Regex.IsMatch(value, @"^\d+\/\d+$"))
+                    {
+                        return dateResult.ToString("dd.MM.yyyy");
+                    }
                 }
 
                 if (bool.TryParse(value, out bool boolResult))
