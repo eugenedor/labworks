@@ -434,7 +434,13 @@ namespace CsvToDataTable
                 if (DateTime.TryParse(value, cultRu, dateStyles, out DateTime dateResult) ||
                     DateTime.TryParse(value, cultEn, dateStyles, out dateResult))
                 {
-                    return dateResult.ToString("dd.MM.yyyy");
+                    var dateStart = new DateTime(1900, 1, 1);
+                    var dateEnd = new DateTime(9999, 12, 31);
+                    if (dateStart <= dateResult.Date && dateResult.Date <= dateEnd
+                        && !Regex.IsMatch(value, @"^\d+\/\d+$"))
+                    {
+                        return dateResult.ToString("dd.MM.yyyy");
+                    }
                 }
 
                 if (bool.TryParse(value, out bool boolResult))
