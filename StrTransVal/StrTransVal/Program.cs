@@ -20,14 +20,14 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
         {
             var arrs = new[]
             {
-                new { Value = "не завершена", Abbreviations = new List<string>()},
-                new { Value = "продажа", Abbreviations = new List<string>()},
-                new { Value = "КС", Abbreviations = new List<string>() { "КС" }},
-                new { Value = "Не КС", Abbreviations = new List<string>() { "КС" }},
-                new { Value = "ЦБ долг", Abbreviations = new List<string>() { "ЦБ" }},
-                new { Value = "Страна РФ - правопреемница СССР", Abbreviations = new List<string>() { "РФ", "СССР" }},
-                new { Value = "Великая Россия (РФ) - могущественная страна (РФ)", Abbreviations = new List<string>() { "Россия", "РФ" }},
-                new { Value = "МОСКВА - столица России (РФ) и точка", Abbreviations = new List<string>() { "МОСКВА", "России", "РФ" }},
+                new { Value = "не завершена", SpecialWords = new List<string>()},
+                new { Value = "продажа", SpecialWords = new List<string>()},
+                new { Value = "КС", SpecialWords = new List<string>() { "КС" }},
+                new { Value = "Не КС", SpecialWords = new List<string>() { "КС" }},
+                new { Value = "ЦБ долг", SpecialWords = new List<string>() { "ЦБ" }},
+                new { Value = "Страна РФ - правопреемница СССР", SpecialWords = new List<string>() { "РФ", "СССР" }},
+                new { Value = "Великая Россия (РФ) - могущественная страна РФ", SpecialWords = new List<string>() { "Россия", "РФ" }},
+                new { Value = "МСК - столица России (РФ) и точка", SpecialWords = new List<string>() { "МСК", "России", "РФ" }},
             };
 
             int i = 0;
@@ -35,11 +35,10 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             {
                 Console.WriteLine($"{i}) {arr.Value}");
 
-                Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.Abbreviations)}");
-                Console.WriteLine($"Lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.Abbreviations)}");
-                Console.WriteLine($"Upper:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.Abbreviations)}");
-
-                Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.Abbreviations)}");
+                Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.SpecialWords)}");
+                Console.WriteLine($"Lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.SpecialWords)}");
+                Console.WriteLine($"Upper:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.SpecialWords)}");
+                Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.SpecialWords)}");
 
                 ++i;
                 Console.WriteLine();
@@ -49,7 +48,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             Console.ReadKey();
         }
 
-        static string Transform_ToString(string value, TransformString transformString, List<string> abbreviations)
+        static string Transform_ToString(string value, TransformString transformString, IEnumerable<string> specialWords)
         {
             try
             {
@@ -69,18 +68,15 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                     _ => value,
                 };
 
-                var ignoreTransformString = new[] { TransformString.toDefault, TransformString.toUpper };
+                var ignoreTransformStringsforSpecialWords = new[] { TransformString.toDefault, TransformString.toUpper };
 
-                if (abbreviations != null && abbreviations.Count > 0
-                    && !ignoreTransformString.Contains(transformString)
-
-                    && transformString != TransformString.toUpper
-                    && transformString != TransformString.toDefault)
+                if (specialWords != null && specialWords.Any() &&
+                    !ignoreTransformStringsforSpecialWords.Contains(transformString))
                 {
-                    foreach (var abbreviation in abbreviations)
+                    foreach (var specialWord in specialWords)
                     {
-                        var pattern = $@"\b{abbreviation}\b";
-                        value = Regex.Replace(value, pattern, abbreviation, RegexOptions.IgnoreCase);
+                        var pattern = @"\b" + specialWord + @"\b";
+                        value = Regex.Replace(value, pattern, specialWord, RegexOptions.IgnoreCase);
                     }
                 }
 
