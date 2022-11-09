@@ -26,8 +26,8 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 new { Value = "Не КС", Abbreviations = new List<string>() { "КС" }},
                 new { Value = "ЦБ долг", Abbreviations = new List<string>() { "ЦБ" }},
                 new { Value = "Страна РФ - правопреемница СССР", Abbreviations = new List<string>() { "РФ", "СССР" }},
-                new { Value = "Россия (РФ) - великая страна РФ", Abbreviations = new List<string>() { "РФ" }},
-                new { Value = "МОСКВА - столица РОССИИ (РФ) и точка", Abbreviations = new List<string>() { "МОСКВА", "РОССИИ", "РФ" }},
+                new { Value = "Великая Россия (РФ) - могущественная страна (РФ)", Abbreviations = new List<string>() { "Россия", "РФ" }},
+                new { Value = "МОСКВА - столица России (РФ) и точка", Abbreviations = new List<string>() { "МОСКВА", "России", "РФ" }},
             };
 
             int i = 0;
@@ -44,51 +44,6 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 ++i;
                 Console.WriteLine();
             }
-
-            //--------------------------------------------------
-            //Console.WriteLine(System.Environment.NewLine + "Press any key");
-            //Console.ReadKey();
-            //Console.Clear();
-
-            //var text1 = "Россия (РФ) - великая страна РФ";
-            //Dictionary<int, int> dic1 = new Dictionary<int, int>()
-            //{
-            //    { 8, 2},
-            //    { 29, 2}
-            //};
-
-            //Console.WriteLine(text1);
-            //int j = 0;
-            //foreach (var d1 in dic1)
-            //{
-            //    Console.WriteLine($"'{text1.Substring(j, d1.Key - j)}'");
-            //    Console.WriteLine($"'{text1.Substring(d1.Key, d1.Value)}'");
-            //    j = d1.Key + d1.Value;
-            //}
-            //if (j < text1.Length)
-            //    Console.WriteLine($"'{text1.Substring(j, text1.Length - j)}'");
-
-            //Console.WriteLine();
-
-            //var text2 = "МОСКВА - столица РОССИИ (РФ) и точка";
-            //Dictionary<int, int> dic2 = new Dictionary<int, int>()
-            //{
-            //    { 0, 6},
-            //    { 17, 6},
-            //    { 25, 2}
-            //};
-
-            //Console.WriteLine(text2);
-            //j = 0;
-            //foreach (var d2 in dic2)
-            //{
-            //    Console.WriteLine($"'{text2.Substring(j, d2.Key - j)}'");
-            //    Console.WriteLine($"'{text2.Substring(d2.Key, d2.Value)}'");
-            //    j = d2.Key + d2.Value;
-            //}
-            //if (j < text2.Length)
-            //    Console.WriteLine($"'{text2.Substring(j, text2.Length - j)}'");
-            //--------------------------------------------------
 
             Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
             Console.ReadKey();
@@ -114,24 +69,18 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                     _ => value,
                 };
 
-                if (abbreviations != null && abbreviations.Count > 0)
+                var ignoreTransformString = new[] { TransformString.toDefault, TransformString.toUpper };
+
+                if (abbreviations != null && abbreviations.Count > 0
+                    && !ignoreTransformString.Contains(transformString)
+
+                    && transformString != TransformString.toUpper
+                    && transformString != TransformString.toDefault)
                 {
                     foreach (var abbreviation in abbreviations)
                     {
                         var pattern = $@"\b{abbreviation}\b";
                         value = Regex.Replace(value, pattern, abbreviation, RegexOptions.IgnoreCase);
-
-                        //var matches = Regex.Matches(value, pattern, RegexOptions.IgnoreCase);
-                        //if (matches != null && matches.Count > 0)
-                        //{
-                        //    foreach (Match match in matches)
-                        //    {
-                        //        if (match.Success)
-                        //        {
-                        //            Console.WriteLine($"indx: {match.Index}| len: {match.Value.Length}| val: {match.Value}");
-                        //        }
-                        //    }
-                        //}
                     }
                 }
 
