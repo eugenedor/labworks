@@ -1,13 +1,14 @@
-﻿//// See https://aka.ms/new-console-template for more information
-//Console.WriteLine("Hello, World!");
+﻿using System;
+using System.Text.RegularExpressions;
 
-using System;
+//// See https://aka.ms/new-console-template for more information
+//Console.WriteLine("Hello, World!");
 
 namespace StrTransVal //MyApp // Note: actual namespace depends on the project name.
 {
     internal class Program
     {
-        private enum TransMethod
+        private enum TransformString
         {
             toDefault = 0,
             toCustom = 1,
@@ -19,25 +20,26 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
         {
             var arrs = new[]
             {
-                new { Val = "не завершена", ExclSubstrs = new List<string>()},
-                new { Val = "продажа", ExclSubstrs = new List<string>()},
-                new { Val = "КС", ExclSubstrs = new List<string>() { "КС" }},
-                new { Val = "Не КС", ExclSubstrs = new List<string>() { "КС" }},
-                new { Val = "ЦБ долг", ExclSubstrs = new List<string>() { "ЦБ" }},
-                new { Val = "Страна РФ - правопреемница СССР", ExclSubstrs = new List<string>() { "РФ", "СССР" }},
-                new { Val = "Россия (РФ) - великая страна", ExclSubstrs = new List<string>() { "РФ" }},
+                new { Value = "не завершена", Abbreviations = new List<string>()},
+                new { Value = "продажа", Abbreviations = new List<string>()},
+                new { Value = "КС", Abbreviations = new List<string>() { "КС" }},
+                new { Value = "Не КС", Abbreviations = new List<string>() { "КС" }},
+                new { Value = "ЦБ долг", Abbreviations = new List<string>() { "ЦБ" }},
+                new { Value = "Страна РФ - правопреемница СССР", Abbreviations = new List<string>() { "РФ", "СССР" }},
+                new { Value = "Россия (РФ) - великая страна РФ", Abbreviations = new List<string>() { "РФ" }},
+                new { Value = "Москва - столица России (РФ)", Abbreviations = new List<string>() { "Москва", "России", "РФ" }},
             };
 
             int i = 0;
             foreach (var arr in arrs)
             {
-                Console.WriteLine($"{i}) {arr.Val}");
+                Console.WriteLine($"{i}) {arr.Value}");
 
-                Console.WriteLine($"Custom:  {Transform_ToString(arr.Val, TransMethod.toCustom, arr.ExclSubstrs)}");
-                Console.WriteLine($"Lower:   {Transform_ToString(arr.Val, TransMethod.toLower, arr.ExclSubstrs)}");
-                Console.WriteLine($"Upper:   {Transform_ToString(arr.Val, TransMethod.toUpper, arr.ExclSubstrs)}");
+                Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.Abbreviations)}");
+                Console.WriteLine($"Lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.Abbreviations)}");
+                Console.WriteLine($"Upper:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.Abbreviations)}");
 
-                Console.WriteLine($"Default: {Transform_ToString(arr.Val, TransMethod.toDefault, arr.ExclSubstrs)}");
+                Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.Abbreviations)}");
 
                 ++i;
                 Console.WriteLine();
@@ -47,7 +49,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             Console.ReadKey();
         }
 
-        static string Transform_ToString(string value, TransMethod transMethod, List<string> excludeSubstrs)
+        static string Transform_ToString(string value, TransformString transformString, List<string> abbreviations)
         {
             try
             {
@@ -58,21 +60,22 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                     return value;
                 }
 
-                value = transMethod switch
+                value = transformString switch
                 {
-                    TransMethod.toCustom => value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower(),
-                    TransMethod.toLower => value.ToLower(),
-                    TransMethod.toUpper => value.ToUpper(),
-                    TransMethod.toDefault => value,
+                    TransformString.toCustom => value[..1].ToUpper() + value[1..].ToLower(),  //value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower()
+                    TransformString.toLower => value.ToLower(),
+                    TransformString.toUpper => value.ToUpper(),
+                    TransformString.toDefault => value,
                     _ => value,
                 };
 
-                var cnt = excludeSubstrs?.Count ?? 0;
-                if (cnt > 0)
+                if (abbreviations != null && abbreviations.Count > 0)
                 {
-                    foreach (var exSubstr in excludeSubstrs)
+                    foreach (var abbreviation in abbreviations)
                     {
+                        var pattern = $@"\b{abbreviation}\b";
 
+                        value = Regex.Replace(value, pattern, abbreviation, RegexOptions.IgnoreCase);
                     }
                 }
 
