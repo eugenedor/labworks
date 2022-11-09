@@ -36,8 +36,8 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 Console.WriteLine($"{i}) {arr.Value}");
 
                 Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.SpecialWords)}");
-                Console.WriteLine($"Lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.SpecialWords)}");
-                Console.WriteLine($"Upper:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.SpecialWords)}");
+                Console.WriteLine($"lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.SpecialWords)}");
+                Console.WriteLine($"UPPER:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.SpecialWords)}");
                 Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.SpecialWords)}");
 
                 ++i;
@@ -68,10 +68,10 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                     _ => value,
                 };
 
-                var ignoreTransformStringsforSpecialWords = new[] { TransformString.toDefault, TransformString.toUpper };
+                var ignoreTransformStringsForSpecialWords = new[] { TransformString.toDefault, TransformString.toUpper };
 
                 if (specialWords != null && specialWords.Any() &&
-                    !ignoreTransformStringsforSpecialWords.Contains(transformString))
+                    !ignoreTransformStringsForSpecialWords.Contains(transformString))
                 {
                     foreach (var specialWord in specialWords)
                     {
