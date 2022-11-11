@@ -30,6 +30,14 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 new { Value = "МСК - столица России (РФ) и точка!", SpecialWords = new List<string>() { "МСК", "России", "РФ" }},
             };
 
+            var strValue = "МСК - столица России";
+            Console.WriteLine($"-1) {strValue}");
+            Console.WriteLine($"Default: {Transform_ToString(strValue)}");
+            Console.WriteLine($"lower:   {Transform_ToString(strValue, TransformString.toLower)}");
+            Console.WriteLine($"UPPER:   {Transform_ToString(strValue, TransformString.toUpper)}");
+            Console.WriteLine($"Custom:  {Transform_ToString(strValue, TransformString.toCustom)}");
+            Console.WriteLine();
+
             int i = 0;
             foreach (var arr in arrs)
             {
@@ -49,7 +57,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             Console.ReadKey();
         }
 
-        static string Transform_ToString(string value, TransformString transformString, IEnumerable<string> specialWords)
+        static string Transform_ToString(string value, TransformString transformString = TransformString.toDefault, IEnumerable<string>? specialWords = null)
         {
             try
             {
