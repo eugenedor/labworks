@@ -10,10 +10,10 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
     {
         private enum TransformString
         {
-            toDefault = 0,
-            toCustom = 1,
-            toLower = 2,
-            toUpper = 3
+            toDefault = 0,            
+            toLower = 1,
+            toUpper = 2,
+            toCustom = 3
         }
 
         static void Main(string[] args)
@@ -27,7 +27,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 new { Value = "ЦБ долг", SpecialWords = new List<string>() { "ЦБ" }},
                 new { Value = "Страна РФ - правопреемница СССР", SpecialWords = new List<string>() { "РФ", "СССР" }},
                 new { Value = "Великая Россия (РФ) - могущественная страна РФ", SpecialWords = new List<string>() { "Россия", "РФ" }},
-                new { Value = "МСК - столица России (РФ) и точка", SpecialWords = new List<string>() { "МСК", "России", "РФ" }},
+                new { Value = "МСК - столица России (РФ) и точка!", SpecialWords = new List<string>() { "МСК", "России", "РФ" }},
             };
 
             int i = 0;
@@ -35,10 +35,11 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             {
                 Console.WriteLine($"{i}) {arr.Value}");
 
-                Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.SpecialWords)}");
+                Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.SpecialWords)}");
                 Console.WriteLine($"lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.SpecialWords)}");
                 Console.WriteLine($"UPPER:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.SpecialWords)}");
-                Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.SpecialWords)}");
+                Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.SpecialWords)}");
+
 
                 ++i;
                 Console.WriteLine();
@@ -60,23 +61,27 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 }
 
                 value = transformString switch
-                {
-                    TransformString.toCustom => value[..1].ToUpper() + value[1..].ToLower(),  //value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower()
+                {                    
                     TransformString.toLower => value.ToLower(),
                     TransformString.toUpper => value.ToUpper(),
+                    TransformString.toCustom => value[..1].ToUpper() + value[1..].ToLower(),  //value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower()
                     TransformString.toDefault => value,
                     _ => value,
                 };
 
-                var ignoreTransformStringsForSpecialWords = new[] { TransformString.toDefault, TransformString.toUpper };
+                var ignoreTransformStringsSpecialWords = new[] 
+                { 
+                    TransformString.toDefault, 
+                    TransformString.toUpper 
+                };
 
-                if (specialWords != null && specialWords.Any() &&
-                    !ignoreTransformStringsForSpecialWords.Contains(transformString))
+                if (!ignoreTransformStringsSpecialWords.Contains(transformString) &&
+                    (specialWords?.Any() ?? false))
                 {
                     foreach (var specialWord in specialWords)
                     {
-                        var pattern = @"\b" + specialWord + @"\b";
-                        value = Regex.Replace(value, pattern, specialWord, RegexOptions.IgnoreCase);
+                        var patternSpecialWord = $@"\b{specialWord}\b";
+                        value = Regex.Replace(value, patternSpecialWord, specialWord, RegexOptions.IgnoreCase);
                     }
                 }
 
