@@ -57,48 +57,41 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             Console.ReadKey();
         }
 
-        static string Transform_ToString(string value, TransformString transformString = TransformString.toDefault, IEnumerable<string>? specialWords = null)
+        static string Transform_ToString(string value, TransformString transformString = TransformString.toDefault, IEnumerable<string> specialWords = null)
         {
-            try
+            value = (value ?? string.Empty).Trim();
+
+            if (string.IsNullOrEmpty(value))
             {
-                value = (value ?? string.Empty).Trim();
-
-                if (string.IsNullOrEmpty(value))
-                {
-                    return value;
-                }
-
-                value = transformString switch
-                {                    
-                    TransformString.toLower => value.ToLower(),
-                    TransformString.toUpper => value.ToUpper(),
-                    TransformString.toCustom => value[..1].ToUpper() + value[1..].ToLower(),  //value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower()
-                    TransformString.toDefault => value,
-                    _ => value,
-                };
-
-                var ignoreTransformStringsSpecialWords = new[] 
-                { 
-                    TransformString.toDefault, 
-                    TransformString.toUpper 
-                };
-
-                if (!ignoreTransformStringsSpecialWords.Contains(transformString) &&
-                    (specialWords?.Any() ?? false))
-                {
-                    foreach (var specialWord in specialWords)
-                    {
-                        var patternSpecialWord = $@"\b{specialWord}\b";
-                        value = Regex.Replace(value, patternSpecialWord, specialWord, RegexOptions.IgnoreCase);
-                    }
-                }
-
                 return value;
             }
-            catch (Exception ex)
+
+            value = transformString switch
+            {                    
+                TransformString.toLower => value.ToLower(),
+                TransformString.toUpper => value.ToUpper(),
+                TransformString.toCustom => value[..1].ToUpper() + value[1..].ToLower(),  //value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower()
+                TransformString.toDefault => value,
+                _ => value,
+            };
+
+            var ignoreTransformStringsSpecialWords = new[] 
+            { 
+                TransformString.toDefault, 
+                TransformString.toUpper 
+            };
+
+            if (!ignoreTransformStringsSpecialWords.Contains(transformString) &&
+                (specialWords?.Any() ?? false))
             {
-                throw new Exception(ex.Message);
+                foreach (var specialWord in specialWords)
+                {
+                    var patternSpecialWord = $@"\b{specialWord}\b";
+                    value = Regex.Replace(value, patternSpecialWord, specialWord, RegexOptions.IgnoreCase);
+                }
             }
+
+            return value;
         }
     }
 }
