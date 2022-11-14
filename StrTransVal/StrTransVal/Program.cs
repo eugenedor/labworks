@@ -53,74 +53,6 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 Console.WriteLine();
             }
 
-            //--------------------------------------------------
-            Console.WriteLine(System.Environment.NewLine + "Press any key");
-            Console.ReadKey();
-            Console.Clear();
-
-            var text1 = "Великая Россия (РФ) - могущественная страна РФ";
-            Dictionary<int, int> dic1 = new Dictionary<int, int>()
-            {
-                { 8, 6 },
-                { 16, 2 },
-                { 44, 2 },
-            };
-
-            Console.WriteLine(text1);
-            int j = 0;
-            foreach (var d1 in dic1)
-            {
-                Console.Write($"'{text1.Substring(j, d1.Key - j)}' | ");
-                Console.WriteLine($"'{text1.Substring(d1.Key, d1.Value)}'");
-                j = d1.Key + d1.Value;
-            }
-            if (j < text1.Length)
-                Console.WriteLine($"'{text1.Substring(j, text1.Length - j)}'");
-
-            Console.WriteLine();
-
-            var text2 = "МСК - столица России (РФ) и точка!";
-            Dictionary<int, int> dic2 = new Dictionary<int, int>()
-            {
-                { 0, 3 },
-                { 14, 6 },
-                { 22, 2 },
-            };
-
-            Console.WriteLine(text2);
-            j = 0;
-            foreach (var d2 in dic2)
-            {
-                Console.Write($"'{text2.Substring(j, d2.Key - j)}' | ");
-                Console.WriteLine($"'{text2.Substring(d2.Key, d2.Value)}'");
-                j = d2.Key + d2.Value;
-            }
-            if (j < text2.Length)
-                Console.WriteLine($"'{text2.Substring(j, text2.Length - j)}'");
-
-            Console.WriteLine();
-
-            var text3 = "aaabbbbccddddd";
-            Dictionary<int, int> dic3 = new Dictionary<int, int>()
-            {
-                { 0, 3 },
-                { 3, 4 },
-                { 7, 2 },
-                { 9, 5 }
-            };
-
-            Console.WriteLine(text3);
-            j = 0;
-            foreach (var d3 in dic3)
-            {
-                Console.WriteLine($"(1)'{text3.Substring(j, d3.Key - j)}'");
-                Console.WriteLine($"(2)'{text3.Substring(d3.Key, d3.Value)}'");
-                Console.WriteLine($"(3)'{text3.Substring(d3.Key + d3.Value, text3.Length - (d3.Key + d3.Value))}'");
-            }
-
-            Console.WriteLine();
-            //--------------------------------------------------	
-
             Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
             Console.ReadKey();
         }
@@ -155,19 +87,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 foreach (var specialWord in specialWords)
                 {
                     var patternSpecialWord = $@"\b{specialWord}\b";
-                    //value = Regex.Replace(value, patternSpecialWord, specialWord, RegexOptions.IgnoreCase);
-
-                    MatchCollection matches = Regex.Matches(value, patternSpecialWord, RegexOptions.IgnoreCase);
-                    if (matches != null && matches.Count > 0)
-                    {
-                        foreach (Match match in matches)
-                        {
-                            if (match.Success)
-                            {
-                                Console.WriteLine($"indx: {match.Index}| len: {match.Value.Length}| val: {match.Value}");
-                            }
-                        }
-                    }
+                    value = Regex.Replace(value, patternSpecialWord, specialWord, RegexOptions.IgnoreCase);
                 }
             }
 
