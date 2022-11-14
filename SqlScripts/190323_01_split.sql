@@ -25,7 +25,7 @@ BEGIN
 	                                  FROM @tValues 
 									  WHERE Value = (SELECT CAST(SUBSTRING(@String, 1, @Pos) AS NVARCHAR(1000)))))
 		INSERT INTO @tValues (Value)  
-		SELECT LTRIM(RTRIM(CAST(SUBSTRING(@String, 1, @Pos) AS NVARCHAR(1000))))
+		SELECT CAST(SUBSTRING(@String, 1, @Pos) AS NVARCHAR(1000))
 
     SELECT @String = CASE 
 		               WHEN @Pos != LEN(@String) THEN RIGHT(@String, LEN(@String) - @Pos - LEN(@Delimiter))
