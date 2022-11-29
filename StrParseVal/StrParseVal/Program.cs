@@ -160,16 +160,12 @@ namespace StrParseVal
                     return value;
                 }
 
-                var cultRu = CultureInfo.CreateSpecificCulture("ru-Ru");
-                var cultEn = CultureInfo.CreateSpecificCulture("en-US");
-                var dateStyles = DateTimeStyles.None;
-                if (DateTime.TryParse(value, cultRu, dateStyles, out DateTime dateResult) ||
-                    DateTime.TryParse(value, cultEn, dateStyles, out dateResult))
+                var dateFormats = new string[] { "dd.MM.yyyy", "dd.MM.yy", "dd/MM/yyyy", "dd/MM/yy" };
+                if (DateTime.TryParseExact(value, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateResult))
                 {
                     var dateStart = new DateTime(1900, 1, 1);
                     var dateEnd = new DateTime(9999, 12, 31);
-                    if (dateStart <= dateResult.Date && dateResult.Date <= dateEnd
-                        && !Regex.IsMatch(value, @"^\d+\/\d+$"))
+                    if (dateStart <= dateResult.Date && dateResult.Date <= dateEnd)
                     {
                         return dateResult.ToString("dd.MM.yyyy");
                     }
