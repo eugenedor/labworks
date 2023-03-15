@@ -13,7 +13,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             toDefault = 0,            
             toLower = 1,
             toUpper = 2,
-            toCustom = 3
+            toSentence = 3
         }
 
         static void Main(string[] args)
@@ -35,7 +35,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             Console.WriteLine($"Default: {Transform_ToString(strValue)}");
             Console.WriteLine($"lower:   {Transform_ToString(strValue, TransformString.toLower)}");
             Console.WriteLine($"UPPER:   {Transform_ToString(strValue, TransformString.toUpper)}");
-            Console.WriteLine($"Custom:  {Transform_ToString(strValue, TransformString.toCustom)}");
+            Console.WriteLine($"Sentence:  {Transform_ToString(strValue, TransformString.toSentence)}");
             Console.WriteLine();
 
             int i = 0;
@@ -46,7 +46,7 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
                 Console.WriteLine($"Default: {Transform_ToString(arr.Value, TransformString.toDefault, arr.SpecialWords)}");
                 Console.WriteLine($"lower:   {Transform_ToString(arr.Value, TransformString.toLower, arr.SpecialWords)}");
                 Console.WriteLine($"UPPER:   {Transform_ToString(arr.Value, TransformString.toUpper, arr.SpecialWords)}");
-                Console.WriteLine($"Custom:  {Transform_ToString(arr.Value, TransformString.toCustom, arr.SpecialWords)}");
+                Console.WriteLine($"Sentence:  {Transform_ToString(arr.Value, TransformString.toSentence, arr.SpecialWords)}");
 
 
                 ++i;
@@ -57,9 +57,9 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             Console.ReadKey();
         }
 
-        static string Transform_ToString(string value, TransformString transformString = TransformString.toDefault, IEnumerable<string> specialWords = null)
+        static string Transform_ToString(string value, TransformString transformString = TransformString.toDefault, IEnumerable<string> specWords = null)
         {
-            value = (value ?? string.Empty).Trim();
+            value = value?.Trim();
             if (string.IsNullOrEmpty(value))
             {
                 return value;
@@ -68,20 +68,23 @@ namespace StrTransVal //MyApp // Note: actual namespace depends on the project n
             {                    
                 TransformString.toLower => value.ToLower(),
                 TransformString.toUpper => value.ToUpper(),
-                TransformString.toCustom => value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower(), //value[..1].ToUpper() + value[1..].ToLower(),  //
+                TransformString.toSentence => value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower(), //value[..1].ToUpper() + value[1..].ToLower(),
                 TransformString.toDefault => value,
                 _ => value,
             };
 
-            var ignoreTransformStringsSpecialWords = new[] { TransformString.toDefault, TransformString.toUpper };
-
-            if (!ignoreTransformStringsSpecialWords.Contains(transformString) &&
-                (specialWords?.Any() ?? false))
+            var existSpecWords = specWords?.Any() ?? false;
+            if (existSpecWords)
             {
-                foreach (var specialWord in specialWords)
+                var ignoreTransformStringsForSpecWords = new[] { TransformString.toDefault, TransformString.toUpper };
+                var transformToStringForSpecWords = !ignoreTransformStringsForSpecWords.Contains(transformString);
+                if (transformToStringForSpecWords)
                 {
-                    var patternSpecialWord = $@"\b{specialWord}\b";
-                    value = Regex.Replace(value, patternSpecialWord, specialWord, RegexOptions.IgnoreCase);
+                    foreach (var specWord in specWords)
+                    {
+                        var patternSpecWord = $@"\b{specWord}\b";
+                        value = Regex.Replace(value, patternSpecWord, specWord, RegexOptions.IgnoreCase);
+                    }
                 }
             }
 
