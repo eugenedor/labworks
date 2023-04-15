@@ -42,6 +42,12 @@ namespace DicDeleg
             Console.WriteLine("defineoperation: mod %");
             calc.DefineOperation("mod", (x, y) => x % y);
             Console.WriteLine($"result2(mod) = {calc.PerformOperation("mod", v1, v2)}");
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("*****StringHelper*****");            
+            Console.WriteLine("Apple is capitalized:     " + "Apple".IsCapitalized());
+            Console.WriteLine("pineapple is capitalized: " + StringHelper.IsCapitalized("pineapple"));
 
             Console.WriteLine(System.Environment.NewLine + "Press any key to exit");
             Console.ReadKey();
