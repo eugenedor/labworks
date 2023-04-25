@@ -22,8 +22,8 @@ SELECT  t.Id,
 		    ELSE 0
 		END IsIntersected1,
 		CASE 
-			WHEN (CASE WHEN [DateFrom] >= @DateFrom THEN [DateFrom] ELSE @DateFrom END <=
-				  CASE WHEN [DateTo] <= @DateTo THEN [DateTo] ELSE @DateTo END) THEN 1
+			WHEN (CASE WHEN [DateFrom] > @DateFrom THEN [DateFrom] ELSE @DateFrom END <=
+				  CASE WHEN [DateTo] < @DateTo THEN [DateTo] ELSE @DateTo END) THEN 1
 			ELSE 0
 		END IsIntersected2
 FROM @t t
