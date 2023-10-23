@@ -58,6 +58,8 @@ namespace ConsApp191008
     public class E : A
     {
         public string Print() => "E";  //Warning "E.Print()" скрывает наследуемый член "A.Print()". Чтобы текущий член переопределял эту реализацию, добавьте ключевое слово override. В противном случае добавьте ключевое слово new.
+                                       //Warning 'E.Print()' hides inherited member 'A.Print()'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword.
+
     }
 
 
@@ -76,6 +78,7 @@ namespace ConsApp191008
     {
         public new string Print() => "Z";
         //public override string Print() => "Z";  //Error "Z.Print()": невозможно переопределить наследуемый член "Y.Print()", так как он не помечен как virtual, abstract или override.
+                                                //Error 'Z.Print()': cannot override inherited member 'Y.Print()' because it is not marked virtual, abstract, or override
     }
 
 }
