@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsApp220131", "ConsApp220
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsApp240313", "ConsApp240313\ConsApp240313.csproj", "{AAC0754E-F3B2-4E7B-8F14-F21C2A3FECB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsApp240314", "ConsApp240314\ConsApp240314.csproj", "{144A2ED9-09B9-4234-BF6B-5A85B47D6ABD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{AAC0754E-F3B2-4E7B-8F14-F21C2A3FECB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAC0754E-F3B2-4E7B-8F14-F21C2A3FECB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAC0754E-F3B2-4E7B-8F14-F21C2A3FECB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{144A2ED9-09B9-4234-BF6B-5A85B47D6ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144A2ED9-09B9-4234-BF6B-5A85B47D6ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144A2ED9-09B9-4234-BF6B-5A85B47D6ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144A2ED9-09B9-4234-BF6B-5A85B47D6ABD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
