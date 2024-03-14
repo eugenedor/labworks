@@ -83,13 +83,12 @@ namespace ConsApp240314
         /// <summary>
         /// Только цифры в строке
         /// </summary>
-        static bool DigitsOnlyInString(string s)
+        private static bool DigitsOnlyInString(string s)
         {
             foreach (char ch in s)
-            {
                 if (!char.IsDigit(ch))
                     return false;
-            }
+
             return true;
         }
     }
