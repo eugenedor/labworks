@@ -115,7 +115,7 @@ namespace ConsApp240313
             {
                 Console.Write("MethodSplitV2: ");
 
-                string[] strArray = s.Split(d).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                string[] strArray = s.Split(d).Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
                 Console.Write($"length={strArray.Length}   ");
                 foreach (string item in strArray)
                     Console.Write("[" + item + "]");
