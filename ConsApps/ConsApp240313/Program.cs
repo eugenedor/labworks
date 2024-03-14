@@ -13,7 +13,7 @@ namespace ConsApp240313
             char comma = ',';
             char semicolon = ';';
             char d, g;
-            var strs = new string[]
+            var items = new string[]
             {
                 "",
                 ",",
@@ -34,27 +34,27 @@ namespace ConsApp240313
             };
 
             int i = 1;
-            foreach (string str in strs)
+            foreach (string item in items)
             {
-                PrintItems(str, i);
+                PrintItems(item, i);
 
-                if (!string.IsNullOrWhiteSpace(str))
+                if (!string.IsNullOrWhiteSpace(item))
                 {
-                    d = str.Contains(semicolon) ? semicolon : comma;
-                    g = str.IndexOf(semicolon, 0) != -1 ? semicolon : comma;
+                    d = item.Contains(semicolon) ? semicolon : comma;
+                    g = item.IndexOf(semicolon, 0) != -1 ? semicolon : comma;
                     Console.WriteLine($"|d = {d} |g = {g}|");
 
-                    if (!DigitsOnlyInString(str.Trim()) && str.IndexOf(comma, 0) != -1)
+                    if (!DigitsOnlyInString(item.Trim()) && item.IndexOf(comma, 0) != -1)
                     {
                         Console.WriteLine($"PARSE");
-                        MethodSplitV1(str, d);
-                        MethodSplitV2(str, d);
-                        SplitRowV1(str, d);
-                        SplitRowV2(str, d);
+                        MethodSplitV1(item, d);
+                        MethodSplitV2(item, d);
+                        SplitRowV1(item, d);
+                        SplitRowV2(item, d);
                     }
                     else
                     {
-                        Console.WriteLine(str);
+                        Console.WriteLine(item);
                     }
                 }
 
@@ -115,7 +115,7 @@ namespace ConsApp240313
             {
                 Console.Write("MethodSplitV2: ");
 
-                string[] strArray = s.Split(d).ToArray().Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                string[] strArray = s.Split(d).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
                 Console.Write($"length={strArray.Length}   ");
                 foreach (string item in strArray)
                     Console.Write("[" + item + "]");
