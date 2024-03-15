@@ -41,7 +41,8 @@ namespace ConsApp240314
                 if (!string.IsNullOrWhiteSpace(item))
                 {
                     var comma = ',';
-                    if (!DigitsOnlyInString(item.Trim()) && item.IndexOf(comma) != -1)
+                    //if (!DigitsOnlyInString(item.Trim()) && item.IndexOf(comma) != -1)
+                    if (item.IndexOf(comma) != -1)
                     {
                         Console.WriteLine($"***Parse***");
                         //string[] itemArray = item.Split(comma).ToArray();
