@@ -24,7 +24,7 @@ namespace ConsApp240314
 
 
             int i = 0;
-            foreach (string item in items)
+            foreach (var item in items)
             {
                 var codes = new List<string>() { "000000", "101000", "202000", "303000", "404000", "505000" };
 
@@ -40,14 +40,14 @@ namespace ConsApp240314
 
                 if (!string.IsNullOrWhiteSpace(item))
                 {
-                    char comma = ',';
-                    if (!DigitsOnlyInString(item.Trim()) && item.IndexOf(comma, 0) != -1)
+                    var comma = ',';
+                    if (!DigitsOnlyInString(item.Trim()) && item.IndexOf(comma) != -1)
                     {
                         Console.WriteLine($"***Parse***");
                         //string[] itemArray = item.Split(comma).ToArray();
-                        string[] itemArray = item.Split(comma).Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
+                        var itemArray = item.Split(comma).Where(p => !string.IsNullOrWhiteSpace(p)).ToArray();
                         Console.Write($"length={itemArray.Length}   ");
-                        foreach (string it in itemArray)
+                        foreach (var it in itemArray)
                             Console.Write("[" + it + "]");
                         Console.WriteLine("");
                         Console.WriteLine($"***********");
@@ -65,7 +65,7 @@ namespace ConsApp240314
 
                     Console.WriteLine();
                     Console.Write("codesResult: ");
-                    foreach (string code in codes)
+                    foreach (var code in codes)
                         Console.Write("[" + code + "]");
 
                     Console.WriteLine();
